@@ -1,54 +1,46 @@
 import {json, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {getBlog} from '~/data/blog/blog.server';
 import {useLoaderData} from '@remix-run/react';
-import {flattenConnection, Image} from '@shopify/hydrogen';
-
-import {Grid, PageHeader, Section, Link} from '~/components';
-import {getImageLoadingPriority, PAGINATION_SIZE} from '~/lib/const';
 import {seoPayload} from '~/lib/seo.server';
-import {routeHeaders} from '~/data/cache';
-import type {ArticleFragment} from 'storefrontapi.generated';
+import {Grid, PageHeader, Section, Link} from '~/components';
+import {flattenConnection, Image} from '@shopify/hydrogen';
+import {getImageLoadingPriority, PAGINATION_SIZE} from '~/lib/const';
+import type {Article} from '~/data/blog/blog.server';
+
+type ArticleAmended = Omit<Article, 'publishedAt' | 'contentHtml'> & {
+  publishedAt: string;
+};
 
 const BLOG_HANDLE = 'Journal';
-
-export const headers = routeHeaders;
 
 export const loader = async ({
   request,
   context: {storefront},
 }: LoaderFunctionArgs) => {
   const {language, country} = storefront.i18n;
-  const {blog} = await storefront.query(BLOGS_QUERY, {
-    variables: {
-      blogHandle: BLOG_HANDLE,
-      pageBy: PAGINATION_SIZE,
-      language,
-    },
-  });
+  const blog = await getBlog();
 
   if (!blog?.articles) {
     throw new Response('Not found', {status: 404});
   }
 
-  const articles = flattenConnection(blog.articles).map((article) => {
-    const {publishedAt} = article!;
+  const articles = blog.articles.map((article) => {
+    const {publishedAt} = article;
     return {
       ...article,
       publishedAt: new Intl.DateTimeFormat(`${language}-${country}`, {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
-      }).format(new Date(publishedAt!)),
+      }).format(new Date(publishedAt)),
     };
   });
-
   const seo = seoPayload.blog({blog, url: request.url});
-
   return json({articles, seo});
 };
 
-export default function Journals() {
+export default function Blog() {
   const {articles} = useLoaderData<typeof loader>();
-
   return (
     <>
       <PageHeader heading={BLOG_HANDLE} />
@@ -74,7 +66,7 @@ function ArticleCard({
   loading,
 }: {
   blogHandle: string;
-  article: ArticleFragment;
+  article: ArticleAmended;
   loading?: HTMLImageElement['loading'];
 }) {
   return (
@@ -98,45 +90,3 @@ function ArticleCard({
     </li>
   );
 }
-
-const BLOGS_QUERY = `#graphql
-query Blog(
-  $language: LanguageCode
-  $blogHandle: String!
-  $pageBy: Int!
-  $cursor: String
-) @inContext(language: $language) {
-  blog(handle: $blogHandle) {
-    title
-    seo {
-      title
-      description
-    }
-    articles(first: $pageBy, after: $cursor) {
-      edges {
-        node {
-          ...Article
-        }
-      }
-    }
-  }
-}
-
-fragment Article on Article {
-  author: authorV2 {
-    name
-  }
-  contentHtml
-  handle
-  id
-  image {
-    id
-    altText
-    url
-    width
-    height
-  }
-  publishedAt
-  title
-}
-`;
