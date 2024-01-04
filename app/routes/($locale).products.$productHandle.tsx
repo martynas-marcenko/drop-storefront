@@ -36,6 +36,7 @@ import {seoPayload} from '~/lib/seo.server';
 import type {Storefront} from '~/lib/type';
 import {routeHeaders} from '~/data/cache';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
+import {getProductDetails} from '~/data/productDetails/productDetails.server';
 
 export const headers = routeHeaders;
 
@@ -61,6 +62,8 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
   if (!product.selectedVariant) {
     throw redirectToFirstVariant({product, request});
   }
+
+  const productDetails = await getProductDetails('1');
 
   // In order to show which variants are available in the UI, we need to query
   // all of them. But there might be a *lot*, so instead separate the variants
@@ -100,6 +103,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
   return defer({
     variants,
     product,
+    productDetails,
     shop,
     storeDomain: shop.primaryDomain.url,
     recommended,
@@ -133,10 +137,11 @@ function redirectToFirstVariant({
 }
 
 export default function Product() {
-  const {product, shop, recommended, variants} = useLoaderData<typeof loader>();
+  const {product, productDetails, shop, recommended, variants} =
+    useLoaderData<typeof loader>();
   const {media, title, vendor, descriptionHtml} = product;
   const {shippingPolicy, refundPolicy} = shop;
-
+  console.log('productDetails', product.id);
   return (
     <>
       <Section className="px-0 md:px-8 lg:px-12">
