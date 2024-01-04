@@ -88,10 +88,10 @@ const faqlist: Faq[] = [
 ];
 
 export const roseSerum: ProductDetails = {
-  id: 'gid://shopify/Product/5116743876746',
+  id: 'gid://shopify/Product/6635015962762',
   subtitle: 'For youthful glow',
   introHeading:
-    'The Ultimate Guide to Choosing Face Oil for Dry Skin: What You Need to Know',
+    'Our most sensual serum of youthful glow and silky touch – for true romantics.',
   description: {
     body: (
       <>

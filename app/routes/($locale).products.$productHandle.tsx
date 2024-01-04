@@ -63,7 +63,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     throw redirectToFirstVariant({product, request});
   }
 
-  const productDetails = await getProductDetails('1');
+  const productDetails = await getProductDetails(product.id);
 
   // In order to show which variants are available in the UI, we need to query
   // all of them. But there might be a *lot*, so instead separate the variants
@@ -141,7 +141,6 @@ export default function Product() {
     useLoaderData<typeof loader>();
   const {media, title, vendor, descriptionHtml} = product;
   const {shippingPolicy, refundPolicy} = shop;
-  console.log('productDetails', product.id);
   return (
     <>
       <Section className="px-0 md:px-8 lg:px-12">
