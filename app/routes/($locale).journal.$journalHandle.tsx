@@ -10,10 +10,10 @@ import invariant from 'tiny-invariant';
 import {PageHeader, Section} from '~/components';
 import {seoPayload} from '~/lib/seo.server';
 import {routeHeaders} from '~/data/cache';
-
+import {getBlog} from '~/data/blog/blog.server';
 import styles from '../styles/custom-font.css';
-
-const BLOG_HANDLE = 'journal';
+import type {Article} from '~/data/blog/blog.server';
+import ChoosingFaceOilDrySkin from '~/data/blog/choosing-face-oil-dry-skin.mdx';
 
 export const headers = routeHeaders;
 
@@ -21,24 +21,33 @@ export const links: LinksFunction = () => {
   return [{rel: 'stylesheet', href: styles}];
 };
 
+type BlogPostComponents = {
+  [key: string]: React.ComponentType<any>;
+};
+
+const blogPostComponents: BlogPostComponents = {
+  'choosing-face-oil-dry-skin': ChoosingFaceOilDrySkin,
+  // Add other blog posts here
+};
+
+function getBlogPostComponentByHandle(handle: string) {
+  return blogPostComponents[handle] || null;
+}
+
 export async function loader({request, params, context}: LoaderFunctionArgs) {
   const {language, country} = context.storefront.i18n;
 
   invariant(params.journalHandle, 'Missing journal handle');
 
-  const {blog} = await context.storefront.query(ARTICLE_QUERY, {
-    variables: {
-      blogHandle: BLOG_HANDLE,
-      articleHandle: params.journalHandle,
-      language,
-    },
-  });
+  const blog = await getBlog();
 
-  if (!blog?.articleByHandle) {
+  const article = blog.articles.find(
+    (article) => article.handle === params.journalHandle,
+  );
+
+  if (!article) {
     throw new Response(null, {status: 404});
   }
-
-  const article = blog.articleByHandle;
 
   const formattedDate = new Intl.DateTimeFormat(`${language}-${country}`, {
     year: 'numeric',
@@ -46,15 +55,20 @@ export async function loader({request, params, context}: LoaderFunctionArgs) {
     day: 'numeric',
   }).format(new Date(article?.publishedAt!));
 
-  const seo = seoPayload.article({article, url: request.url});
+  const seoArticle = {
+    ...article,
+    publishedAt: formattedDate,
+  };
+
+  const seo = seoPayload.article({article: seoArticle, url: request.url});
 
   return json({article, formattedDate, seo});
 }
 
 export default function Article() {
   const {article, formattedDate} = useLoaderData<typeof loader>();
-
-  const {title, image, contentHtml, author} = article;
+  const {title, image, author} = article;
+  const BlogPostComponent = getBlogPostComponentByHandle(article.handle);
 
   return (
     <>
@@ -72,41 +86,8 @@ export default function Article() {
             loading="eager"
           />
         )}
-        <div
-          dangerouslySetInnerHTML={{__html: contentHtml}}
-          className="article"
-        />
+        <BlogPostComponent />
       </Section>
     </>
   );
 }
-
-const ARTICLE_QUERY = `#graphql
-  query ArticleDetails(
-    $language: LanguageCode
-    $blogHandle: String!
-    $articleHandle: String!
-  ) @inContext(language: $language) {
-    blog(handle: $blogHandle) {
-      articleByHandle(handle: $articleHandle) {
-        title
-        contentHtml
-        publishedAt
-        author: authorV2 {
-          name
-        }
-        image {
-          id
-          altText
-          url
-          width
-          height
-        }
-        seo {
-          description
-          title
-        }
-      }
-    }
-  }
-`;
