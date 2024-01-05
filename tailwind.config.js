@@ -28,6 +28,14 @@ export default {
       spacing: {
         nav: 'var(--height-nav)',
         screen: 'var(--screen-height, 100vh)',
+        xxs: '0.5rem',
+        xs: '1rem',
+        base: '1.5rem',
+        sm: '2rem',
+        md: '3rem',
+        lg: '5rem',
+        xl: '7rem',
+        xxl: '9rem',
       },
       height: {
         screen: 'var(--screen-height, 100vh)',

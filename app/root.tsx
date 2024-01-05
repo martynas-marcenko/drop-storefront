@@ -253,7 +253,6 @@ async function getLayoutData({storefront, env}: AppLoadContext) {
       - /collections/all -> /products
   */
   const customPrefixes = {BLOG: '', CATALOG: 'products'};
-
   const headerMenu = data?.headerMenu
     ? parseMenu(
         data.headerMenu,
