@@ -49,26 +49,20 @@ const productIngredients: ProductIngredients = {
 
 const features: ProductFeature[] = [
   {
-    title: 'Better together.',
-    body: (
-      <>
-        An effective duo - Cistus and Frankincense essential oils - amplifies
-        each others powers to{' '}
-        <Text as="span" color="primary">
-          rejuvenate
-        </Text>{' '}
-      </>
-    ),
+    title: 'First love of your skin.',
+    body: ' This antioxidant-infused serum nourishes and moisturizes your skin day and night.',
   },
   {
-    title: 'Soooo smooth.',
-    body: (
-      <>This antioxidant-infused serum - leaving behind smooth, glowy skin.</>
-    ),
+    title: 'Protected skin, happy skin.',
+    body: 'A powerful combo of Raspberry and Rosehip extracts calms and boosts skin’s protective abilities so it handles stress and impurities like a pro.',
   },
   {
-    title: 'Reborn again.',
-    body: <>Backed by Rose Essential Oil, this serum helps to </>,
+    title: 'Unlock brighter skin!',
+    body: 'Enriched with skin-revitalizing Rose Essential Oil, this serum wakes up dull, flaky, and dry skin - so you’re free to glow.',
+  },
+  {
+    title: 'Touches like silk, smells like heaven.',
+    body: 'Embrace the new level of softness – this serum leaves your skin irresistibly tender and pleases your nose with incredible rose scent.',
   },
 ];
 
@@ -88,7 +82,7 @@ const faqlist: Faq[] = [
 ];
 
 export const roseSerum: ProductDetails = {
-  id: 'gid://shopify/Product/6635015962762',
+  id: 'gid://shopify/Product/6543871737994',
   subtitle: 'For youthful glow',
   introHeading:
     'Our most sensual serum of youthful glow and silky touch – for true romantics.',

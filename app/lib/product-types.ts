@@ -7,7 +7,7 @@ export type ProductGid =
   | 'gid://shopify/Product/6635015962762';
 
 export type ProductDetails = {
-  id: ProductGid;
+  id: string;
   description: Description;
   subtitle: string;
   introHeading: string;
@@ -20,46 +20,38 @@ export type ProductDetails = {
 };
 
 export type Description = {
-  shortDescription?: string | JSX.Element;
-  body?: string | JSX.Element;
+  shortDescription?: string;
+  body?: string;
+};
+
+export type Ingredient = {
+  title?: string;
+  scientificName?: string;
+  imgSrc?: string;
+  description?: string;
 };
 
 export type ProductIngredients = {
-  mainIngredients: {
-    title?: string;
-    scientificName?: string;
-    imgSrc?: string;
-    description?: JSX.Element | string;
-  }[];
-  ingredients: {
-    title?: string;
-    scientificName?: string;
-    imgSrc?: string;
-    description?: JSX.Element | string;
-  }[];
-  allergens: {
-    title?: string;
-    scientificName?: string;
-    imgSrc?: string;
-    description?: JSX.Element | string;
-  }[];
+  mainIngredients: Ingredient[];
+  ingredients: Ingredient[];
+  allergens: Ingredient[];
 };
 
 export type ProductFeature = {
   title: string;
-  body?: string | JSX.Element;
+  body: string;
 };
 
 export type HowTo = {
-  body?: JSX.Element;
+  body?: string;
 };
 
 export type WhyDrop = {
-  text: string | JSX.Element;
+  text: string;
   imgSrc: string;
 };
 
 export type Faq = {
   question: string;
-  answer: string | JSX.Element;
+  answer: string;
 };

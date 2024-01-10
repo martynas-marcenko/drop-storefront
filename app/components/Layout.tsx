@@ -2,7 +2,7 @@ import {useParams, Form, Await} from '@remix-run/react';
 import {useWindowScroll} from 'react-use';
 import {Suspense, useEffect, useMemo} from 'react';
 import {CartForm} from '@shopify/hydrogen';
-
+import clsx from 'clsx';
 import {type LayoutQuery} from 'storefrontapi.generated';
 import {
   Drawer,
@@ -68,7 +68,7 @@ const extraHeaderMenu = [
 
 const footerMenu = [
   {
-    id: 'aboutus_',
+    id: 'aboutus_0f7beffc-4d5e-495e-bd3c-c4935525a810',
     isExternal: false,
     title: 'Our Story',
     target: '_self',
@@ -76,7 +76,7 @@ const footerMenu = [
     type: 'PAGE',
   },
   {
-    id: 'homepage_',
+    id: 'homepage_792d8a6e-b373-45de-a436-edfad3e3a7e5',
     isExternal: false,
     title: 'Home',
     target: '_self',
@@ -84,7 +84,7 @@ const footerMenu = [
     type: 'HOMEPAGE',
   },
   {
-    id: 'shop_',
+    id: 'shop_f8edddb3-f59c-4a09-8b4d-6a761ef386a5',
     isExternal: false,
     title: 'Shop',
     target: '_self',
@@ -92,7 +92,7 @@ const footerMenu = [
     type: 'CATALOG',
   },
   {
-    id: 'contact_',
+    id: 'contact_6775617e-31d8-475e-812f-3dd3b9567eee',
     isExternal: false,
     title: 'Contact Us',
     target: '_self',
@@ -103,8 +103,12 @@ const footerMenu = [
 
 const secondaryFooterMenu = [
   {
-    label: 'Terms & Privacy',
-    href: '/policies',
+    id: 'policies_f40478c7-dbaf-47e8-85e2-d8889dfe27b7',
+    isExternal: false,
+    title: 'Terms & Privacy',
+    target: '_self',
+    to: '/policies',
+    type: 'PAGE',
   },
 ];
 
@@ -329,23 +333,22 @@ function DesktopHeader({
 }) {
   const params = useParams();
   const {y} = useWindowScroll();
-  console.log(menu);
+
+  const headerClassName = clsx(
+    'hidden h-nav lg:flex items-center sticky transition duration-300 backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-8 px-12 py-8',
+    {
+      'bg-transparent backdrop-blur-none shadow-none': isHome && y < 50,
+      'bg-transparent shadow-darkHeader': isHome,
+      'bg-white/80': !isHome,
+      'shadow-lightHeader': !isHome && y > 50,
+    },
+  );
+
   return (
-    <header
-      role="banner"
-      className={`${
-        isHome
-          ? 'bg-primary/80 dark:bg-contrast/60 text-contrast dark:text-primary shadow-darkHeader'
-          : 'bg-contrast/80 text-primary'
-      } ${
-        !isHome && y > 50 && ' shadow-lightHeader'
-      } hidden h-nav lg:flex items-center sticky transition duration-300 backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-8 px-12 py-8`}
-    >
+    <header role="banner" className={headerClassName}>
       <div className="flex gap-12">
-        <Link className="font-bold" to="/" prefetch="intent">
-          {title}
-        </Link>
-        <nav className="flex gap-8">
+        <Logo className="h-8 md:h-10" />
+        <nav className="flex gap-8 items-center">
           {/* Top level menu items */}
           {(menu?.items || []).map((item) => (
             <Link
@@ -354,7 +357,9 @@ function DesktopHeader({
               target={item.target}
               prefetch="intent"
               className={({isActive}) =>
-                isActive ? 'pb-1 border-b -mb-px' : 'pb-1'
+                isActive
+                  ? 'relative uppercase text-sm font-semibold after:bg-gray-900 after:h-[2px] after:absolute after:-bottom-1 after:left-0 after:right-0'
+                  : 'uppercase text-sm font-semibold'
               }
             >
               {item.title}
@@ -367,7 +372,9 @@ function DesktopHeader({
               target={item.target}
               prefetch="intent"
               className={({isActive}) =>
-                isActive ? 'pb-1 border-b -mb-px' : 'pb-1'
+                isActive
+                  ? 'relative uppercase text-sm font-semibold after:bg-gray-900 after:h-[2px] after:absolute after:-bottom-1 after:left-0 after:right-0'
+                  : 'uppercase text-sm font-semibold'
               }
             >
               {item.title}
@@ -384,8 +391,8 @@ function DesktopHeader({
           <Input
             className={
               isHome
-                ? 'focus:border-contrast/20 dark:focus:border-primary/20'
-                : 'focus:border-primary/20'
+                ? 'focus:border-contrast/40 dark:focus:border-primary/20'
+                : 'focus:border-primary/40'
             }
             type="search"
             variant="minisearch"
@@ -396,7 +403,7 @@ function DesktopHeader({
             type="submit"
             className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5"
           >
-            <IconSearch />
+            <MagnifyingGlassIcon className="h-6 w-6" />
           </button>
         </Form>
         <AccountLink className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5" />
@@ -412,11 +419,11 @@ function AccountLink({className}: {className?: string}) {
 
   return isLoggedIn ? (
     <Link to="/account" className={className}>
-      <IconAccount />
+      <UserCircleIcon className="h-6 w-6" />
     </Link>
   ) : (
     <Link to="/account/login" className={className}>
-      <IconLogin />
+      <UserCircleIcon className="h-6 w-6" />
     </Link>
   );
 }
@@ -459,7 +466,7 @@ function Badge({
   const BadgeCounter = useMemo(
     () => (
       <>
-        <IconBag />
+        <ShoppingBagIcon className="h-6 w-6" />
         <div
           className={`${
             dark
@@ -596,8 +603,8 @@ function Footer({menu}: CustomMenu) {
           </span>
           <div className="flex justify-center space-x-xs text-sm underline">
             {secondaryFooterMenu.map((item) => (
-              <Link key={item.label} to={item.href} prefetch="intent">
-                {item.label}
+              <Link key={item.id} to={item.to} prefetch="intent">
+                {item.title}
               </Link>
             ))}
           </div>

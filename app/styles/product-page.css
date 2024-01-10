@@ -1,0 +1,228 @@
+.rockRose {
+  background: 
+      /*1*/ radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    /*2*/
+      radial-gradient(
+        ellipse at 70% 60%,
+        rgba(199, 206, 237, 1) 0%,
+        rgba(199, 206, 237, 0) 30%
+      ),
+    /*3*/
+      radial-gradient(
+        ellipse at bottom left,
+        rgba(228, 175, 203, 1) 0%,
+        rgba(228, 175, 203, 0) 70%
+      ),
+    /*4*/
+      linear-gradient(
+        135deg,
+        rgba(199, 206, 237, 0) 0%,
+        rgba(199, 206, 237, 0) 75%,
+        rgba(199, 206, 237, 1) 100%
+      ),
+    /*5*/
+      linear-gradient(
+        to right,
+        rgba(199, 206, 237) 0%,
+        rgba(228, 175, 203) 17%,
+        rgba(199, 206, 237) 74%,
+        rgba(228, 175, 203) 100%
+      );
+  background-blend-mode: 
+       /*1*/ screen, /*2*/ hue, /*3*/ color,
+    /*4*/ overlay, /*5*/ normal;
+}
+.mursalski {
+  background: 
+      /*1*/ radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    /*2*/
+      radial-gradient(
+        ellipse at 70% 60%,
+        rgba(248, 223, 123, 1) 0%,
+        rgba(248, 223, 123, 0) 30%
+      ),
+    /*3*/
+      radial-gradient(
+        ellipse at bottom left,
+        rgba(240, 154, 154, 1) 0%,
+        rgba(240, 154, 154, 0) 70%
+      ),
+    /*4*/
+      linear-gradient(
+        135deg,
+        rgba(248, 223, 123, 0) 0%,
+        rgba(248, 223, 123, 0) 75%,
+        rgba(248, 223, 123, 1) 100%
+      ),
+    /*5*/
+      linear-gradient(
+        to right,
+        rgba(248, 223, 123) 0%,
+        rgba(240, 154, 154) 17%,
+        rgba(248, 223, 123) 74%,
+        rgba(240, 154, 154) 100%
+      );
+  background-blend-mode: 
+       /*1*/ screen, /*2*/ hue, /*3*/ color,
+    /*4*/ overlay, /*5*/ normal;
+}
+.hemp {
+  background: 
+      /*1*/ radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    /*2*/
+      radial-gradient(
+        ellipse at 70% 60%,
+        rgba(44, 119, 100, 1) 0%,
+        rgba(44, 119, 100, 0) 30%
+      ),
+    /*3*/
+      radial-gradient(
+        ellipse at bottom left,
+        rgba(240, 138, 84, 1) 0%,
+        rgba(240, 138, 84, 0) 70%
+      ),
+    /*4*/
+      linear-gradient(
+        135deg,
+        rgba(44, 119, 100, 0) 0%,
+        rgba(44, 119, 100, 0) 75%,
+        rgba(44, 119, 100, 1) 100%
+      ),
+    /*5*/
+      linear-gradient(
+        to right,
+        rgba(44, 119, 100) 0%,
+        rgba(240, 138, 84) 17%,
+        rgba(44, 119, 100) 74%,
+        rgba(240, 138, 84) 100%
+      );
+  background-blend-mode: 
+       /*1*/ screen, /*2*/ hue, /*3*/ color,
+    /*4*/ overlay, /*5*/ normal;
+}
+.rose {
+  background: 
+      /*1*/ radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    /*2*/
+      radial-gradient(
+        ellipse at 70% 60%,
+        rgba(239, 176, 184, 1) 0%,
+        rgba(239, 176, 184, 0) 30%
+      ),
+    /*3*/
+      radial-gradient(
+        ellipse at bottom left,
+        rgba(235, 207, 207, 1) 0%,
+        rgba(235, 207, 207, 0) 70%
+      ),
+    /*4*/
+      linear-gradient(
+        135deg,
+        rgba(239, 176, 184, 0) 0%,
+        rgba(239, 176, 184, 0) 75%,
+        rgba(239, 176, 184, 1) 100%
+      ),
+    /*5*/
+      linear-gradient(
+        to right,
+        rgba(239, 176, 184) 0%,
+        rgba(235, 207, 207) 17%,
+        rgba(239, 176, 184) 74%,
+        rgba(235, 207, 207) 100%
+      );
+  background-blend-mode: 
+       /*1*/ screen, /*2*/ hue, /*3*/ color,
+    /*4*/ overlay, /*5*/ normal;
+}
+.carrot {
+  background: 
+      /*1*/ radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    /*2*/
+      radial-gradient(
+        ellipse at 70% 60%,
+        rgba(229, 172, 0, 1) 0%,
+        rgba(229, 172, 0, 0) 30%
+      ),
+    /*3*/
+      radial-gradient(
+        ellipse at bottom left,
+        rgba(114, 130, 69, 1) 0%,
+        rgba(114, 130, 69, 0) 70%
+      ),
+    /*4*/
+      linear-gradient(
+        135deg,
+        rgba(229, 172, 0, 0) 0%,
+        rgba(229, 172, 0, 0) 75%,
+        rgba(229, 172, 0, 1) 100%
+      ),
+    /*5*/
+      linear-gradient(
+        to right,
+        rgba(229, 172, 0) 0%,
+        rgba(114, 130, 69) 17%,
+        rgba(229, 172, 0) 74%,
+        rgba(114, 130, 69) 100%
+      );
+  background-blend-mode: 
+       /*1*/ screen, /*2*/ hue, /*3*/ color,
+    /*4*/ overlay, /*5*/ normal;
+}
+.blemishEmulsion {
+  background: 
+      /*1*/ radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    /*2*/
+      radial-gradient(
+        ellipse at 70% 60%,
+        rgba(167, 191, 232, 1) 0%,
+        rgba(167, 191, 232, 0) 30%
+      ),
+    /*3*/
+      radial-gradient(
+        ellipse at bottom left,
+        rgba(224, 233, 248, 1) 0%,
+        rgba(224, 233, 248, 0) 70%
+      ),
+    /*4*/
+      linear-gradient(
+        135deg,
+        rgba(167, 191, 232, 0) 0%,
+        rgba(167, 191, 232, 0) 75%,
+        rgba(167, 191, 232, 1) 100%
+      ),
+    /*5*/
+      linear-gradient(
+        to right,
+        rgba(167, 191, 232) 0%,
+        rgba(224, 233, 248) 17%,
+        rgba(167, 191, 232) 74%,
+        rgba(224, 233, 248) 100%
+      );
+  background-blend-mode: 
+       /*1*/ screen, /*2*/ hue, /*3*/ color,
+    /*4*/ overlay, /*5*/ normal;
+}
