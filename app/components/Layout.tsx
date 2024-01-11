@@ -9,22 +9,16 @@ import {
   useDrawer,
   Text,
   Input,
-  IconLogin,
-  IconAccount,
-  IconBag,
   IconSearch,
   Heading,
   IconMenu,
-  IconCaret,
   Section,
-  CountrySelector,
   Cart,
   CartLoading,
   Link,
 } from '~/components';
 import {
   type EnhancedMenu,
-  type ChildEnhancedMenuItem,
   type CustomMenu,
   useIsHomePath,
   obfuscateEmail,
@@ -37,7 +31,6 @@ import {
   MagnifyingGlassIcon,
   UserCircleIcon,
   ShoppingBagIcon,
-  Bars3Icon,
 } from '@heroicons/react/24/outline';
 
 type LayoutProps = {
@@ -56,14 +49,14 @@ const extraHeaderMenu = [
     to: '/about-us',
     type: 'PAGE',
   },
-  {
-    id: 'contact_0851ec8b-d11d-478c-a811-8e0c23638be1',
-    isExternal: false,
-    title: 'Contact Us',
-    target: '_self',
-    to: '/contact',
-    type: 'PAGE',
-  },
+  // {
+  //   id: 'contact_0851ec8b-d11d-478c-a811-8e0c23638be1',
+  //   isExternal: false,
+  //   title: 'Contact Us',
+  //   target: '_self',
+  //   to: '/contact',
+  //   type: 'PAGE',
+  // },
 ];
 
 const footerMenu = [
