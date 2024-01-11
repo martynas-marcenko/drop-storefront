@@ -123,13 +123,11 @@ export default function Homepage() {
         </Suspense>
       )}
 
-      {/* {featuredCollections && (
+      {featuredCollections && (
         <Suspense>
           <Await resolve={featuredCollections}>
             {({collections}) => {
               if (!collections?.nodes) return <></>;
-              console.log('collections', collections);
-
               return (
                 <FeaturedCollections
                   collections={collections}
@@ -139,18 +137,8 @@ export default function Homepage() {
             }}
           </Await>
         </Suspense>
-      )} */}
+      )}
 
-      {/* {tertiaryHero && (
-        <Suspense fallback={<Hero {...skeletons[2]} />}>
-          <Await resolve={tertiaryHero}>
-            {({hero}) => {
-              if (!hero) return <></>;
-              return <Hero {...hero} />;
-            }}
-          </Await>
-        </Suspense>
-      )} */}
       <Story />
     </>
   );

@@ -29,12 +29,9 @@ const Title = ({title}: {title: string}) => {
       style={{translateX: xPosition, opacity: xOpacity}}
       className="mb-xs"
     >
-      <div className="md:hidden">
-        <Text size="text-xl">{title}</Text>
-      </div>
-      <div className="hidden md:block">
-        <Text size="text-2xl">{title}</Text>
-      </div>
+      <Text size="text-xl" className="font-medium">
+        {title}
+      </Text>
     </motion.div>
   );
 };
@@ -58,7 +55,7 @@ const Body = ({body}: {body: string}) => {
       ref={containerRef}
       style={{translateX: xPosition, opacity: xOpacity}}
     >
-      <Text className="font-medium">{body}</Text>
+      <Text>{body}</Text>
     </motion.div>
   );
 };
@@ -81,7 +78,7 @@ export const Features = ({features, numberOfReasonsTitle}: Props) => {
         <motion.div
           ref={containerRef}
           style={{opacity: xOpacity}}
-          className="sticky top-40"
+          className="sticky top-40 sm-max:mb-sm"
         >
           <Heading heading={numberOfReasonsTitle} />
         </motion.div>

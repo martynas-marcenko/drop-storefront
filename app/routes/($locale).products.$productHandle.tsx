@@ -239,7 +239,7 @@ export default function Product() {
         <IntroHeading text={introHeading} />
       </Section>
       <Section width="narrow">
-        <Grid items={2}>
+        <Grid items={2} noGapsOnMobile>
           <Features
             features={features}
             numberOfReasonsTitle={features.length + ' Reasons to fall in 💛'}
@@ -247,21 +247,21 @@ export default function Product() {
         </Grid>
       </Section>
       <Section width="narrow">
-        <Grid items={1}>
+        <Grid items={1} noGapsOnMobile>
           <div className="items-center overflow-hidden rounded-2xl">
             <SkinTypes text={skinTypes} productGid={product.id as ProductGid} />
           </div>
         </Grid>
       </Section>
       <Section width="narrow">
-        <Grid items={1}>
+        <Grid items={1} noGapsOnMobile>
           <div className="items-center overflow-hidden rounded-2xl">
             <Ingredients data={ingredients} />
           </div>
         </Grid>
       </Section>
       <Section width="narrow" heading="How To">
-        <Grid items={1}>
+        <Grid items={1} noGapsOnMobile>
           <HowTo productGid={product.id as ProductGid} data={howTo} />
         </Grid>
       </Section>
