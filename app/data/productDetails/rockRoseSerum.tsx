@@ -12,55 +12,51 @@ import type {
 
 const productIngredients: ProductIngredients = {
   mainIngredients: [
+    ingredients.essential.cistus['en-US'],
+    ingredients.essential.frankincense['en-US'],
     ingredients.essential.damaskRose['en-US'],
-    ingredients.extracts.amaranth['en-US'],
-    ingredients.extracts.raspberry['en-US'],
-    ingredients.oils.grapeOil['en-US'],
+    ingredients.oils.avocado['en-US'],
+    ingredients.extracts.primrose['en-US'],
     ingredients.extracts.rosehip['en-US'],
-    ingredients.oils.arganOil['en-US'],
   ],
   ingredients: [
     ingredients.oils.jojobaOil['en-US'],
-    ingredients.oils.arganOil['en-US'],
-    ingredients.extracts.raspberry['en-US'],
-    ingredients.oils.oliveOil['en-US'],
+    ingredients.extracts.rosehip['en-US'],
+    ingredients.oils.avocado['en-US'],
     ingredients.oils.grapeOil['en-US'],
     ingredients.extracts.amaranth['en-US'],
-    ingredients.extracts.rosehip['en-US'],
+    ingredients.extracts.primrose['en-US'],
     ingredients.extracts.rosemary['en-US'],
+    ingredients.essential.frankincense['en-US'],
+    ingredients.essential.cistus['en-US'],
     ingredients.essential.damaskRose['en-US'],
     ingredients.other.parfum['en-US'],
   ],
   allergens: [
-    ingredients.allergens.citronellol['en-US'],
+    ingredients.allergens.limonene['en-US'],
     ingredients.allergens.geraniol['en-US'],
+    ingredients.allergens.citronellol['en-US'],
     ingredients.allergens.linalool['en-US'],
-    ingredients.allergens.citral['en-US'],
     ingredients.allergens.benzylBenzoate['en-US'],
+    ingredients.allergens.citral['en-US'],
     ingredients.allergens.farnesol['en-US'],
     ingredients.allergens.benzylSalicylate['en-US'],
-    ingredients.allergens.limonene['en-US'],
     ingredients.allergens.eugenol['en-US'],
-    ingredients.allergens.isoeugenol['en-US'],
   ],
 };
 
 const features: ProductFeature[] = [
   {
-    title: 'First love of your skin.',
-    body: ' This antioxidant-infused serum nourishes and moisturizes your skin day and night.',
+    title: 'Better together.',
+    body: 'An effective duo - Cistus and Frankincense essential oils - amplifies each others powers to reduce redness, cool down the skin and leave it glowing all day long.',
   },
   {
-    title: 'Protected skin, happy skin.',
-    body: 'A powerful combo of Raspberry and Rosehip extracts calms and boosts skin’s protective abilities so it handles stress and impurities like a pro.',
+    title: 'Soooo smooth.',
+    body: 'This antioxidant-infused serum evens skin tone and gives the refresh it needs - leaving behind smooth, glowy skin.',
   },
   {
-    title: 'Unlock brighter skin!',
-    body: 'Enriched with skin-revitalizing Rose Essential Oil, this serum wakes up dull, flaky, and dry skin - so you’re free to glow.',
-  },
-  {
-    title: 'Touches like silk, smells like heaven.',
-    body: 'Embrace the new level of softness – this serum leaves your skin irresistibly tender and pleases your nose with incredible rose scent.',
+    title: 'Reborn again.',
+    body: 'Backed by Rose Essential Oil, this serum helps to escape tiredness, dullness and stress.',
   },
 ];
 
@@ -79,13 +75,13 @@ const faqlist: Faq[] = [
   faq[11]['en-US'],
 ];
 
-export const roseSerum: ProductDetails = {
-  id: 'gid://shopify/Product/6543871737994',
+export const rockRoseSerum: ProductDetails = {
+  id: 'gid://shopify/Product/6635015962762',
   subtitle: 'For youthful glow',
   introHeading:
-    'Our most sensual serum of youthful glow and silky touch – for true romantics.',
+    'Do not be mistaken by soft pedals of this rose, it has some rocky spikes, but they&apos;re here to make you glow!',
   description: {
-    body: 'Moistures. Nourishes. Protects. This serum leaves skin feeling silky soft – for a maximum glow you&apos;ll love.',
+    body: 'Serum dedicated to visibly reduce redness and make your skin vibrant all day long.',
   },
   ingredients: productIngredients,
   features: features,
@@ -93,7 +89,7 @@ export const roseSerum: ProductDetails = {
     body: 'Every morning and evening, take a few drops of the serum and apply on a moist face and neck. We recommend to use a hydrolate of your choice to moist the skin first. Same recommendation stands for all skin types.',
   },
   skinTypes:
-    'It is perfect for all skin types, especially, for a dry, flaky, sensitive and tired skin.',
+    'It is perfect for a sensitive, irritated, problematic and matured skin.',
   whyDrop: whyDropList,
   faq: faqlist,
 };
