@@ -1,47 +1,113 @@
 import {useParams, Form, Await} from '@remix-run/react';
 import {useWindowScroll} from 'react-use';
-import {Disclosure} from '@headlessui/react';
 import {Suspense, useEffect, useMemo} from 'react';
 import {CartForm} from '@shopify/hydrogen';
-
+import clsx from 'clsx';
 import {type LayoutQuery} from 'storefrontapi.generated';
 import {
   Drawer,
   useDrawer,
   Text,
   Input,
-  IconLogin,
-  IconAccount,
-  IconBag,
   IconSearch,
   Heading,
   IconMenu,
-  IconCaret,
   Section,
-  CountrySelector,
   Cart,
   CartLoading,
   Link,
 } from '~/components';
 import {
   type EnhancedMenu,
-  type ChildEnhancedMenuItem,
+  type CustomMenu,
   useIsHomePath,
+  obfuscateEmail,
 } from '~/lib/utils';
 import {useIsHydrated} from '~/hooks/useIsHydrated';
 import {useCartFetchers} from '~/hooks/useCartFetchers';
 import {useRootLoaderData} from '~/root';
+import {Facebook, Instagram, LovePin, Logo} from '~/components/icons';
+import {
+  MagnifyingGlassIcon,
+  UserCircleIcon,
+  ShoppingBagIcon,
+} from '@heroicons/react/24/outline';
 
 type LayoutProps = {
   children: React.ReactNode;
   layout?: LayoutQuery & {
     headerMenu?: EnhancedMenu | null;
-    footerMenu?: EnhancedMenu | null;
   };
 };
 
+const extraHeaderMenu = [
+  {
+    id: 'aboutus_8ece0c3d-7875-4c93-948a-bf5b3a888e61',
+    isExternal: false,
+    title: 'Our Story',
+    target: '_self',
+    to: '/about-us',
+    type: 'PAGE',
+  },
+  // {
+  //   id: 'contact_0851ec8b-d11d-478c-a811-8e0c23638be1',
+  //   isExternal: false,
+  //   title: 'Contact Us',
+  //   target: '_self',
+  //   to: '/contact',
+  //   type: 'PAGE',
+  // },
+];
+
+const footerMenu = [
+  {
+    id: 'aboutus_0f7beffc-4d5e-495e-bd3c-c4935525a810',
+    isExternal: false,
+    title: 'Our Story',
+    target: '_self',
+    to: '/about-us',
+    type: 'PAGE',
+  },
+  {
+    id: 'homepage_792d8a6e-b373-45de-a436-edfad3e3a7e5',
+    isExternal: false,
+    title: 'Home',
+    target: '_self',
+    to: '/',
+    type: 'HOMEPAGE',
+  },
+  {
+    id: 'shop_f8edddb3-f59c-4a09-8b4d-6a761ef386a5',
+    isExternal: false,
+    title: 'Shop',
+    target: '_self',
+    to: '/products',
+    type: 'CATALOG',
+  },
+  {
+    id: 'contact_6775617e-31d8-475e-812f-3dd3b9567eee',
+    isExternal: false,
+    title: 'Contact Us',
+    target: '_self',
+    to: '/contact',
+    type: 'PAGE',
+  },
+];
+
+const secondaryFooterMenu = [
+  {
+    id: 'policies_f40478c7-dbaf-47e8-85e2-d8889dfe27b7',
+    isExternal: false,
+    title: 'Terms & Privacy',
+    target: '_self',
+    to: '/policies',
+    type: 'PAGE',
+  },
+];
+
 export function Layout({children, layout}: LayoutProps) {
-  const {headerMenu, footerMenu} = layout || {};
+  const {headerMenu} = layout || {};
+
   return (
     <>
       <div className="flex flex-col min-h-screen">
@@ -57,7 +123,7 @@ export function Layout({children, layout}: LayoutProps) {
           {children}
         </main>
       </div>
-      {footerMenu && <Footer menu={footerMenu} />}
+      <Footer menu={footerMenu} />
     </>
   );
 }
@@ -260,22 +326,22 @@ function DesktopHeader({
 }) {
   const params = useParams();
   const {y} = useWindowScroll();
+
+  const headerClassName = clsx(
+    'hidden h-nav lg:flex items-center sticky transition duration-300 backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-8 px-12 py-8',
+    {
+      'bg-transparent backdrop-blur-none shadow-none': isHome && y < 50,
+      'bg-transparent shadow-darkHeader': isHome,
+      'bg-white/80': !isHome,
+      'shadow-lightHeader': !isHome && y > 50,
+    },
+  );
+
   return (
-    <header
-      role="banner"
-      className={`${
-        isHome
-          ? 'bg-primary/80 dark:bg-contrast/60 text-contrast dark:text-primary shadow-darkHeader'
-          : 'bg-contrast/80 text-primary'
-      } ${
-        !isHome && y > 50 && ' shadow-lightHeader'
-      } hidden h-nav lg:flex items-center sticky transition duration-300 backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-8 px-12 py-8`}
-    >
+    <header role="banner" className={headerClassName}>
       <div className="flex gap-12">
-        <Link className="font-bold" to="/" prefetch="intent">
-          {title}
-        </Link>
-        <nav className="flex gap-8">
+        <Logo className="h-8 md:h-10" />
+        <nav className="flex gap-8 items-center">
           {/* Top level menu items */}
           {(menu?.items || []).map((item) => (
             <Link
@@ -284,7 +350,24 @@ function DesktopHeader({
               target={item.target}
               prefetch="intent"
               className={({isActive}) =>
-                isActive ? 'pb-1 border-b -mb-px' : 'pb-1'
+                isActive
+                  ? 'relative uppercase text-sm font-semibold after:bg-gray-900 after:h-[2px] after:absolute after:-bottom-1 after:left-0 after:right-0'
+                  : 'uppercase text-sm font-semibold'
+              }
+            >
+              {item.title}
+            </Link>
+          ))}
+          {(extraHeaderMenu || []).map((item) => (
+            <Link
+              key={item.id}
+              to={item.to}
+              target={item.target}
+              prefetch="intent"
+              className={({isActive}) =>
+                isActive
+                  ? 'relative uppercase text-sm font-semibold after:bg-gray-900 after:h-[2px] after:absolute after:-bottom-1 after:left-0 after:right-0'
+                  : 'uppercase text-sm font-semibold'
               }
             >
               {item.title}
@@ -301,8 +384,8 @@ function DesktopHeader({
           <Input
             className={
               isHome
-                ? 'focus:border-contrast/20 dark:focus:border-primary/20'
-                : 'focus:border-primary/20'
+                ? 'focus:border-contrast/40 dark:focus:border-primary/20'
+                : 'focus:border-primary/40'
             }
             type="search"
             variant="minisearch"
@@ -313,7 +396,7 @@ function DesktopHeader({
             type="submit"
             className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5"
           >
-            <IconSearch />
+            <MagnifyingGlassIcon className="h-6 w-6" />
           </button>
         </Form>
         <AccountLink className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5" />
@@ -329,11 +412,11 @@ function AccountLink({className}: {className?: string}) {
 
   return isLoggedIn ? (
     <Link to="/account" className={className}>
-      <IconAccount />
+      <UserCircleIcon className="h-6 w-6" />
     </Link>
   ) : (
     <Link to="/account/login" className={className}>
-      <IconLogin />
+      <UserCircleIcon className="h-6 w-6" />
     </Link>
   );
 }
@@ -376,7 +459,7 @@ function Badge({
   const BadgeCounter = useMemo(
     () => (
       <>
-        <IconBag />
+        <ShoppingBagIcon className="h-6 w-6" />
         <div
           className={`${
             dark
@@ -408,95 +491,118 @@ function Badge({
   );
 }
 
-function Footer({menu}: {menu?: EnhancedMenu}) {
-  const isHome = useIsHomePath();
-  const itemsCount = menu
-    ? menu?.items?.length + 1 > 4
-      ? 4
-      : menu?.items?.length + 1
-    : [];
-
+function Footer({menu}: CustomMenu) {
+  const date = new Date().getFullYear();
   return (
-    <Section
-      divider={isHome ? 'none' : 'top'}
-      as="footer"
-      role="contentinfo"
-      className={`grid min-h-[25rem] items-start grid-flow-row w-full gap-6 py-8 px-6 md:px-8 lg:px-12 md:gap-8 lg:gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-${itemsCount}
-        bg-primary dark:bg-contrast dark:text-primary text-contrast overflow-hidden`}
-    >
-      <FooterMenu menu={menu} />
-      <CountrySelector />
-      <div
-        className={`self-end pt-8 opacity-50 md:col-span-2 lg:col-span-${itemsCount}`}
-      >
-        &copy; {new Date().getFullYear()} / Shopify, Inc. Hydrogen is an MIT
-        Licensed Open Source project.
+    <Section divider="top" as="footer" role="contentinfo">
+      <div className="grid grid-cols-1 gap-8 py-6 max-md:mb-12 md:grid-cols-12">
+        <div className="col-span-1 md:col-span-3 lg:col-span-2">
+          <Link to="/" prefetch="intent">
+            <Logo className="h-8 md:h-12" />
+          </Link>
+        </div>
+        <div className="col-span-1 md:col-span-12 lg:col-span-10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {/* col1 */}
+            <div className="flex flex-col gap-y-2 items-start justify-start">
+              {menu.map((item) => (
+                <Link
+                  key={item.id}
+                  to={item.to}
+                  prefetch="intent"
+                  className="p-1"
+                >
+                  {item.title}
+                </Link>
+              ))}
+            </div>
+            {/* col2 */}
+            <div className="flex flex-col items-start justify-start">
+              <div className="grid gap-2">
+                <Text size="lead">Follow us</Text>
+                <div className="max-w-sm">
+                  <Text>
+                    Don’t be a stranger and say hi to us on social! Get your
+                    daily drops of skincare inspiration here:{' '}
+                  </Text>
+                </div>
+                <div className="flex items-center space-x-6 pt-xs">
+                  <a
+                    href="https://instagram.com/dropbydropskincare"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Instagram account"
+                  >
+                    <Instagram width="56px" height="56px" />
+                  </a>
+
+                  <a
+                    href="https://www.facebook.com/dropbydropskincare"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Facebook account"
+                  >
+                    <Facebook width="56px" height="56px" />{' '}
+                  </a>
+                </div>
+              </div>
+            </div>
+            {/* col3 */}
+            <div className="flex flex-col justify-start max-w-md">
+              <div className="grid gap-2">
+                <Text size="lead">Drop us a line</Text>
+                <div className="flex flex-col max-w-sm">
+                  <Text>
+                    <span className="font-medium">
+                      Address <br />
+                    </span>
+                    Dorphs Alle 10D,
+                  </Text>
+                  <Text>2630 Taastrup, Denmark</Text>
+                </div>
+                <div className="flex flex-col max-w-sm">
+                  <Text>
+                    <span className="font-medium">
+                      Email
+                      <br />
+                    </span>
+                    <span
+                      dangerouslySetInnerHTML={{__html: obfuscateEmail()}}
+                    ></span>
+                  </Text>
+                </div>
+                <div className="flex flex-col max-w-sm">
+                  <Text>
+                    <span className="font-medium">
+                      Phone Number
+                      <br />{' '}
+                    </span>
+                    +45 71 72 55 70
+                  </Text>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="border-t grid grid-cols-1 items-start pt-6 pb-10 md:grid-cols-3 gap-y-3">
+        <div className="flex items-center max-md:justify-center space-x-2">
+          <LovePin width={18} height={18} />
+          <div className="text-sm text-primary">With love, from Copenhagen</div>
+        </div>
+        <div className="grid justify-center gap-1">
+          <span className="text-sm text-primary">
+            &copy; {date} Drop By Drop. All rights reserved.
+          </span>
+          <div className="flex justify-center space-x-xs text-sm underline">
+            {secondaryFooterMenu.map((item) => (
+              <Link key={item.id} to={item.to} prefetch="intent">
+                {item.title}
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </Section>
-  );
-}
-
-function FooterLink({item}: {item: ChildEnhancedMenuItem}) {
-  if (item.to.startsWith('http')) {
-    return (
-      <a href={item.to} target={item.target} rel="noopener noreferrer">
-        {item.title}
-      </a>
-    );
-  }
-
-  return (
-    <Link to={item.to} target={item.target} prefetch="intent">
-      {item.title}
-    </Link>
-  );
-}
-
-function FooterMenu({menu}: {menu?: EnhancedMenu}) {
-  const styles = {
-    section: 'grid gap-4',
-    nav: 'grid gap-2 pb-6',
-  };
-
-  return (
-    <>
-      {(menu?.items || []).map((item) => (
-        <section key={item.id} className={styles.section}>
-          <Disclosure>
-            {({open}) => (
-              <>
-                <Disclosure.Button className="text-left md:cursor-default">
-                  <Heading className="flex justify-between" size="lead" as="h3">
-                    {item.title}
-                    {item?.items?.length > 0 && (
-                      <span className="md:hidden">
-                        <IconCaret direction={open ? 'up' : 'down'} />
-                      </span>
-                    )}
-                  </Heading>
-                </Disclosure.Button>
-                {item?.items?.length > 0 ? (
-                  <div
-                    className={`${
-                      open ? `max-h-48 h-fit` : `max-h-0 md:max-h-fit`
-                    } overflow-hidden transition-all duration-300`}
-                  >
-                    <Suspense data-comment="This suspense fixes a hydration bug in Disclosure.Panel with static prop">
-                      <Disclosure.Panel static>
-                        <nav className={styles.nav}>
-                          {item.items.map((subItem: ChildEnhancedMenuItem) => (
-                            <FooterLink key={subItem.id} item={subItem} />
-                          ))}
-                        </nav>
-                      </Disclosure.Panel>
-                    </Suspense>
-                  </div>
-                ) : null}
-              </>
-            )}
-          </Disclosure>
-        </section>
-      ))}
-    </>
   );
 }

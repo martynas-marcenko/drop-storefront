@@ -9,6 +9,8 @@ import {getHeroPlaceholder} from '~/lib/placeholders';
 import {seoPayload} from '~/lib/seo.server';
 import {routeHeaders} from '~/data/cache';
 
+import {Story} from '~/components/homepage';
+
 export const headers = routeHeaders;
 
 export async function loader({params, context}: LoaderFunctionArgs) {
@@ -86,7 +88,7 @@ export default function Homepage() {
 
   // TODO: skeletons vs placeholders
   const skeletons = getHeroPlaceholder([{}, {}, {}]);
-
+  console.log(primaryHero);
   return (
     <>
       {primaryHero && (
@@ -121,11 +123,13 @@ export default function Homepage() {
         </Suspense>
       )}
 
-      {featuredCollections && (
+      {/* {featuredCollections && (
         <Suspense>
           <Await resolve={featuredCollections}>
             {({collections}) => {
               if (!collections?.nodes) return <></>;
+              console.log('collections', collections);
+
               return (
                 <FeaturedCollections
                   collections={collections}
@@ -135,9 +139,9 @@ export default function Homepage() {
             }}
           </Await>
         </Suspense>
-      )}
+      )} */}
 
-      {tertiaryHero && (
+      {/* {tertiaryHero && (
         <Suspense fallback={<Hero {...skeletons[2]} />}>
           <Await resolve={tertiaryHero}>
             {({hero}) => {
@@ -146,7 +150,8 @@ export default function Homepage() {
             }}
           </Await>
         </Suspense>
-      )}
+      )} */}
+      <Story />
     </>
   );
 }

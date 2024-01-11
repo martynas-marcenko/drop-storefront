@@ -12,6 +12,19 @@ import type {
 
 import type {I18nLocale} from './type';
 
+export type CustomMenuItemProps = {
+  id: string;
+  isExternal?: boolean;
+  title: string;
+  target: string;
+  to: string;
+  type: string;
+};
+
+export type CustomMenu = {
+  menu: CustomMenuItemProps[];
+};
+
 type EnhancedMenuItemProps = {
   to: string;
   target: string;
@@ -339,3 +352,14 @@ export function isLocalPath(url: string) {
 
   return false;
 }
+
+export const obfuscateEmail = () => {
+  const name = 'hello';
+  const atSymbol = '&#64;';
+  const domain = 'dropbydrop';
+  const dot = '&#46;';
+  const tld = 'co';
+
+  const obfuscatedEmail = name + atSymbol + domain + dot + tld;
+  return obfuscatedEmail;
+};

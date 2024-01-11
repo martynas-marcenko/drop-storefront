@@ -1,6 +1,11 @@
 import {useRef, Suspense} from 'react';
 import {Disclosure, Listbox} from '@headlessui/react';
-import {defer, redirect, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {
+  defer,
+  redirect,
+  LinksFunction,
+  type LoaderFunctionArgs,
+} from '@shopify/remix-oxygen';
 import {useLoaderData, Await} from '@remix-run/react';
 import type {ShopifyAnalyticsProduct} from '@shopify/hydrogen';
 import {
@@ -17,6 +22,7 @@ import type {
   ProductQuery,
   ProductVariantFragmentFragment,
 } from 'storefrontapi.generated';
+
 import {
   Heading,
   IconCaret,
@@ -24,20 +30,39 @@ import {
   IconClose,
   ProductGallery,
   ProductSwimlane,
-  Section,
+  Section as SectionDepricated,
   Skeleton,
   Text,
   Link,
   AddToCartButton,
   Button,
+  Grid,
 } from '~/components';
+import {Section} from '~/components/ui';
+import {
+  IntroHeading,
+  SkinTypes,
+  Features,
+  Ingredients,
+  HowTo,
+  WhyDrop,
+  Faq,
+} from '~/components/product';
+
 import {getExcerpt} from '~/lib/utils';
 import {seoPayload} from '~/lib/seo.server';
 import type {Storefront} from '~/lib/type';
 import {routeHeaders} from '~/data/cache';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
+import {getProductDetails} from '~/data/productDetails/productDetails.server';
+import type {ProductDetails, ProductGid} from '~/lib/product-types';
+import styles from '~/styles/product-page.css';
 
 export const headers = routeHeaders;
+
+export const links: LinksFunction = () => {
+  return [{rel: 'stylesheet', href: styles}];
+};
 
 export async function loader({params, request, context}: LoaderFunctionArgs) {
   const {productHandle} = params;
@@ -62,6 +87,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     throw redirectToFirstVariant({product, request});
   }
 
+  const productDetails = await getProductDetails(product.id);
   // In order to show which variants are available in the UI, we need to query
   // all of them. But there might be a *lot*, so instead separate the variants
   // into it's own separate query that is deferred. So there's a brief moment
@@ -100,6 +126,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
   return defer({
     variants,
     product,
+    productDetails,
     shop,
     storeDomain: shop.primaryDomain.url,
     recommended,
@@ -133,27 +160,42 @@ function redirectToFirstVariant({
 }
 
 export default function Product() {
-  const {product, shop, recommended, variants} = useLoaderData<typeof loader>();
-  const {media, title, vendor, descriptionHtml} = product;
+  const {product, productDetails, shop, recommended, variants} = useLoaderData<
+    typeof loader
+  >() as {
+    productDetails: ProductDetails;
+    product: any;
+    shop: any;
+    recommended: any;
+    variants: any;
+  };
+  const {media, title, descriptionHtml} = product;
+  const {
+    introHeading,
+    features,
+    description,
+    subtitle,
+    ingredients,
+    howTo,
+    skinTypes,
+    whyDrop,
+    faq,
+  } = productDetails;
   const {shippingPolicy, refundPolicy} = shop;
-
   return (
     <>
-      <Section className="px-0 md:px-8 lg:px-12">
+      <SectionDepricated className="px-0 md:px-8 lg:px-12">
         <div className="grid items-start md:gap-6 lg:gap-20 md:grid-cols-2 lg:grid-cols-3">
           <ProductGallery
             media={media.nodes}
             className="w-full lg:col-span-2"
           />
           <div className="sticky md:-mb-nav md:top-nav md:-translate-y-nav md:h-screen md:pt-nav hiddenScroll md:overflow-y-scroll">
-            <section className="flex flex-col w-full max-w-xl gap-8 p-6 md:mx-auto md:max-w-sm md:px-0">
+            <SectionDepricated className="flex flex-col w-full max-w-xl gap-8 p-6 md:mx-auto md:max-w-sm md:px-0">
               <div className="grid gap-2">
                 <Heading as="h1" className="whitespace-normal">
                   {title}
                 </Heading>
-                {vendor && (
-                  <Text className={'opacity-50 font-medium'}>{vendor}</Text>
-                )}
               </div>
               <Suspense fallback={<ProductForm variants={[]} />}>
                 <Await
@@ -189,10 +231,55 @@ export default function Product() {
                   />
                 )}
               </div>
-            </section>
+            </SectionDepricated>
           </div>
         </div>
+      </SectionDepricated>
+      <Section className="relative z-10">
+        <IntroHeading text={introHeading} />
       </Section>
+      <Section width="narrow">
+        <Grid items={2}>
+          <Features
+            features={features}
+            numberOfReasonsTitle={features.length + ' Reasons to fall in 💛'}
+          />
+        </Grid>
+      </Section>
+      <Section width="narrow">
+        <Grid items={1}>
+          <div className="items-center overflow-hidden rounded-2xl">
+            <SkinTypes text={skinTypes} productGid={product.id as ProductGid} />
+          </div>
+        </Grid>
+      </Section>
+      <Section width="narrow">
+        <Grid items={1}>
+          <div className="items-center overflow-hidden rounded-2xl">
+            <Ingredients data={ingredients} />
+          </div>
+        </Grid>
+      </Section>
+      <Section width="narrow" heading="How To">
+        <Grid items={1}>
+          <HowTo productGid={product.id as ProductGid} data={howTo} />
+        </Grid>
+      </Section>
+      <Section width="narrow">
+        <WhyDrop data={whyDrop} productGid={product.id as ProductGid} />
+      </Section>
+      {faq && (
+        <Section
+          width="narrow"
+          display="flex"
+          className="w-full items-center flex-col"
+          heading="Frequently Asked Questions"
+        >
+          <div className="flex max-w-2xl flex-col w-full gap-sm">
+            <Faq faq={faq} />
+          </div>
+        </Section>
+      )}
       <Suspense fallback={<Skeleton className="h-32" />}>
         <Await
           errorElement="There was a problem loading related products"
