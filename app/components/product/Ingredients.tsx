@@ -1,7 +1,7 @@
 import type {ProductIngredients, Ingredient} from '~/lib/product-types';
 import {Text, Heading} from '~/components/ui';
 import {Image} from '@shopify/hydrogen';
-import {Drawer, useDrawer, Skeleton} from '~/components';
+import {Drawer, useDrawer} from '~/components';
 import {InformationCircleIcon} from '@heroicons/react/24/outline';
 
 function IngredientsDialog({
@@ -22,7 +22,7 @@ function IngredientsDialog({
           <div className="flex-shrink-0">
             {data.imgSrc ? (
               <Image
-                alt="Bloom and bloom store interior"
+                alt={title}
                 data={{
                   url: imgSrc,
                   id: imgSrc,
@@ -115,7 +115,7 @@ export const Ingredients = ({data}: {data: ProductIngredients}) => {
         </div>
         <ul role="list" className="divide-y divide-gray-200">
           {data.ingredients.map((ingredient) => (
-            <Ingredient data={ingredient} />
+            <Ingredient key={ingredient.title} data={ingredient} />
           ))}
         </ul>
       </div>

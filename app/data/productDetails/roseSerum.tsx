@@ -87,23 +87,12 @@ export const roseSerum: ProductDetails = {
   introHeading:
     'Our most sensual serum of youthful glow and silky touch – for true romantics.',
   description: {
-    body: (
-      <>
-        Moistures. Nourishes. Protects. This serum leaves skin feeling silky
-        soft – for a maximum glow you&apos;ll love.
-      </>
-    ),
+    body: 'Moistures. Nourishes. Protects. This serum leaves skin feeling silky soft – for a maximum glow you&apos;ll love.',
   },
   ingredients: productIngredients,
   features: features,
   howTo: {
-    body: (
-      <>
-        Every morning and evening, take a few drops of the serum and apply on a
-        moist face and neck. We recommend to use a hydrolate of your choice to
-        moist the skin first. Same recommendation stands for all skin types.
-      </>
-    ),
+    body: 'Every morning and evening, take a few drops of the serum and apply on a moist face and neck. We recommend to use a hydrolate of your choice to moist the skin first. Same recommendation stands for all skin types.',
   },
   skinTypes:
     'It is perfect for all skin types, especially, for a dry, flaky, sensitive and tired skin.',

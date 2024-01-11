@@ -1,7 +1,7 @@
-// export {HowTo} from './HowTo';
+export {HowTo} from './HowTo';
 export {Features} from './Features';
 export {SkinTypes} from './SkinTypes';
 export {Ingredients} from './Ingredients';
-// export {WhyDrop} from './WhyDrop';
-// export {ProductGallery} from './ProductGallery';
+export {WhyDrop} from './WhyDrop';
 export {IntroHeading} from './IntroHeading';
+export {Faq} from './Faq';

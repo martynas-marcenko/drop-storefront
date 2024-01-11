@@ -44,6 +44,9 @@ import {
   SkinTypes,
   Features,
   Ingredients,
+  HowTo,
+  WhyDrop,
+  Faq,
 } from '~/components/product';
 
 import {getExcerpt} from '~/lib/utils';
@@ -178,7 +181,6 @@ export default function Product() {
     whyDrop,
     faq,
   } = productDetails;
-  console.log(features);
   const {shippingPolicy, refundPolicy} = shop;
   return (
     <>
@@ -258,6 +260,26 @@ export default function Product() {
           </div>
         </Grid>
       </Section>
+      <Section width="narrow" heading="How To">
+        <Grid items={1}>
+          <HowTo productGid={product.id as ProductGid} data={howTo} />
+        </Grid>
+      </Section>
+      <Section width="narrow">
+        <WhyDrop data={whyDrop} productGid={product.id as ProductGid} />
+      </Section>
+      {faq && (
+        <Section
+          width="narrow"
+          display="flex"
+          className="w-full items-center flex-col"
+          heading="Frequently Asked Questions"
+        >
+          <div className="flex max-w-2xl flex-col w-full gap-sm">
+            <Faq faq={faq} />
+          </div>
+        </Section>
+      )}
       <Suspense fallback={<Skeleton className="h-32" />}>
         <Await
           errorElement="There was a problem loading related products"
