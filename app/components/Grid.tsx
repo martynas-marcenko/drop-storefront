@@ -7,6 +7,7 @@ export function Grid({
   gap = 'default',
   items = 4,
   layout = 'default',
+  noGapsOnMobile = false,
   ...props
 }: {
   as?: React.ElementType;
@@ -14,6 +15,7 @@ export function Grid({
   flow?: 'row' | 'col';
   gap?: 'default' | 'blog';
   items?: number;
+  noGapsOnMobile?: boolean;
   layout?: 'default' | 'products' | 'auto' | 'blog';
   [key: string]: any;
 }) {
@@ -29,7 +31,9 @@ export function Grid({
   };
 
   const gaps = {
-    default: 'grid gap-2 gap-y-6 md:gap-4 lg:gap-6',
+    default: noGapsOnMobile
+      ? 'grid gap-0 md:gap-4 lg:gap-6'
+      : 'grid gap-2 gap-y-6 md:gap-4 lg:gap-6',
     blog: 'grid gap-6',
   };
 

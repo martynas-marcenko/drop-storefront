@@ -48,7 +48,7 @@ const features: ProductFeature[] = [
   },
   {
     title: 'Superhero of moisturizing.',
-    body: 'effectively while moisturizing is Mursalski cleanser&apos;s secret superpower. This cleanser balances, nourishes, and keeps your moisture barrier strong.',
+    body: "Effectively while moisturizing is Mursalski cleanser's secret superpower. This cleanser balances, nourishes, and keeps your moisture barrier strong.",
   },
   {
     title: 'Oh, and it smells good!',
@@ -84,9 +84,7 @@ export const mursalskiCleanser: ProductDetails = {
   ingredients: productIngredients,
   features: features,
   howTo: {
-    body: `
-    01. Apply to a dry face and neck.\n\n02. Massage into skin in circular motion, then wet finger and continue massaging until oil gets creamy texture.\n\n03. Rinse thoroughly.
-    `,
+    body: '1. Apply to a dry face and neck.\n\n2. Massage into skin in circular motion, then wet finger and continue massaging until oil gets creamy texture.\n\n3. Rinse thoroughly.',
   },
   skinTypes: 'It is perfect for all skin types.',
   whyDrop: whyDropList,

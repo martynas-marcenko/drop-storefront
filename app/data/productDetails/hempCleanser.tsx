@@ -74,18 +74,16 @@ const faqlist: Faq[] = [
 
 export const hempCleanser: ProductDetails = {
   id: 'gid://shopify/Product/6543863578762',
-  subtitle: 'For youthful glow',
+  subtitle: 'For soothing & calming',
   introHeading:
-    'Our most sensual serum of youthful glow and silky touch – for true romantics.',
+    'Drop of calmness for the stressed ones – sooth and calm your skin with our most unwinding cleanser.',
   description: {
-    body: 'Moistures. Nourishes. Protects. This serum leaves skin feeling silky soft – for a maximum glow you&apos;ll love.',
+    body: 'A pro at removing oil, dirt, and calming your skin. Our Hemp oil cleanser gives your face a refreshing boost it needs.',
   },
   ingredients: productIngredients,
   features: features,
   howTo: {
-    body: `
-    01. Apply to a dry face and neck.\n\n02. Massage into skin in circular motion, then wet finger and continue massaging until oil gets creamy texture.\n\n03. Rinse thoroughly.
-    `,
+    body: '1. Apply to a dry face and neck.\n\n2. Massage into skin in circular motion, then wet finger and continue massaging until oil gets creamy texture.\n\n3. Rinse thoroughly.',
   },
   skinTypes: 'It is perfect for all skin types.',
   whyDrop: whyDropList,

@@ -48,7 +48,7 @@ const productIngredients: ProductIngredients = {
 const features: ProductFeature[] = [
   {
     title: 'First love of your skin.',
-    body: ' This antioxidant-infused serum nourishes and moisturizes your skin day and night.',
+    body: 'This antioxidant-infused serum nourishes and moisturizes your skin day and night.',
   },
   {
     title: 'Protected skin, happy skin.',
@@ -85,7 +85,7 @@ export const roseSerum: ProductDetails = {
   introHeading:
     'Our most sensual serum of youthful glow and silky touch – for true romantics.',
   description: {
-    body: 'Moistures. Nourishes. Protects. This serum leaves skin feeling silky soft – for a maximum glow you&apos;ll love.',
+    body: "Moistures. Nourishes. Protects. This serum leaves skin feeling silky soft – for a maximum glow you'll love.",
   },
   ingredients: productIngredients,
   features: features,

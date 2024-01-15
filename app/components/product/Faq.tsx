@@ -22,12 +22,14 @@ export const Faq = ({faq}: {faq: FaqProps[]}) => {
                     <Text size="text-base" as="h4" className="font-medium">
                       {question}
                     </Text>
-                    <IconClose
-                      className={clsx(
-                        'transition-transform transform-gpu duration-200',
-                        !open && 'rotate-[45deg]',
-                      )}
-                    />
+                    <div className="w-[20px] flex-0">
+                      <IconClose
+                        className={clsx(
+                          'transition-transform transform-gpu duration-200',
+                          !open && 'rotate-[45deg]',
+                        )}
+                      />
+                    </div>
                   </div>
                 </Disclosure.Button>
 

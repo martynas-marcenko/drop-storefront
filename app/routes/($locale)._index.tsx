@@ -29,9 +29,12 @@ export async function loader({params, context}: LoaderFunctionArgs) {
     variables: {handle: 'freestyle'},
   });
 
+  const about = await context.storefront.query(ABOUT_QUERY);
+
   const seo = seoPayload.home();
 
   return defer({
+    about,
     shop,
     primaryHero: hero,
     // These different queries are separated to illustrate how 3rd party content
@@ -50,22 +53,8 @@ export async function loader({params, context}: LoaderFunctionArgs) {
         },
       },
     ),
-    secondaryHero: context.storefront.query(COLLECTION_HERO_QUERY, {
-      variables: {
-        handle: 'backcountry',
-        country,
-        language,
-      },
-    }),
     featuredCollections: context.storefront.query(FEATURED_COLLECTIONS_QUERY, {
       variables: {
-        country,
-        language,
-      },
-    }),
-    tertiaryHero: context.storefront.query(COLLECTION_HERO_QUERY, {
-      variables: {
-        handle: 'winter-2022',
         country,
         language,
       },
@@ -78,17 +67,11 @@ export async function loader({params, context}: LoaderFunctionArgs) {
 }
 
 export default function Homepage() {
-  const {
-    primaryHero,
-    secondaryHero,
-    tertiaryHero,
-    featuredCollections,
-    featuredProducts,
-  } = useLoaderData<typeof loader>();
+  const {primaryHero, featuredCollections, featuredProducts, about} =
+    useLoaderData<typeof loader>();
 
   // TODO: skeletons vs placeholders
   const skeletons = getHeroPlaceholder([{}, {}, {}]);
-  console.log(primaryHero);
   return (
     <>
       {primaryHero && (
@@ -103,7 +86,7 @@ export default function Homepage() {
               return (
                 <ProductSwimlane
                   products={products}
-                  title="Featured Products"
+                  title="Shop Best Sellers"
                   count={4}
                 />
               );
@@ -112,49 +95,63 @@ export default function Homepage() {
         </Suspense>
       )}
 
-      {secondaryHero && (
-        <Suspense fallback={<Hero {...skeletons[1]} />}>
-          <Await resolve={secondaryHero}>
-            {({hero}) => {
-              if (!hero) return <></>;
-              return <Hero {...hero} />;
-            }}
-          </Await>
-        </Suspense>
-      )}
-
-      {/* {featuredCollections && (
+      {featuredCollections && (
         <Suspense>
           <Await resolve={featuredCollections}>
             {({collections}) => {
               if (!collections?.nodes) return <></>;
-              console.log('collections', collections);
-
               return (
                 <FeaturedCollections
                   collections={collections}
-                  title="Collections"
+                  title="Shop By Category"
                 />
               );
             }}
           </Await>
         </Suspense>
-      )} */}
-
-      {/* {tertiaryHero && (
-        <Suspense fallback={<Hero {...skeletons[2]} />}>
-          <Await resolve={tertiaryHero}>
-            {({hero}) => {
-              if (!hero) return <></>;
-              return <Hero {...hero} />;
+      )}
+      {about && (
+        <Suspense fallback={<Hero {...skeletons[1]} />}>
+          <Await resolve={about}>
+            {({metaobject}) => {
+              if (!metaobject) return <></>;
+              return <Story data={about} loading="eager" />;
             }}
           </Await>
         </Suspense>
-      )} */}
-      <Story />
+      )}
     </>
   );
 }
+
+const ABOUT_QUERY = `#graphql
+  query getAboutContent {
+    metaobject(handle: {handle: "about", type: "about"}) {
+      id
+      handle
+      imageMobile: field(key: "image_mobile") {
+        reference {
+          ...Media
+        }
+      }
+      imageDesktop:  field(key: "image_desktop") {
+        reference {
+          ...Media
+        }
+      }
+      body: field(key: "body") {
+        value
+      }
+      title:  field(key: "title") {
+        value
+      },
+      cta:  field(key: "cta") {
+        value
+      }
+    }
+  }
+  ${MEDIA_FRAGMENT}
+`;
 
 const COLLECTION_CONTENT_FRAGMENT = `#graphql
   fragment CollectionContent on Collection {
@@ -194,16 +191,6 @@ const HOMEPAGE_SEO_QUERY = `#graphql
     shop {
       name
       description
-    }
-  }
-  ${COLLECTION_CONTENT_FRAGMENT}
-` as const;
-
-const COLLECTION_HERO_QUERY = `#graphql
-  query heroCollectionContent($handle: String, $country: CountryCode, $language: LanguageCode)
-  @inContext(country: $country, language: $language) {
-    hero: collection(handle: $handle) {
-      ...CollectionContent
     }
   }
   ${COLLECTION_CONTENT_FRAGMENT}

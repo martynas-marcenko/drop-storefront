@@ -15,11 +15,11 @@ const Title = ({title}: {title: string}) => {
     target: containerRef,
     offset: ['start end', 'start start'],
   });
-  const xOpacity = useTransform(scrollYProgress, [0.2, 0.3], [0, 1], {
+  const xOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1], {
     ease: easeIn,
   });
 
-  const xPosition = useTransform(scrollYProgress, [0.2, 0.3], ['15px', '0px'], {
+  const xPosition = useTransform(scrollYProgress, [0, 0.2], ['15px', '0px'], {
     ease: easeIn,
   });
 
@@ -29,12 +29,9 @@ const Title = ({title}: {title: string}) => {
       style={{translateX: xPosition, opacity: xOpacity}}
       className="mb-xs"
     >
-      <div className="md:hidden">
-        <Text size="text-xl">{title}</Text>
-      </div>
-      <div className="hidden md:block">
-        <Text size="text-2xl">{title}</Text>
-      </div>
+      <Text size="text-xl" className="font-medium">
+        {title}
+      </Text>
     </motion.div>
   );
 };
@@ -46,11 +43,11 @@ const Body = ({body}: {body: string}) => {
     target: containerRef,
     offset: ['start end', 'start start'],
   });
-  const xOpacity = useTransform(scrollYProgress, [0.2, 0.3], [0, 1], {
+  const xOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1], {
     ease: easeIn,
   });
 
-  const xPosition = useTransform(scrollYProgress, [0.2, 0.3], ['15px', '0px'], {
+  const xPosition = useTransform(scrollYProgress, [0, 0.2], ['15px', '0px'], {
     ease: easeIn,
   });
   return (
@@ -58,7 +55,7 @@ const Body = ({body}: {body: string}) => {
       ref={containerRef}
       style={{translateX: xPosition, opacity: xOpacity}}
     >
-      <Text className="font-medium">{body}</Text>
+      <Text>{body}</Text>
     </motion.div>
   );
 };
@@ -71,7 +68,7 @@ export const Features = ({features, numberOfReasonsTitle}: Props) => {
     offset: ['start end', 'start start'],
   });
 
-  const xOpacity = useTransform(scrollYProgress, [0.2, 0.3], [0, 1], {
+  const xOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1], {
     ease: easeIn,
   });
 
@@ -81,12 +78,12 @@ export const Features = ({features, numberOfReasonsTitle}: Props) => {
         <motion.div
           ref={containerRef}
           style={{opacity: xOpacity}}
-          className="sticky top-40"
+          className="sticky top-40 sm-max:mb-sm"
         >
           <Heading heading={numberOfReasonsTitle} />
         </motion.div>
       </div>
-      <div className="grid gap-y-md md:gap-y-lg">
+      <div className="grid gap-y-md">
         {features.map((feature) => (
           <div key={feature.title}>
             <Title title={feature.title} />

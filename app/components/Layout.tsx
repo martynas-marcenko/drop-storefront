@@ -297,12 +297,7 @@ function MobileHeader({
         className="flex items-center self-stretch leading-[3rem] md:leading-[4rem] justify-center flex-grow w-full h-full"
         to="/"
       >
-        <Heading
-          className="font-bold text-center leading-none"
-          as={isHome ? 'h1' : 'h2'}
-        >
-          {title}
-        </Heading>
+        <Logo className="h-8" />
       </Link>
 
       <div className="flex items-center justify-end w-full gap-4">
@@ -556,7 +551,7 @@ function Footer({menu}: CustomMenu) {
                     <span className="font-medium">
                       Address <br />
                     </span>
-                    Dorphs Alle 10D,
+                    Dorphs Alle 10D
                   </Text>
                   <Text>2630 Taastrup, Denmark</Text>
                 </div>
@@ -577,7 +572,7 @@ function Footer({menu}: CustomMenu) {
                       Phone Number
                       <br />{' '}
                     </span>
-                    +45 71 72 55 70
+                    +45 60 61 72 19
                   </Text>
                 </div>
               </div>
@@ -586,7 +581,7 @@ function Footer({menu}: CustomMenu) {
         </div>
       </div>
       <div className="border-t grid grid-cols-1 items-start pt-6 pb-10 md:grid-cols-3 gap-y-3">
-        <div className="flex items-center max-md:justify-center space-x-2">
+        <div className="flex items-center justify-center space-x-2">
           <LovePin width={18} height={18} />
           <div className="text-sm text-primary">With love, from Copenhagen</div>
         </div>

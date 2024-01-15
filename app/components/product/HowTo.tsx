@@ -3,6 +3,7 @@ import {Text} from '~/components/ui';
 import {Button} from '~/components';
 import {ProductGid, HowTo as HowToProps} from '~/lib/product-types';
 import {Drawer, useDrawer} from '~/components';
+import Markdown from 'react-markdown';
 
 interface Props {
   data?: HowToProps;
@@ -20,8 +21,10 @@ export const HowTo: FC<Props> = ({data, productGid}) => {
       {productGid === 'gid://shopify/Product/5116743876746' ||
       productGid === 'gid://shopify/Product/6543863578762' ? (
         <>
-          <div className="grid gap-sm md:grid-cols-3">{data?.body}</div>
-          <div className="flex w-full justify-center">
+          <div className="grid gap-sm list-decimal">
+            <Markdown>{data?.body}</Markdown>
+          </div>
+          {/* <div className="flex w-full justify-center">
             <div>
               <Text as="span" className="inline-block">
                 For even deeper cleansing experience, try a{' '}
@@ -34,11 +37,13 @@ export const HowTo: FC<Props> = ({data, productGid}) => {
                 </Button>
               </Text>
             </div>
-          </div>
+          </div> */}
         </>
       ) : (
         <>
-          <Text>{data?.body}</Text>
+          <Text>
+            <Markdown>{data?.body}</Markdown>
+          </Text>
         </>
       )}
       <Drawer
