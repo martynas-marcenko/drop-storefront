@@ -297,7 +297,7 @@ function MobileHeader({
         className="flex items-center self-stretch leading-[3rem] md:leading-[4rem] justify-center flex-grow w-full h-full"
         to="/"
       >
-        <Logo className="h-6" />
+        <Logo className="h-8" />
       </Link>
 
       <div className="flex items-center justify-end w-full gap-4">

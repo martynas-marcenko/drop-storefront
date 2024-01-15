@@ -83,7 +83,7 @@ export const Features = ({features, numberOfReasonsTitle}: Props) => {
           <Heading heading={numberOfReasonsTitle} />
         </motion.div>
       </div>
-      <div className="grid gap-y-md md:gap-y-lg">
+      <div className="grid gap-y-md">
         {features.map((feature) => (
           <div key={feature.title}>
             <Title title={feature.title} />
