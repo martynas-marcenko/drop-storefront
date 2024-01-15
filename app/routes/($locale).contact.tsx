@@ -88,7 +88,7 @@ export default function Policies() {
             icon={<Ring />}
             body={
               <div className="grid gap-xxs">
-                <Text>+45 71 72 55 70</Text>
+                <Text>+45 60 61 72 19</Text>
                 <Text>Weekdays: 10-16 CET time</Text>
               </div>
             }

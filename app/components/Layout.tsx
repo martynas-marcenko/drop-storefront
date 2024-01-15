@@ -297,12 +297,7 @@ function MobileHeader({
         className="flex items-center self-stretch leading-[3rem] md:leading-[4rem] justify-center flex-grow w-full h-full"
         to="/"
       >
-        <Heading
-          className="font-bold text-center leading-none"
-          as={isHome ? 'h1' : 'h2'}
-        >
-          {title}
-        </Heading>
+        <Logo className="h-6" />
       </Link>
 
       <div className="flex items-center justify-end w-full gap-4">
@@ -577,7 +572,7 @@ function Footer({menu}: CustomMenu) {
                       Phone Number
                       <br />{' '}
                     </span>
-                    +45 71 72 55 70
+                    +45 60 61 72 19
                   </Text>
                 </div>
               </div>

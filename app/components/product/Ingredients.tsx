@@ -1,7 +1,8 @@
+import {useState} from 'react';
 import type {ProductIngredients, Ingredient} from '~/lib/product-types';
 import {Text, Heading} from '~/components/ui';
 import {Image} from '@shopify/hydrogen';
-import {Drawer, useDrawer} from '~/components';
+import {Drawer, useDrawer, Button} from '~/components';
 import {InformationCircleIcon} from '@heroicons/react/24/outline';
 
 function IngredientsDialog({
@@ -107,17 +108,40 @@ const Ingredient = ({data}: {data: Ingredient}) => {
 };
 
 export const Ingredients = ({data}: {data: ProductIngredients}) => {
+  const [displayIngredients, setDisplayIngredients] = useState(
+    data.mainIngredients,
+  );
+
+  const toggleIngredients = () => {
+    setDisplayIngredients((current) =>
+      current === data.mainIngredients
+        ? data.ingredients
+        : data.mainIngredients,
+    );
+  };
+  const title =
+    displayIngredients === data.mainIngredients
+      ? 'Key Ingredients'
+      : 'All Ingredients';
   return (
     <>
       <div className="flex w-full flex-col">
         <div className="sm-max:mb-xs mb-md">
-          <Heading heading="Ingredients" />
+          <Heading heading={title} />
         </div>
         <ul role="list" className="divide-y divide-gray-200">
-          {data.ingredients.map((ingredient) => (
+          {displayIngredients.map((ingredient) => (
             <Ingredient key={ingredient.title} data={ingredient} />
           ))}
         </ul>
+      </div>
+      <div className="flex justify-center mt-sm">
+        <Button variant="secondary" onClick={toggleIngredients}>
+          {' '}
+          {displayIngredients === data.ingredients
+            ? 'Show Key Ingredients'
+            : 'Show All Ingredients'}
+        </Button>
       </div>
     </>
   );

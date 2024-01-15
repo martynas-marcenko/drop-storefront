@@ -15,11 +15,11 @@ const Title = ({title}: {title: string}) => {
     target: containerRef,
     offset: ['start end', 'start start'],
   });
-  const xOpacity = useTransform(scrollYProgress, [0.2, 0.3], [0, 1], {
+  const xOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1], {
     ease: easeIn,
   });
 
-  const xPosition = useTransform(scrollYProgress, [0.2, 0.3], ['15px', '0px'], {
+  const xPosition = useTransform(scrollYProgress, [0, 0.2], ['15px', '0px'], {
     ease: easeIn,
   });
 
@@ -43,11 +43,11 @@ const Body = ({body}: {body: string}) => {
     target: containerRef,
     offset: ['start end', 'start start'],
   });
-  const xOpacity = useTransform(scrollYProgress, [0.2, 0.3], [0, 1], {
+  const xOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1], {
     ease: easeIn,
   });
 
-  const xPosition = useTransform(scrollYProgress, [0.2, 0.3], ['15px', '0px'], {
+  const xPosition = useTransform(scrollYProgress, [0, 0.2], ['15px', '0px'], {
     ease: easeIn,
   });
   return (
@@ -68,7 +68,7 @@ export const Features = ({features, numberOfReasonsTitle}: Props) => {
     offset: ['start end', 'start start'],
   });
 
-  const xOpacity = useTransform(scrollYProgress, [0.2, 0.3], [0, 1], {
+  const xOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1], {
     ease: easeIn,
   });
 

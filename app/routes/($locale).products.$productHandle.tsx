@@ -24,21 +24,18 @@ import type {
 } from 'storefrontapi.generated';
 
 import {
-  Heading,
   IconCaret,
   IconCheck,
   IconClose,
   ProductGallery,
   ProductSwimlane,
-  Section as SectionDepricated,
   Skeleton,
-  Text,
   Link,
   AddToCartButton,
   Button,
   Grid,
 } from '~/components';
-import {Section} from '~/components/ui';
+import {Section, Heading, Text} from '~/components/ui';
 import {
   IntroHeading,
   SkinTypes,
@@ -181,22 +178,37 @@ export default function Product() {
     whyDrop,
     faq,
   } = productDetails;
-  const {shippingPolicy, refundPolicy} = shop;
+  const {refundPolicy} = shop;
   return (
     <>
-      <SectionDepricated className="px-0 md:px-8 lg:px-12">
+      <Section className="px-0 md:px-8 lg:px-12">
         <div className="grid items-start md:gap-6 lg:gap-20 md:grid-cols-2 lg:grid-cols-3">
           <ProductGallery
             media={media.nodes}
             className="w-full lg:col-span-2"
           />
           <div className="sticky md:-mb-nav md:top-nav md:-translate-y-nav md:h-screen md:pt-nav hiddenScroll md:overflow-y-scroll">
-            <SectionDepricated className="flex flex-col w-full max-w-xl gap-8 p-6 md:mx-auto md:max-w-sm md:px-0">
-              <div className="grid gap-2">
-                <Heading as="h1" className="whitespace-normal">
-                  {title}
-                </Heading>
+            <Section className="py-0 lg:px-0">
+              <div className="grid gap-2 mb-xs">
+                <Heading
+                  as="h1"
+                  className="whitespace-normal"
+                  heading={title}
+                />
               </div>
+              {description?.body ? (
+                <div className="grid gap-2 mb-xs">
+                  <Text as="p" size="text-lg">
+                    {description.body}
+                  </Text>
+                </div>
+              ) : (
+                <div
+                  className="prose"
+                  dangerouslySetInnerHTML={{__html: descriptionHtml}}
+                />
+              )}
+
               <Suspense fallback={<ProductForm variants={[]} />}>
                 <Await
                   errorElement="There was a problem loading related products"
@@ -210,33 +222,21 @@ export default function Product() {
                 </Await>
               </Suspense>
               <div className="grid gap-4 py-4">
-                {descriptionHtml && (
-                  <ProductDetail
-                    title="Product Details"
-                    content={descriptionHtml}
-                  />
-                )}
-                {shippingPolicy?.body && (
-                  <ProductDetail
-                    title="Shipping"
-                    content={getExcerpt(shippingPolicy.body)}
-                    learnMore={`/policies/${shippingPolicy.handle}`}
-                  />
-                )}
                 {refundPolicy?.body && (
                   <ProductDetail
-                    title="Returns"
-                    content={getExcerpt(refundPolicy.body)}
+                    isSmall
+                    title="100% NO-RISK MONEY BACK GUARANTEE"
+                    content="We're confident that you'll be delighted with your purchases! However, if any item doesn't fully meet your satisfaction, you have the option to return or exchange it within a 60-day period from the date of purchase."
                     learnMore={`/policies/${refundPolicy.handle}`}
                   />
                 )}
               </div>
-            </SectionDepricated>
+            </Section>
           </div>
         </div>
-      </SectionDepricated>
+      </Section>
       <Section className="relative z-10">
-        <IntroHeading text={introHeading} />
+        <IntroHeading productGid={product.id} text={introHeading} />
       </Section>
       <Section width="narrow">
         <Grid items={2} noGapsOnMobile>
@@ -255,7 +255,7 @@ export default function Product() {
       </Section>
       <Section width="narrow">
         <Grid items={1} noGapsOnMobile>
-          <div className="items-center overflow-hidden rounded-2xl">
+          <div className="items-center">
             <Ingredients data={ingredients} />
           </div>
         </Grid>
@@ -335,9 +335,13 @@ export function ProductForm({
                 key={option.name}
                 className="flex flex-col flex-wrap mb-4 gap-y-2 last:mb-0"
               >
-                <Heading as="legend" size="lead" className="min-w-[4rem]">
+                <Text
+                  as="legend"
+                  size="text-sm"
+                  className="min-w-[4rem] font-medium"
+                >
                   {option.name}
-                </Heading>
+                </Text>
                 <div className="flex flex-wrap items-baseline gap-4">
                   {option.values.length > 7 ? (
                     <div className="relative w-full">
@@ -442,7 +446,7 @@ export function ProductForm({
               >
                 <Text
                   as="span"
-                  className="flex items-center justify-center gap-2"
+                  className="flex items-center justify-center gap-2 text-contrast"
                 >
                   <span>Add to Cart</span> <span>·</span>{' '}
                   <Money
@@ -479,18 +483,22 @@ function ProductDetail({
   title,
   content,
   learnMore,
+  isSmall,
 }: {
   title: string;
   content: string;
   learnMore?: string;
+  isSmall?: boolean;
 }) {
+  const textSize = isSmall ? 'text-sm' : 'text-base';
+  const className = isSmall ? 'font-medium uppercase' : 'font-normal';
   return (
     <Disclosure key={title} as="div" className="grid w-full gap-2">
       {({open}) => (
         <>
           <Disclosure.Button className="text-left">
             <div className="flex justify-between">
-              <Text size="lead" as="h4">
+              <Text size={textSize} className={className}>
                 {title}
               </Text>
               <IconClose
@@ -504,13 +512,13 @@ function ProductDetail({
 
           <Disclosure.Panel className={'pb-4 pt-2 grid gap-2'}>
             <div
-              className="prose dark:prose-invert"
+              className="prose"
               dangerouslySetInnerHTML={{__html: content}}
             />
             {learnMore && (
               <div className="">
                 <Link
-                  className="pb-px border-b border-primary/30 text-primary/50"
+                  className="pb-px border-b border-primary text-primary"
                   to={learnMore}
                 >
                   Learn more
