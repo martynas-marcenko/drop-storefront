@@ -44,7 +44,7 @@ export const WhyDrop = ({data, productGid}: Props) => {
 
   return (
     <div className="flex w-full flex-col">
-      <div className="sm-max:mb-sm mb-md">
+      <div className="sm-max:mb-xs mb-md">
         <Heading heading={headingText} />
       </div>
       <div className={gridClassName}>

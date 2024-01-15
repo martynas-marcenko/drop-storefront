@@ -25,7 +25,6 @@ export function Section({
   [key: string]: any;
 }) {
   const styles = clsx(
-    'md:gap-8',
     missingClass(className, '\\max-w-' || '\\w-') && widths[width],
     displays[display],
     missingClass(className, '\\mp[xy]?-') && paddings[padding],
@@ -37,7 +36,7 @@ export function Section({
     <Component {...props} className={styles}>
       {heading && (
         <>
-          <div className="sm-max:mb-sm mb-md">
+          <div className="sm-max:mb-xs mb-md">
             <Heading
               heading={heading}
               className={padding === 'y' ? paddings['x'] : ''}

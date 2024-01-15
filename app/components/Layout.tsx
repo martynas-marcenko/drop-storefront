@@ -556,7 +556,7 @@ function Footer({menu}: CustomMenu) {
                     <span className="font-medium">
                       Address <br />
                     </span>
-                    Dorphs Alle 10D,
+                    Dorphs Alle 10D
                   </Text>
                   <Text>2630 Taastrup, Denmark</Text>
                 </div>
@@ -586,7 +586,7 @@ function Footer({menu}: CustomMenu) {
         </div>
       </div>
       <div className="border-t grid grid-cols-1 items-start pt-6 pb-10 md:grid-cols-3 gap-y-3">
-        <div className="flex items-center max-md:justify-center space-x-2">
+        <div className="flex items-center justify-center space-x-2">
           <LovePin width={18} height={18} />
           <div className="text-sm text-primary">With love, from Copenhagen</div>
         </div>

@@ -110,7 +110,7 @@ export const Ingredients = ({data}: {data: ProductIngredients}) => {
   return (
     <>
       <div className="flex w-full flex-col">
-        <div className="sm-max:mb-sm mb-md">
+        <div className="sm-max:mb-xs mb-md">
           <Heading heading="Ingredients" />
         </div>
         <ul role="list" className="divide-y divide-gray-200">
