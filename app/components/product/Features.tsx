@@ -27,7 +27,7 @@ const Title = ({title}: {title: string}) => {
     <motion.div
       ref={containerRef}
       style={{translateX: xPosition, opacity: xOpacity}}
-      className="mb-xs"
+      className="mb-xxs"
     >
       <Text size="text-xl" className="font-medium">
         {title}
@@ -78,12 +78,12 @@ export const Features = ({features, numberOfReasonsTitle}: Props) => {
         <motion.div
           ref={containerRef}
           style={{opacity: xOpacity}}
-          className="sticky top-40 sm-max:mb-sm"
+          className="sticky top-40 sm-max:mb-xs mb-md"
         >
           <Heading heading={numberOfReasonsTitle} />
         </motion.div>
       </div>
-      <div className="grid gap-y-md">
+      <div className="grid sm-max:gap-y-sm gap-y-md">
         {features.map((feature) => (
           <div key={feature.title}>
             <Title title={feature.title} />

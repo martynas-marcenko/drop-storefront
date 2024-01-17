@@ -29,7 +29,7 @@ export function Story({data: {metaobject}, loading}: HeroProps) {
   return (
     <section
       className={clsx(
-        'relative justify-start flex flex-col w-full aspect-[2/3]',
+        'relative justify-start flex flex-col w-full aspect-[2/4] sm:aspect-[2/3] md:aspect-[1/1] lg:aspect-[4/3] xl:aspect-[5/3] 2xl:aspect-[2/1]',
       )}
     >
       <div className="absolute inset-0 grid flex-grow grid-flow-col pointer-events-none auto-cols-fr -z-10 content-stretch overflow-clip">
@@ -52,7 +52,7 @@ export function Story({data: {metaobject}, loading}: HeroProps) {
         {data.title && <Heading className="max-w-md" heading={data.title} />}
 
         {data?.body && (
-          <Text format width="narrow" as="p" size="text-xl">
+          <Text format width="narrow" as="p" size="text-base">
             {data.body}
           </Text>
         )}
