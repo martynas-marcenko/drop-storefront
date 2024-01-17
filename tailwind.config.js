@@ -13,16 +13,16 @@ export default {
         shopPay: 'rgb(var(--color-shop-pay) / <alpha-value>)',
       },
       screens: {
-        sm: '32em',
-        md: '48em',
-        lg: '64em',
-        xl: '80em',
-        '2xl': '96em',
-        'sm-max': {max: '48em'},
-        'sm-only': {min: '32em', max: '48em'},
-        'md-only': {min: '48em', max: '64em'},
-        'lg-only': {min: '64em', max: '80em'},
-        'xl-only': {min: '80em', max: '96em'},
+        sm: '32em', // 512px
+        md: '48em', // 768px
+        lg: '64em', // 1024px
+        xl: '80em', // 1280px
+        '2xl': '96em', // 1536px
+        'sm-max': {max: '48em'}, // 768px
+        'sm-only': {min: '32em', max: '48em'}, // 512px - 768px
+        'md-only': {min: '48em', max: '64em'}, // 768px - 1024px
+        'lg-only': {min: '64em', max: '80em'}, // 1024px - 1280px
+        'xl-only': {min: '80em', max: '96em'}, // 1280px - 1536px
         '2xl-only': {min: '96em'},
       },
       spacing: {
