@@ -6,11 +6,29 @@ type Blog = {
 
 export type Article = {
   publishedAt: Date;
-  author: {name: string; url?: string};
-  title: string;
+  author: {
+    name: string;
+    url?: string;
+    image?: {
+      altText: string;
+      url: string;
+      id: string;
+      width: number;
+      height: number;
+    };
+  };
+  title?: string;
   handle: string;
   contentHtml: any;
   id: string;
+  introText?: string;
+  mobileImage?: {
+    altText: string;
+    url: string;
+    id: string;
+    width: number;
+    height: number;
+  };
   image?: {
     altText: string;
     url: string;
@@ -25,13 +43,30 @@ export async function getBlog(): Promise<Blog> {
     title: 'Drop By Drop Journal',
     articles: [
       {
-        publishedAt: new Date('2023-01-11T00:00:00Z'),
-        author: {name: 'Jolanta Castiglioni'},
-        title:
-          'The Ultimate Guide to Choosing Face Oil for Dry Skin: What You Need to Know',
+        publishedAt: new Date('2024-01-11T00:00:00Z'),
+        author: {
+          name: 'Jolanta Castiglioni',
+          image: {
+            altText: 'Author Jolanta Castiglioni',
+            url: 'https://cdn.shopify.com/s/files/1/0315/6043/3802/files/jolanta.jpg?v=1629910000',
+            id: '1',
+            width: 250,
+            height: 250,
+          },
+        },
         handle: 'choosing-face-oil-dry-skin',
+        title:
+          'The Comprehensive Guide to Choosing the Perfect Face Oil for Dry Skin',
         contentHtml: 'placeholder',
         id: '1',
+        introText: `In this comprehensive guide, we're going to delve deep into the world of face oils, specifically tailored for those battling with dry skin.\n\nFirst, we'll explore why choosing the right face oil is crucial for managing and nourishing dry skin.\n\nThen, I'll show you how to pick the best face oil that'll make your skin go "ahh" and not "argh".\n\nExcited to transform your skincare routine? Let's dive right in..`,
+        mobileImage: {
+          altText: 'Choosing face oil for dry skin',
+          url: 'https://cdn.shopify.com/s/files/1/0315/6043/3802/files/mobile.jpg?v=1706699762',
+          id: '1',
+          width: 936,
+          height: 1404,
+        },
         image: {
           altText: 'Bloom Store',
           url: 'https://cdn.shopify.com/s/files/1/0315/6043/3802/files/bloom_store.jpg?v=1679490413',
@@ -39,6 +74,13 @@ export async function getBlog(): Promise<Blog> {
           width: 1000,
           height: 1000,
         },
+      },
+      {
+        publishedAt: new Date('2023-01-25T00:00:00Z'),
+        author: {name: 'Jolanta Castiglioni'},
+        handle: 'nmf-ageless-hydration',
+        contentHtml: 'placeholder',
+        id: '1',
       },
     ],
   };

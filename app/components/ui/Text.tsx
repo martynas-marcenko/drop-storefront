@@ -37,10 +37,20 @@ export function Text({
     'text-sm': 'text-sm',
     'text-base': 'text-base',
     'text-lg': 'text-lg',
-    'text-xl': 'text-xl font-medium',
-    'text-2xl': 'text-2xl font-medium',
-    'text-3xl': 'text-3xl font-bold',
-    'text-4xl': 'text-4xl font-bold',
+    'text-xl': 'text-xl',
+    'text-2xl': 'text-2xl',
+    'text-3xl': 'text-3xl',
+    'text-4xl': 'text-4xl',
+  };
+
+  const weights: Record<string, string> = {
+    'text-sm': 'font-normal',
+    'text-base': 'font-normal',
+    'text-lg': 'font-normal',
+    'text-xl': 'font-medium',
+    'text-2xl': 'font-medium',
+    'text-3xl': 'font-bold',
+    'text-4xl': 'font-bold',
   };
 
   const widths: Record<string, string> = {
@@ -53,6 +63,7 @@ export function Text({
     missingClass(className, 'max-w-') && widths[width],
     missingClass(className, 'whitespace-') && 'whitespace-pre-wrap',
     missingClass(className, 'text-') && colors[color],
+    missingClass(className, 'font-') && weights[size],
     sizes[size],
     className,
   );
