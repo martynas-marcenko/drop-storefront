@@ -43,7 +43,7 @@ export async function getBlog(): Promise<Blog> {
     title: 'Drop By Drop Journal',
     articles: [
       {
-        publishedAt: new Date('2024-01-11T00:00:00Z'),
+        publishedAt: new Date('2024-02-12T00:00:00Z'),
         author: {
           name: 'Jolanta Castiglioni',
           image: {
@@ -54,14 +54,13 @@ export async function getBlog(): Promise<Blog> {
             height: 250,
           },
         },
-        handle: 'choosing-face-oil-dry-skin',
-        title:
-          'The Comprehensive Guide to Choosing the Perfect Face Oil for Dry Skin',
+        handle: 'using-face-oils-dry-skin',
+        title: 'The Complete Guide to Using Face Oils for Dry Skin',
         contentHtml: 'placeholder',
         id: '1',
-        introText: `In this comprehensive guide, we're going to delve deep into the world of face oils, specifically tailored for those battling with dry skin.\n\nFirst, we'll explore why choosing the right face oil is crucial for managing and nourishing dry skin.\n\nThen, I'll show you how to pick the best face oil that'll make your skin go "ahh" and not "argh".\n\nExcited to transform your skincare routine? Let's dive right in..`,
+        introText: `In this guide, we're going to delve deep into the world of face oils, specifically tailored for those battling with dry skin.\n\nOur first step will involve a thorough understanding of dry skin—its causes, characteristics, and how it behaves.\n\nNext up, we'll explore why face oils are a game-changer for dry skin, unveiling their unique benefits and how they can transform your skin's health.\n\nThen, I'll show you how to pick the best face oil that'll make your skin go \"ahh\" and not \"argh\".\n\nAnd finally, we'll cover how to incorporate face oils into your skincare routine, maximizing their benefits for radiant, hydrated skin.\n\nExcited to transform your skincare routine? Let's dive right in..`,
         mobileImage: {
-          altText: 'Choosing face oil for dry skin',
+          altText: 'Using face oil for dry skin',
           url: 'https://cdn.shopify.com/s/files/1/0315/6043/3802/files/mobile.jpg?v=1706699762',
           id: '1',
           width: 936,
@@ -76,7 +75,7 @@ export async function getBlog(): Promise<Blog> {
         },
       },
       {
-        publishedAt: new Date('2023-01-25T00:00:00Z'),
+        publishedAt: new Date('2023-02-12T00:00:00Z'),
         author: {name: 'Jolanta Castiglioni'},
         handle: 'nmf-ageless-hydration',
         contentHtml: 'placeholder',

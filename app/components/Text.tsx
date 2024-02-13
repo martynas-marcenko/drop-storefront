@@ -179,6 +179,10 @@ export function PageHeader({
 
   const styles = clsx(variants[variant], className);
 
+  const stylesHeading = `inline-block text-balance ${
+    variant === 'blogPost' ? 'max-w-[640px]' : ''
+  }`;
+
   return (
     <header {...props} className={styles}>
       {heading && (
@@ -186,7 +190,7 @@ export function PageHeader({
           as="h1"
           width="narrow"
           size="heading"
-          className="inline-block text-balance"
+          className={stylesHeading}
         >
           {heading}
         </Heading>

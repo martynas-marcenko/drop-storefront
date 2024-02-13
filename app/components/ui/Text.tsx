@@ -3,6 +3,7 @@ import {missingClass, formatText} from '~/lib/utils';
 
 export function Text({
   as: Component = 'span',
+  id,
   className,
   color = 'text-gray-900',
   format,
@@ -13,6 +14,7 @@ export function Text({
 {
   as?: React.ElementType;
   className?: string;
+  id?: string;
   color?: 'text-gray-500' | 'text-gray-700' | 'text-gray-900';
   format?: boolean;
   size?:
@@ -69,7 +71,7 @@ export function Text({
   );
 
   return (
-    <Component className={styles}>
+    <Component id={id} className={styles}>
       {format ? formatText(children) : children}
     </Component>
   );

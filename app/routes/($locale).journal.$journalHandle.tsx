@@ -14,7 +14,7 @@ import {routeHeaders} from '~/data/cache';
 import {getBlog} from '~/data/blog/blog.server';
 import type {Article} from '~/data/blog/blog.server';
 import styles from '../styles/custom-font.css';
-import {ChoosingFaceOilDrySkin} from '~/data/blog/ChoosingFaceOilDrySkin';
+import {UsingUnrefinedOilDrySkin} from '~/data/blog/UsingFaceOilDrySkin';
 import {NaturalMoisturizingFactor} from '~/data/blog/NaturalMoisturizingFactor';
 import Markdown from 'react-markdown';
 
@@ -29,8 +29,8 @@ type BlogPostComponents = {
 };
 
 export const blogPostComponents: BlogPostComponents = {
-  'choosing-face-oil-dry-skin': ChoosingFaceOilDrySkin,
-  'nmf-ageless-hydration': NaturalMoisturizingFactor,
+  'using-face-oils-dry-skin': UsingUnrefinedOilDrySkin,
+  //'nmf-ageless-hydration': NaturalMoisturizingFactor,
   // Add other blog posts here
 };
 
@@ -85,13 +85,13 @@ export default function Article() {
             Last updated {formattedDate}
           </time>
           {introText && (
-            <div className="text-left mb-sm [&>p]:mb-sm max-w-screen-sm	border-t border-gray-900/10 mt-sm pt-sm">
+            <div className="text-left mb-sm [&>p]:mb-sm max-w-prose	border-t border-gray-900/10 mt-sm pt-sm">
               <Text size="text-lg" className="font-serif">
                 <Markdown>{introText}</Markdown>
               </Text>
             </div>
           )}
-          <div className="w-full max-w-screen-sm flex justify-start">
+          <div className="w-full max-w-prose flex justify-start">
             <div className="flex justify-start items-center gap-xxs">
               {image && (
                 <div className="w-[32px] h-[32px]">
