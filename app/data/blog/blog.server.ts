@@ -44,6 +44,11 @@ export async function getBlog(): Promise<Blog> {
     articles: [
       {
         publishedAt: new Date('2024-02-12T00:00:00Z'),
+        handle: 'using-face-oils-dry-skin',
+        title: 'The Complete Guide to Using Face Oils for Dry Skin',
+        contentHtml: 'placeholder',
+        id: '1',
+        introText: `In this guide, we're going to delve deep into the world of face oils, specifically tailored for those battling with dry skin.\n\nOur first step will involve a thorough understanding of dry skin—its causes, characteristics, and how it behaves.\n\nNext up, we'll explore why face oils are a game-changer for dry skin, unveiling their unique benefits and how they can transform your skin's health.\n\nThen, I'll show you how to pick the best face oil that'll make your skin go \"ahh\" and not \"argh\".\n\nAnd finally, we'll cover how to incorporate face oils into your skincare routine, maximizing their benefits for radiant, hydrated skin.\n\nExcited to transform your skincare routine? Let's dive right in..`,
         author: {
           name: 'Jolanta Castiglioni',
           image: {
@@ -54,11 +59,6 @@ export async function getBlog(): Promise<Blog> {
             height: 250,
           },
         },
-        handle: 'using-face-oils-dry-skin',
-        title: 'The Complete Guide to Using Face Oils for Dry Skin',
-        contentHtml: 'placeholder',
-        id: '1',
-        introText: `In this guide, we're going to delve deep into the world of face oils, specifically tailored for those battling with dry skin.\n\nOur first step will involve a thorough understanding of dry skin—its causes, characteristics, and how it behaves.\n\nNext up, we'll explore why face oils are a game-changer for dry skin, unveiling their unique benefits and how they can transform your skin's health.\n\nThen, I'll show you how to pick the best face oil that'll make your skin go \"ahh\" and not \"argh\".\n\nAnd finally, we'll cover how to incorporate face oils into your skincare routine, maximizing their benefits for radiant, hydrated skin.\n\nExcited to transform your skincare routine? Let's dive right in..`,
         mobileImage: {
           altText: 'Using face oil for dry skin',
           url: 'https://cdn.shopify.com/s/files/1/0315/6043/3802/files/mobile.jpg?v=1706699762',
@@ -73,13 +73,6 @@ export async function getBlog(): Promise<Blog> {
           width: 1000,
           height: 1000,
         },
-      },
-      {
-        publishedAt: new Date('2023-02-12T00:00:00Z'),
-        author: {name: 'Jolanta Castiglioni'},
-        handle: 'nmf-ageless-hydration',
-        contentHtml: 'placeholder',
-        id: '1',
       },
     ],
   };

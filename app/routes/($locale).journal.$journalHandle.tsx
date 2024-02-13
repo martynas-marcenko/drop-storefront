@@ -30,8 +30,6 @@ type BlogPostComponents = {
 
 export const blogPostComponents: BlogPostComponents = {
   'using-face-oils-dry-skin': UsingUnrefinedOilDrySkin,
-  //'nmf-ageless-hydration': NaturalMoisturizingFactor,
-  // Add other blog posts here
 };
 
 function getBlogPostComponentByHandle(handle: string) {

@@ -87,14 +87,6 @@ const drySkinGuide = {
   },
 };
 
-const DesktopContents = () => {
-  return (
-    <div className="absolute top-0 bottom-0 right-[max(12px,calc(50%-45rem))] w-[19.5rem] py-10 overflow-y-auto  bg-red-600">
-      absolute sidebar
-    </div>
-  );
-};
-
 const Contents = () => {
   return (
     <Section
