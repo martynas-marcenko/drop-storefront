@@ -39,12 +39,12 @@ function getBlogPostComponentByHandle(handle: string) {
 export async function loader({request, params, context}: LoaderFunctionArgs) {
   const {language, country} = context.storefront.i18n;
 
-  invariant(params.journalHandle, 'Missing journal handle');
+  invariant(params.blogHandle, 'Missing blog handle');
 
   const blog = await getBlog();
 
   const article = blog.articles.find(
-    (article) => article.handle === params.journalHandle,
+    (article) => article.handle === params.blogHandle,
   );
 
   if (!article) {
@@ -69,7 +69,7 @@ export async function loader({request, params, context}: LoaderFunctionArgs) {
 
 export default function Article() {
   const {article, formattedDate} = useLoaderData<typeof loader>();
-  const {title, image, mobileImage, introText, author} = article;
+  const {title, bgImage, introText, author} = article;
   const BlogPostComponent = getBlogPostComponentByHandle(article.handle);
 
   return (
@@ -77,7 +77,7 @@ export default function Article() {
       <PageHeader className="relative" heading={title} variant="blogPost">
         <div className="flex flex-col w-full items-center">
           <div className="absolute inset-0 grid flex-grow grid-flow-col pointer-events-none auto-cols-fr -z-10 content-stretch overflow-clip">
-            <Image data={mobileImage} loading="eager" />
+            <Image data={bgImage} loading="eager" />
           </div>
           <time dateTime={article?.publishedAt}>
             Last updated {formattedDate}
@@ -91,7 +91,7 @@ export default function Article() {
           )}
           <div className="w-full max-w-prose flex justify-start">
             <div className="flex justify-start items-center gap-xxs">
-              {image && (
+              {author?.image && (
                 <div className="w-[32px] h-[32px]">
                   <Image
                     data={author?.image}

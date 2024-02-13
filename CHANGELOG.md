@@ -433,9 +433,9 @@
         │   ├─ index.tsx
         │   ├─ $collectionHandle.tsx
         │   └─ all.tsx
-        ├─ journal/
+        ├─ blog/
         │   ├─ index.tsx
-        │   └─ $journalHandle.tsx
+        │   └─ $blogHandle.tsx
         ├─ pages
         │   └─ $pageHandle.tsx
         ├─ policies/
@@ -476,8 +476,8 @@
     ├─ ($lang).collections._index.tsx
     ├─ ($lang).collections.$collectionHandle.tsx
     ├─ ($lang).collections.all.tsx
-    ├─ ($lang).journal._index.tsx
-    ├─ ($lang).journal.$journalHandle.tsx
+    ├─ ($lang).blog._index.tsx
+    ├─ ($lang).blog.$blogHandle.tsx
     ├─ ($lang).pages.$pageHandle.tsx
     ├─ ($lang).policies._index.tsx
     ├─ ($lang).policies.$policyHandle.tsx

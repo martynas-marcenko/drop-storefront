@@ -46,7 +46,15 @@ const extraHeaderMenu = [
     isExternal: false,
     title: 'Our Story',
     target: '_self',
-    to: '/about-us',
+    to: '/about',
+    type: 'PAGE',
+  },
+  {
+    id: 'blog_a5d8950a-e640-4d9d-86ae-1fb0024a8444',
+    isExternal: false,
+    title: 'Blog',
+    target: '_self',
+    to: '/blog',
     type: 'PAGE',
   },
   // {
@@ -65,7 +73,7 @@ const footerMenu = [
     isExternal: false,
     title: 'Our Story',
     target: '_self',
-    to: '/about-us',
+    to: '/about',
     type: 'PAGE',
   },
   {
@@ -233,6 +241,22 @@ function MenuMobileNav({
           </Link>
         </span>
       ))}
+      {(extraHeaderMenu || []).map((item) => (
+        <span key={item.id} className="block">
+          <Link
+            to={item.to}
+            target={item.target}
+            onClick={onClose}
+            className={({isActive}) =>
+              isActive ? 'pb-1 border-b -mb-px' : 'pb-1'
+            }
+          >
+            <Text as="span" size="copy">
+              {item.title}
+            </Text>
+          </Link>
+        </span>
+      ))}
     </nav>
   );
 }
@@ -292,14 +316,12 @@ function MobileHeader({
           />
         </Form>
       </div>
-
       <Link
         className="flex items-center self-stretch leading-[3rem] md:leading-[4rem] justify-center flex-grow w-full h-full"
         to="/"
       >
         <Logo className="h-8" />
       </Link>
-
       <div className="flex items-center justify-end w-full gap-4">
         <AccountLink className="relative flex items-center justify-center w-8 h-8" />
         <CartCount isHome={isHome} openCart={openCart} />

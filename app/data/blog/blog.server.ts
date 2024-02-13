@@ -22,7 +22,7 @@ export type Article = {
   contentHtml: any;
   id: string;
   introText?: string;
-  mobileImage?: {
+  bgImage?: {
     altText: string;
     url: string;
     id: string;
@@ -40,7 +40,7 @@ export type Article = {
 
 export async function getBlog(): Promise<Blog> {
   const blog: Blog = {
-    title: 'Drop By Drop Journal',
+    title: 'Drop By Drop blog',
     articles: [
       {
         publishedAt: new Date('2024-02-12T00:00:00Z'),
@@ -59,7 +59,7 @@ export async function getBlog(): Promise<Blog> {
             height: 250,
           },
         },
-        mobileImage: {
+        bgImage: {
           altText: 'Using face oil for dry skin',
           url: 'https://cdn.shopify.com/s/files/1/0315/6043/3802/files/mobile.jpg?v=1706699762',
           id: '1',
@@ -67,11 +67,11 @@ export async function getBlog(): Promise<Blog> {
           height: 1404,
         },
         image: {
-          altText: 'Bloom Store',
-          url: 'https://cdn.shopify.com/s/files/1/0315/6043/3802/files/bloom_store.jpg?v=1679490413',
+          altText: 'Using face oil for dry skin thumbnail',
+          url: 'https://cdn.shopify.com/s/files/1/0315/6043/3802/files/martynas9051_woman_in_her_50s_close_to_her_eyes_close_up_photor_5b4ac7ce-d193-4449-987c-3ee3ee6e7fd7.png?v=1707130289',
           id: '1',
-          width: 1000,
-          height: 1000,
+          width: 500,
+          height: 500,
         },
       },
     ],

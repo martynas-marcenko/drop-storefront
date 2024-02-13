@@ -486,7 +486,7 @@ const Routine = () => {
           creating a personalized, instant cream. This isn't just any cream –
           it's tailor-made by you, for you, right there on your face.
         </Text>
-        <Text size="text-lg" as="p" className="mb-sm font-serif">
+        <Text size="text-lg" as="p" className="font-serif">
           The best part? It sinks into your skin just as easily as your go-to
           cream, brings a little hydration boost and all the soothing vibes from
           your oil and hydrolat combo. It's like a mini spa moment every time
@@ -746,6 +746,9 @@ const End = () => {
       className="flex flex-col items-center justify-center text-center pt-0"
     >
       <div className="text-left max-w-prose">
+        <div className="text-pretty mb-sm" id="understanding-dry-skin">
+          <Heading heading="Conclusion" />
+        </div>
         <Text size="text-lg" as="p" className="mb-sm font-serif">
           And there you have it, your complete guide to embracing the natural
           benefits of face oils for dry skin.
