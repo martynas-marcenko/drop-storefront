@@ -320,19 +320,22 @@ function listCollections({
   };
 }
 
+type ExtendedArticle = Pick<
+  Article,
+  'contentHtml' | 'seo' | 'publishedAt' | 'excerpt'
+> & {
+  title?: string; // Making title optional
+  image?: null | Pick<
+    NonNullable<Article['image']>,
+    'url' | 'height' | 'width' | 'altText'
+  >;
+};
+
 function article({
   article,
   url,
 }: {
-  article: Pick<
-    Article,
-    'title' | 'contentHtml' | 'seo' | 'publishedAt' | 'excerpt'
-  > & {
-    image?: null | Pick<
-      NonNullable<Article['image']>,
-      'url' | 'height' | 'width' | 'altText'
-    >;
-  };
+  article: ExtendedArticle;
   url: Request['url'];
 }): SeoConfig<SeoArticle> {
   return {

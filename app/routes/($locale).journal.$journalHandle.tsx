@@ -7,13 +7,16 @@ import {useLoaderData} from '@remix-run/react';
 import {Image} from '@shopify/hydrogen';
 import invariant from 'tiny-invariant';
 
-import {PageHeader, Section} from '~/components';
+import {PageHeader} from '~/components';
+import {Text} from '~/components/ui';
 import {seoPayload} from '~/lib/seo.server';
 import {routeHeaders} from '~/data/cache';
 import {getBlog} from '~/data/blog/blog.server';
-import styles from '../styles/custom-font.css';
 import type {Article} from '~/data/blog/blog.server';
-import ChoosingFaceOilDrySkin from '~/data/blog/choosing-face-oil-dry-skin.mdx';
+import styles from '../styles/custom-font.css';
+import {UsingUnrefinedOilDrySkin} from '~/data/blog/UsingFaceOilDrySkin';
+import {NaturalMoisturizingFactor} from '~/data/blog/NaturalMoisturizingFactor';
+import Markdown from 'react-markdown';
 
 export const headers = routeHeaders;
 
@@ -25,9 +28,8 @@ type BlogPostComponents = {
   [key: string]: React.ComponentType<any>;
 };
 
-const blogPostComponents: BlogPostComponents = {
-  'choosing-face-oil-dry-skin': ChoosingFaceOilDrySkin,
-  // Add other blog posts here
+export const blogPostComponents: BlogPostComponents = {
+  'using-face-oils-dry-skin': UsingUnrefinedOilDrySkin,
 };
 
 function getBlogPostComponentByHandle(handle: string) {
@@ -67,27 +69,50 @@ export async function loader({request, params, context}: LoaderFunctionArgs) {
 
 export default function Article() {
   const {article, formattedDate} = useLoaderData<typeof loader>();
-  const {title, image, author} = article;
+  const {title, image, mobileImage, introText, author} = article;
   const BlogPostComponent = getBlogPostComponentByHandle(article.handle);
 
   return (
     <>
-      <PageHeader heading={title} variant="blogPost">
-        <span>
-          {formattedDate} &middot; {author?.name}
-        </span>
+      <PageHeader className="relative" heading={title} variant="blogPost">
+        <div className="flex flex-col w-full items-center">
+          <div className="absolute inset-0 grid flex-grow grid-flow-col pointer-events-none auto-cols-fr -z-10 content-stretch overflow-clip">
+            <Image data={mobileImage} loading="eager" />
+          </div>
+          <time dateTime={article?.publishedAt}>
+            Last updated {formattedDate}
+          </time>
+          {introText && (
+            <div className="text-left mb-sm [&>p]:mb-sm max-w-prose	border-t border-gray-900/10 mt-sm pt-sm">
+              <Text size="text-lg" className="font-serif">
+                <Markdown>{introText}</Markdown>
+              </Text>
+            </div>
+          )}
+          <div className="w-full max-w-prose flex justify-start">
+            <div className="flex justify-start items-center gap-xxs">
+              {image && (
+                <div className="w-[32px] h-[32px]">
+                  <Image
+                    data={author?.image}
+                    className="rounded-full"
+                    loading="eager"
+                  />
+                </div>
+              )}
+              <address className="text-sm">
+                Written by{' '}
+                <a rel="author" href="/about">
+                  {author?.name}
+                </a>
+              </address>
+            </div>
+          </div>
+        </div>
       </PageHeader>
-      <Section as="article" padding="x">
-        {image && (
-          <Image
-            data={image}
-            className="w-full mx-auto mt-8 md:mt-16 max-w-7xl"
-            sizes="90vw"
-            loading="eager"
-          />
-        )}
+      <article>
         <BlogPostComponent />
-      </Section>
+      </article>
     </>
   );
 }

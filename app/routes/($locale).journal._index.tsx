@@ -3,7 +3,7 @@ import {getBlog} from '~/data/blog/blog.server';
 import {useLoaderData} from '@remix-run/react';
 import {seoPayload} from '~/lib/seo.server';
 import {Grid, PageHeader, Section, Link} from '~/components';
-import {flattenConnection, Image} from '@shopify/hydrogen';
+import {Image} from '@shopify/hydrogen';
 import {getImageLoadingPriority, PAGINATION_SIZE} from '~/lib/const';
 import type {Article} from '~/data/blog/blog.server';
 
