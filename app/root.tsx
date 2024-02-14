@@ -18,7 +18,8 @@ import {
   useRouteError,
   type ShouldRevalidateFunction,
 } from '@remix-run/react';
-import {ShopifySalesChannel, Seo, useNonce} from '@shopify/hydrogen';
+
+import {ShopifySalesChannel, Seo, useNonce, Script} from '@shopify/hydrogen';
 import invariant from 'tiny-invariant';
 
 import {Layout} from '~/components';
@@ -118,6 +119,17 @@ export default function App() {
         >
           <Outlet />
         </Layout>
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-XQVRF3QTV6" />
+        <Script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-XQVRF3QTV6');
+            `,
+          }}
+        />
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
         <LiveReload nonce={nonce} />
