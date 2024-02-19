@@ -22,7 +22,7 @@ import {
 import {ShopifySalesChannel, Seo, useNonce, Script} from '@shopify/hydrogen';
 import invariant from 'tiny-invariant';
 
-import {Layout} from '~/components';
+import {Layout, GoogleTagManager} from '~/components';
 import {seoPayload} from '~/lib/seo.server';
 
 import favicon from '../public/favicon.svg';
@@ -91,6 +91,7 @@ export async function loader({request, context}: LoaderFunctionArgs) {
       shopId: layout.shop.id,
     },
     seo,
+    gtmContainerId: context.env.GTM_CONTAINER_ID,
   });
 }
 
@@ -99,7 +100,6 @@ export default function App() {
   const data = useLoaderData<typeof loader>();
   const locale = data.selectedLocale ?? DEFAULT_LOCALE;
   const hasUserConsent = true;
-
   useAnalytics(hasUserConsent);
 
   return (
@@ -119,17 +119,21 @@ export default function App() {
         >
           <Outlet />
         </Layout>
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-XQVRF3QTV6" />
         <Script
           dangerouslySetInnerHTML={{
             __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-XQVRF3QTV6');
+              dataLayer = window.dataLayer || [];
+
+              window.gtag = function () {
+                dataLayer.push(arguments);
+              };
+
+              window.gtag('js', new Date());
+              window.gtag('config', "${data.gtmContainerId}");
             `,
           }}
         />
+        <GoogleTagManager gtmContainerId={data.gtmContainerId} />
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
         <LiveReload nonce={nonce} />

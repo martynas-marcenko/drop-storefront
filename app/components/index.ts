@@ -22,4 +22,6 @@ export {Grid} from './Grid';
 export {FeaturedProducts} from './FeaturedProducts';
 export {AddToCartButton} from './AddToCartButton';
 export {TableOfContent} from './TableOfContent';
+export {GoogleTagManager} from './GoogleTagManager';
+
 export * from './Icon';
