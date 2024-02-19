@@ -17,8 +17,17 @@ export default async function handleRequest(
       "'self'",
       'https://cdn.shopify.com',
       'https://www.googletagmanager.com',
+      'https://google-analytics.com',
+      'https://region1.google-analytics.com',
       'http://localhost:3100/',
       'https://dropbydrop.co',
+    ],
+    connectSrc: [
+      "'self'",
+      'https://monorail-edge.shopifysvc.com',
+      'localhost:* ws://localhost:*',
+      'ws://127.0.0.1:*',
+      'https://region1.google-analytics.com',
     ],
   });
   const body = await renderToReadableStream(
