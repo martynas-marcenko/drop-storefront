@@ -32,6 +32,7 @@ import {NotFound} from './components/NotFound';
 import styles from './styles/app.css';
 import {DEFAULT_LOCALE, parseMenu} from './lib/utils';
 import {useAnalytics} from './hooks/useAnalytics';
+import {GoogleTagManager} from './components/GoogleTagManager';
 
 // This is important to avoid re-fetching root queries on sub-navigations
 export const shouldRevalidate: ShouldRevalidateFunction = ({
@@ -100,8 +101,6 @@ export default function App() {
   const data = useLoaderData<typeof loader>();
   const locale = data.selectedLocale ?? DEFAULT_LOCALE;
   const hasUserConsent = true;
-  // const {gtmContainerId} = useLoaderData<typeof loader>();
-
   useAnalytics(hasUserConsent);
 
   return (
