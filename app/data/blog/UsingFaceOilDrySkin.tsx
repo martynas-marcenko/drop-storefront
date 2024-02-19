@@ -37,10 +37,10 @@ const drySkinGuide = {
       },
     ],
   },
-  whyFaceOilsRockForDrySkin: {
+  whyFaceOilsExcellentForDrySkin: {
     title: {
-      text: 'Why Face Oils Rock for Dry Skin',
-      href: 'why-face-oils-rock-for-dry-skin',
+      text: 'Why Face Oils Excellent for Dry Skin',
+      href: 'why-face-oils-excellent-for-dry-skin',
     },
     content: [
       {
@@ -80,8 +80,8 @@ const drySkinGuide = {
         href: 'how-to-choose-the-right-oil',
       },
       {
-        text: 'How to Use Oils in Your Skincare Routine for Dry Skin',
-        href: 'how-to-use-oils-in-your-skincare-routine-for-dry-skin',
+        text: 'The Uiltimate Trick for Using Face Oil',
+        href: 'the-ultimate-trick-for-using-face-oil',
       },
     ],
   },
@@ -148,8 +148,11 @@ const WhyFaceOils = () => {
       className="flex flex-col items-center justify-center text-center"
     >
       <div className="text-left max-w-prose">
-        <div className="text-pretty mb-sm" id="why-face-oils-rock-for-dry-skin">
-          <Heading heading="Why Face Oils Rock for Dry Skin" />
+        <div
+          className="text-pretty mb-sm"
+          id="why-face-oils-excellent-for-dry-skin"
+        >
+          <Heading heading="Why Face Oils Are Excellent for Dry Skin" />
         </div>
         <Text size="text-lg" as="p" className="mb-sm font-serif">
           Face oils are not just a trend; they're a game-changer for anyone
@@ -185,7 +188,7 @@ const WhyFaceOils = () => {
           </Text>
         </div>
         <Text size="text-lg" as="p" className="mb-sm font-serif">
-          Plant oils bring back all the good stuff your skin loves, fats
+          Plant oils bring back all the good elements your skin loves, fats
           (triglycerides), special acids (essential fatty acids), ceramides,
           cholesterol, and squalene, helping to repair and strengthen your
           skin's barrier.
@@ -244,22 +247,14 @@ const WhyFaceOils = () => {
           The fact is, that unrefined, natural vegetable oils have natural get
           along really well with the sebum (your skin's natural oil). When they
           mix, they create this harmonious blend that effortlessly breaks down
-          and sweeps away dirt and impurities from your pores. Cool, right? This
-          is actually the magic behind the well-loved oil cleansing method.
+          and sweeps away dirt and impurities from your pores. Fascinating,
+          isn't it? This is actually the magic behind the well-loved oil
+          cleansing method.
         </Text>
         <Text size="text-lg" as="p" className="mb-sm font-serif">
           Plus, these natural oils don't hang around on your skin. They get
           absorbed and break down quickly, ensuring your skin keeps on renewing
           itself just as it should.
-        </Text>
-        <Text size="text-lg" as="p" className="mb-sm font-serif">
-          <span className="font-bold">The Not-So-Great Oils: </span>Now, let's
-          flip the coin. Mineral oils, paraffin, and processed, refined
-          vegetable fats - these tend to coat your skin, forming a barrier that
-          can trap unwanted elements you don't want, like dirt and old skin
-          cells. These are the usual suspects in clogged pores, and you'll often
-          find them in products that are easy on the wallet but tough on your
-          skin.
         </Text>
         <div className="flex text-pretty mb-xs mt-sm">
           <Text
@@ -300,7 +295,7 @@ const HowChooseFaceOilForDrySkin = () => {
           It's crucial to pick the right oil. High-quality, unrefined oils are
           packed with vitamins A and E, fatty acids, and ceramides, squalene,
           antioxidants that not only nourish your skin but also help it heal and
-          glow. It's like feeding your skin all the best stuff!
+          glow. It's like feeding your skin with all the optimal nutrients!
         </Text>
 
         <div className="flex text-pretty mb-xs mt-sm">
@@ -434,34 +429,11 @@ const Routine = () => {
         </Text>
         <div className="flex text-pretty mb-xs mt-sm">
           <Text
-            id="how-to-use-oils-in-your-skincare-routine-for-dry-skin"
+            id="the-ultimate-trick-for-using-face-oil"
             size="text-xl"
             as="p"
             className="font-bold"
           >
-            How to Use Oils in Your Skincare Routine for Dry Skin
-          </Text>
-        </div>
-        <Text size="text-lg" as="p" className="mb-sm font-serif">
-          First up, begin with cleansing your face. You can use the oil
-          cleansing method, which is fantastic for many, but if that's not your
-          thing, any gentle cleanser will do the job. The key is to start with a
-          clean, fresh base.
-        </Text>
-        <Text size="text-lg" as="p" className="mb-sm font-serif">
-          Next, if you're a fan of toners, mists, essences, or hydrolats, go
-          ahead and apply them. If not, no problem – just leave your face a bit
-          damp after cleansing. This step is great because it helps your skin
-          absorb the oil more effectively and ensures even distribution.
-        </Text>
-        <Text size="text-lg" as="p" className="mb-sm font-serif">
-          Now, for the main event: apply your chosen oil. Take about 2-5 drops
-          and gently massage it into your skin. The warmth of your hands
-          actually helps the oil penetrate deeper into your skin, maximizing
-          hydration and nourishment. Give extra attention to any drier areas.
-        </Text>
-        <div className="flex text-pretty mb-xs mt-sm">
-          <Text size="text-xl" as="p" className="font-bold">
             Skin Care Hack: The Ultimate Trick for Using Face Oil
           </Text>
         </div>
@@ -480,11 +452,11 @@ const Routine = () => {
           Gently massage it over your still-damp skin. Feels nice, right?
         </Text>
         <Text size="text-lg" as="p" className="mb-sm font-serif">
-          Here’s where the cool part comes in: Your own skin sebum (fancy word
-          for the oil your skin naturally makes) kicks in like a mini skincare
-          chemist. It blends with the face oil and the water on your skin,
-          creating a personalized, instant cream. This isn't just any cream –
-          it's tailor-made by you, for you, right there on your face.
+          Here’s where the fascinating part comes in: Your own skin sebum (fancy
+          word for the oil your skin naturally makes) kicks in like a mini
+          skincare chemist. It blends with the face oil and the water on your
+          skin, creating a personalized, instant cream. This isn't just any
+          cream – it's tailor-made by you, for you, right there on your face.
         </Text>
         <Text size="text-lg" as="p" className="font-serif">
           The best part? It sinks into your skin just as easily as your go-to
@@ -539,8 +511,7 @@ const WhatIsDrySkin = () => {
           Moisture Regulation
         </Text>
         <Text size="text-lg" as="p" className="mb-sm font-serif">
-          But have you ever wondered what makes your skin this way? (feel dry or
-          stay moisturized)? (Let's figure it out!)
+          But have you ever wondered what makes your skin this way?
         </Text>
         <Text size="text-lg" as="p" className="mb-sm font-serif">
           The skin is like a friendly gatekeeper that's not super strict. It
@@ -571,14 +542,15 @@ const WhatIsDrySkin = () => {
               <span className="font-bold">
                 Natural Moisturising Factor (NMF):
               </span>{' '}
-              These are like the skin's own hydrating crew, made up of stuff
+              These are like the skin's own hydrating crew, made up of elements
               that pulls in and holds onto water to keep the skin soft and
               flexible.
             </li>
             <li>
-              <span className="font-bold">Intercellular Lipids:</span> Think of
-              these as the skin's sealing wax. They lock moisture in and keep
-              the water loss in check, making sure our skin doesn't get too dry.
+              <span className="font-bold">Intercellular Lipids:</span> View
+              these as the skin's moisture-preserving shield. They lock moisture
+              in and keep the water loss in check, making sure our skin doesn't
+              get too dry.
             </li>
           </ul>
         </Text>
@@ -587,7 +559,7 @@ const WhatIsDrySkin = () => {
         </div>
         <Text as="p" size="text-sm" className="mb-sm mt-1">
           Close-Up Illustration of Skin's Hydration Elements: Intercellular
-          Lipids and Natural Moisturizing Factor (NMF)
+          Lipids and Natural Moisturizing Factor (NMF).
         </Text>
         <Text size="text-lg" as="p" className="mb-sm font-serif">
           Both these heroes work together to make sure our skin stays just the
@@ -603,7 +575,7 @@ const WhatIsDrySkin = () => {
           NMF and intercellular lipids are its perfect partner. While NMF grabs
           and holds onto water inside the dead skin cells, intercellular lipids
           make sure this moisture stays put. They work together to keep your
-          skin hydrated and healthy. (Kartojasi?)
+          skin hydrated and healthy.
         </Text>
         <Text size="text-lg" as="p" className="mb-xs font-serif">
           Several factors can diminish NMF and Intercellular Lipids, such as:
@@ -729,10 +701,13 @@ const WhatIsDrySkin = () => {
           is craving some hydration. This simple test can be quite telling!
         </Text>
         <Text size="text-lg" as="p" className="font-serif">
-          This distinction is important for selecting the right skincare
-          products. It's all about finding what best satisfies your skin's
-          specific needs, and we'll delve deeper into this in the upcoming
-          section.
+          Knowing whether your skin lacks oil (dry skin) or water (dehydrated
+          skin) helps in selecting products with ingredients that address the
+          specific issue. For dry skin, you'd focus on oil-based moisturizers
+          that replenish the skin's natural oils. For dehydrated skin, you'd opt
+          for water-based hydrators that are water-based to boost the skin's
+          hydration levels, such as utilizing Hyaluronic Acid as a prime
+          example.
         </Text>
       </div>
     </Section>
