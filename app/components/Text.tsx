@@ -161,23 +161,34 @@ export function PageHeader({
   className,
   heading,
   variant = 'default',
+  padding = 'all',
   ...props
 }: {
   children?: React.ReactNode;
   className?: string;
   heading?: string;
   variant?: 'default' | 'blogPost' | 'allCollections';
+  padding?: 'x' | 'y' | 'all' | 'none';
   [key: string]: any;
 }) {
   const variants: Record<string, string> = {
-    default: 'grid w-full gap-8 p-6 py-8 md:p-8 lg:p-12 justify-items-start',
-    blogPost:
-      'grid text-center w-full gap-6 p-6 py-8 md:p-8 lg:p-12 md:justify-items-center',
-    allCollections:
-      'flex justify-between items-baseline gap-8 p-6 md:p-8 lg:p-12',
+    default: 'grid w-full gap-8  justify-items-start',
+    blogPost: 'grid text-center w-full gap-6 md:justify-items-center',
+    allCollections: 'flex justify-between items-baseline gap-8',
   };
 
-  const styles = clsx(variants[variant], className);
+  const paddings = {
+    x: 'px-6 md:px-8 lg:px-12',
+    y: 'py-6 md:py-8 lg:py-12',
+    all: 'p-6 md:p-8 lg:p-12',
+    none: 'p-0',
+  };
+
+  const styles = clsx(
+    variants[variant],
+    missingClass(className, '\\mp[xy]?-') && paddings[padding],
+    className,
+  );
 
   const stylesHeading = `inline-block text-balance ${
     variant === 'blogPost' ? 'max-w-[640px]' : ''
