@@ -31,7 +31,7 @@ function root({
 }): SeoConfig<Organization> {
   return {
     title: shop?.name,
-    titleTemplate: '%s | Drop By Drop Store',
+    titleTemplate: '%s | Store',
     description: truncate(shop?.description ?? ''),
     handle: '@shopify',
     url,
@@ -64,7 +64,7 @@ function root({
 function home(): SeoConfig<WebPage> {
   return {
     title: 'Home',
-    titleTemplate: '%s | Drop By Drop Store',
+    titleTemplate: '%s | Store',
     description: 'Organic skincare',
     robots: {
       noIndex: false,
@@ -408,6 +408,28 @@ function page({
   };
 }
 
+function glossary({
+  title,
+  url,
+  description,
+}: {
+  title: string;
+  description: string;
+  url: Request['url'];
+}): SeoConfig<WebPage> {
+  return {
+    title: title || '',
+    description: truncate(description || ''),
+    titleTemplate: '%s | Glossary',
+    url,
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: title,
+    },
+  };
+}
+
 function policy({
   policy,
   url,
@@ -469,6 +491,7 @@ export const seoPayload = {
   home,
   listCollections,
   page,
+  glossary,
   policies,
   policy,
   product,
