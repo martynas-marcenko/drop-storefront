@@ -17,7 +17,7 @@ function IngredientsDialog({
   const {imgSrc, title, scientificName} = data;
 
   return (
-    <Drawer open={isOpen} onClose={onClose} heading="Cart" openFrom="right">
+    <Drawer open={isOpen} onClose={onClose} heading={title} openFrom="right">
       <div className="grid">
         <div className="flex flex-col">
           <div className="flex-shrink-0">

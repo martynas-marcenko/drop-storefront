@@ -44,15 +44,19 @@ import {
   HowTo,
   WhyDrop,
   Faq,
+  Reviews,
 } from '~/components/product';
 
-import {getExcerpt} from '~/lib/utils';
 import {seoPayload} from '~/lib/seo.server';
 import type {Storefront} from '~/lib/type';
 import {routeHeaders} from '~/data/cache';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {getProductDetails} from '~/data/productDetails/productDetails.server';
-import type {ProductDetails, ProductGid} from '~/lib/product-types';
+import type {
+  ProductDetails,
+  ProductGid,
+  ReviewsData,
+} from '~/lib/product-types';
 import styles from '~/styles/product-page.css';
 
 export const headers = routeHeaders;
@@ -99,7 +103,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
   });
 
   const recommended = getRecommendedProducts(context.storefront, product.id);
-
+  const productReviews = getProductReviews(context.storefront, product.id);
   // TODO: firstVariant is never used because we will always have a selectedVariant due to redirect
   // Investigate if we can avoid the redirect for product pages with no search params for first variant
   const firstVariant = product.variants.nodes[0];
@@ -123,6 +127,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
   return defer({
     variants,
     product,
+    productReviews,
     productDetails,
     shop,
     storeDomain: shop.primaryDomain.url,
@@ -157,15 +162,15 @@ function redirectToFirstVariant({
 }
 
 export default function Product() {
-  const {product, productDetails, shop, recommended, variants} = useLoaderData<
-    typeof loader
-  >() as {
-    productDetails: ProductDetails;
-    product: any;
-    shop: any;
-    recommended: any;
-    variants: any;
-  };
+  const {product, productDetails, shop, recommended, variants, productReviews} =
+    useLoaderData<typeof loader>() as {
+      productDetails: ProductDetails;
+      product: any;
+      shop: any;
+      recommended: any;
+      variants: any;
+      productReviews: any;
+    };
   const {media, title, descriptionHtml} = product;
   const {
     introHeading,
@@ -253,6 +258,18 @@ export default function Product() {
           </div>
         </Grid>
       </Section>
+      <Suspense fallback={<Skeleton className="h-32" />}>
+        <Await
+          errorElement="There was a problem loading reviews"
+          resolve={productReviews}
+        >
+          {(resp) => (
+            <Section width="narrow" heading="Reviews">
+              <Reviews data={resp || []} />
+            </Section>
+          )}
+        </Await>
+      </Suspense>
       <Section width="narrow">
         <Grid items={1} noGapsOnMobile>
           <div className="items-center">
@@ -532,6 +549,60 @@ function ProductDetail({
   );
 }
 
+export const REVIEWS_QUERY = `#graphql
+  query getReviewsContent($language: LanguageCode, $first: Int = 50) @inContext(language: $language) {
+    reviews: metaobjects(first: $first, type: "reviews") {
+      edges {
+        node {
+          id
+          type
+          handle
+          text: field(key: "text") {
+            value
+          }
+          rating: field(key: "rating") {
+            value
+          }
+          isVerified: field(key: "is_verified") {
+            value
+          }
+          isFeatured: field(key: "is_featured") {
+            value
+          }
+          product: field(key: "product") {
+            value
+          }
+          name: field(key: "name") {
+            value
+          }
+          date: field(key: "date") {
+            value
+          }
+          image: field(key: "image") {
+            type
+            value
+            reference {
+                ... on MediaImage {
+                image {
+                  url
+                  altText
+                  height
+                  width
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+`;
+
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariantFragment on ProductVariant {
     id
@@ -683,4 +754,22 @@ async function getRecommendedProducts(
   mergedProducts.splice(originalProduct, 1);
 
   return {nodes: mergedProducts};
+}
+
+async function getProductReviews(storefront: Storefront, productId: string) {
+  const {reviews} = await storefront.query<ReviewsData>(REVIEWS_QUERY, {
+    variables: {productId, first: 50},
+  });
+
+  const st = reviews.edges || [];
+
+  if (!reviews) {
+    throw new Response('Not found', {status: 404});
+  }
+
+  const productReviews = st.filter(
+    (review) => review.node.product.value === productId,
+  );
+
+  return productReviews;
 }
