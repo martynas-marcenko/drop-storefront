@@ -80,6 +80,10 @@ export const hempCleanser: ProductDetails = {
   description: {
     body: 'A pro at removing oil, dirt, and calming your skin. Our Hemp oil cleanser gives your face a refreshing boost it needs.',
   },
+  featuredTestimonial: {
+    customerName: 'Joana',
+    text: 'I can’t go without the Trio. Makeup without feeling like you are wearing makeup, who doesn’t love that? I get so many compliments.',
+  },
   ingredients: productIngredients,
   features: features,
   howTo: {

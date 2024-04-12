@@ -4,7 +4,7 @@ import {Image} from '@shopify/hydrogen';
 import {Drawer, useDrawer, Button, Grid} from '~/components';
 import {Star, Verified} from '~/components/icons';
 
-function ReviewsDialog({
+export function ReviewsDialog({
   isOpen,
   onClose,
   data,

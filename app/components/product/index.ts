@@ -6,3 +6,4 @@ export {Reviews} from './Reviews';
 export {WhyDrop} from './WhyDrop';
 export {IntroHeading} from './IntroHeading';
 export {Faq} from './Faq';
+export {FeaturedTestimonial} from './FeaturedTestimonial';

@@ -83,6 +83,10 @@ export const rockRoseSerum: ProductDetails = {
   description: {
     body: 'Serum dedicated to visibly reduce redness and make your skin vibrant all day long.',
   },
+  featuredTestimonial: {
+    customerName: 'Joana',
+    text: 'I can’t go without the Trio. Makeup without feeling like you are wearing makeup, who doesn’t love that? I get so many compliments.',
+  },
   ingredients: productIngredients,
   features: features,
   howTo: {

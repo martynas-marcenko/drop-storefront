@@ -34,6 +34,7 @@ import {
   AddToCartButton,
   Button,
   Grid,
+  ReviewsBadge,
 } from '~/components';
 import {Section, Heading, Text} from '~/components/ui';
 import {
@@ -45,6 +46,7 @@ import {
   WhyDrop,
   Faq,
   Reviews,
+  FeaturedTestimonial,
 } from '~/components/product';
 
 import {seoPayload} from '~/lib/seo.server';
@@ -177,6 +179,7 @@ export default function Product() {
     features,
     description,
     subtitle,
+    featuredTestimonial,
     ingredients,
     howTo,
     skinTypes,
@@ -193,13 +196,37 @@ export default function Product() {
             className="w-full lg:col-span-2"
           />
           <div className="sticky md:-mb-nav md:top-nav md:-translate-y-nav md:h-screen md:pt-nav hiddenScroll md:overflow-y-scroll">
-            <Section className="py-0 lg:px-0">
-              <div className="grid gap-2 mb-xs">
-                <Heading
-                  as="h1"
-                  className="whitespace-normal"
-                  heading={title}
+            <Section padding="none" className="px-6 md:px-0 py-0 lg:px-0">
+              <div className="grid gap-xs mb-xs">
+                <FeaturedTestimonial
+                  text={featuredTestimonial.text}
+                  customerName={featuredTestimonial.customerName}
+                  productTitle={product.title}
+                  productGid={product.id as ProductGid}
                 />
+                <div>
+                  <Heading
+                    as="h1"
+                    className="whitespace-normal"
+                    heading={title}
+                  />
+                  <div className="mt-1">
+                    <Text
+                      size="text-base"
+                      className="font-medium whitespace-normal"
+                    >
+                      {subtitle}
+                    </Text>
+                  </div>
+                </div>
+                <Suspense fallback={<Skeleton className="h-32" />}>
+                  <Await
+                    errorElement="There was a problem loading reviews"
+                    resolve={productReviews}
+                  >
+                    {(resp) => <ReviewsBadge data={resp || []} />}
+                  </Await>
+                </Suspense>
               </div>
               {description?.body ? (
                 <div className="grid gap-2 mb-xs">

@@ -76,6 +76,10 @@ export const wildCarrotSerum: ProductDetails = {
   description: {
     body: 'Ultra-protective serum to keep skin bouncy, glowy, and ready for almost anything.',
   },
+  featuredTestimonial: {
+    customerName: 'Joana',
+    text: 'I can’t go without the Trio. Makeup without feeling like you are wearing makeup, who doesn’t love that? I get so many compliments.',
+  },
   ingredients: productIngredients,
   features: features,
   howTo: {

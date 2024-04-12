@@ -9,6 +9,10 @@ export type ProductGid =
 export type ProductDetails = {
   id: string;
   description: Description;
+  featuredTestimonial: {
+    text: string;
+    customerName: string;
+  };
   subtitle: string;
   introHeading: string;
   ingredients: ProductIngredients;

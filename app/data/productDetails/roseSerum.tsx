@@ -87,6 +87,10 @@ export const roseSerum: ProductDetails = {
   description: {
     body: "Moistures. Nourishes. Protects. This serum leaves skin feeling silky soft – for a maximum glow you'll love.",
   },
+  featuredTestimonial: {
+    customerName: 'Joana',
+    text: 'I can’t go without the Trio. Makeup without feeling like you are wearing makeup, who doesn’t love that? I get so many compliments.',
+  },
   ingredients: productIngredients,
   features: features,
   howTo: {
