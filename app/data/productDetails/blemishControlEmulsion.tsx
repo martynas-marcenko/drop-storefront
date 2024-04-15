@@ -69,8 +69,8 @@ export const blemishControlEmulsion: ProductDetails = {
     body: 'This emulsion soothes inflammation and minimizes the appearance of breakouts to deliver smooth, luminous, clearer-looking skin.',
   },
   featuredTestimonial: {
-    customerName: 'Joana',
-    text: 'I can’t go without the Trio. Makeup without feeling like you are wearing makeup, who doesn’t love that? I get so many compliments.',
+    customerName: 'Serene',
+    text: "I've never had clearer skin. At 36, I was still dealing with small hormonal breakouts on my chin and forehead, but not anymore.",
   },
   ingredients: productIngredients,
   features: features,

@@ -79,13 +79,13 @@ export const rockRoseSerum: ProductDetails = {
   id: 'gid://shopify/Product/6635015962762',
   subtitle: 'For youthful glow',
   introHeading:
-    'Do not be mistaken by soft pedals of this rose, it has some rocky spikes, but they&apos;re here to make you glow!',
+    "Do not be mistaken by soft pedals of this rose, it has some rocky spikes, but they're here to make you glow!",
   description: {
     body: 'Serum dedicated to visibly reduce redness and make your skin vibrant all day long.',
   },
   featuredTestimonial: {
     customerName: 'Joana',
-    text: 'I can’t go without the Trio. Makeup without feeling like you are wearing makeup, who doesn’t love that? I get so many compliments.',
+    text: "This serum really does the trick. I've got some red spots on my face, and I've noticed they're starting to fade or aren't as noticeable after just a week.",
   },
   ingredients: productIngredients,
   features: features,

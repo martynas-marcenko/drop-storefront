@@ -3,6 +3,7 @@ import {Text} from '~/components/ui';
 import {Image} from '@shopify/hydrogen';
 import {Drawer, useDrawer, Button, Grid} from '~/components';
 import {Star, Verified} from '~/components/icons';
+import {formatDate} from '~/lib/utils';
 
 export function ReviewsDialog({
   isOpen,
@@ -118,7 +119,7 @@ export const Reviews = ({data}: {data: {node: ReviewItem}[]}) => {
                       className="font-medium"
                       color="text-gray-700"
                     >
-                      {review.date.value}
+                      {formatDate(review.date.value)}
                     </Text>
                   </div>
                   <div className="grid grid-cols-3">

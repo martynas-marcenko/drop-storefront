@@ -1,4 +1,4 @@
-import {useLocation, useMatches} from '@remix-run/react';
+import {useLocation} from '@remix-run/react';
 import type {MoneyV2} from '@shopify/hydrogen/storefront-api-types';
 import typographicBase from 'typographic-base';
 
@@ -363,3 +363,22 @@ export const obfuscateEmail = () => {
   const obfuscatedEmail = name + atSymbol + domain + dot + tld;
   return obfuscatedEmail;
 };
+
+export function formatDate(dateString: string): string {
+  // Create a new Date object using the dateString
+  const date = new Date(dateString);
+
+  // Check if the date is invalid
+  if (isNaN(date.getTime())) {
+    return 'Invalid date';
+  }
+
+  // Convert the date to the desired format: "2024 April"
+  // Adjust the 'en-US' locale and options as needed
+  const formattedDate = date.toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'long',
+  });
+
+  return formattedDate;
+}

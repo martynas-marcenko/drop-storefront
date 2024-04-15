@@ -33,7 +33,7 @@ function root({
     title: shop?.name,
     titleTemplate: '%s | Store',
     description: truncate(shop?.description ?? ''),
-    handle: '@shopify',
+    handle: '@dropbydropskincare',
     url,
     robots: {
       noIndex: false,
@@ -63,8 +63,8 @@ function root({
 
 function home(): SeoConfig<WebPage> {
   return {
-    title: 'Home',
-    titleTemplate: '%s | Store',
+    title: 'Drop By Drop',
+    titleTemplate: '%s | Organic skincare',
     description: 'Organic skincare',
     robots: {
       noIndex: false,

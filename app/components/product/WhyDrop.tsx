@@ -31,7 +31,7 @@ export const WhyDrop = ({data, productGid}: Props) => {
     hemp: 'Why Choose Our Cleansers',
     rose: 'Why Choose Our Serums',
     carrot: 'Why Choose Our Serums',
-    blemishEmulsion: 'Why Choose Our Serums',
+    blemishEmulsion: 'Why Choose Blemish Control Emulsion',
   };
 
   const headingText =

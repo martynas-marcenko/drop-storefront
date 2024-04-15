@@ -40,12 +40,12 @@ const productIngredients: ProductIngredients = {
 
 const features: ProductFeature[] = [
   {
-    title: 'A shield from all the bad stuff.',
-    body: "Sun, bacteria, pollution – the outside world can damage your skin. Enriched with antioxidants Carrot serum keeps your skin's microbiome strong.",
-  },
-  {
     title: 'Gain your power back!',
     body: 'Loaded with beta-carotenoids Wild Carrot Serum gives your skin the elasticity and smoothness it deserves.',
+  },
+  {
+    title: 'A shield from all the bad stuff.',
+    body: "Sun, bacteria, pollution – the outside world can damage your skin. Enriched with antioxidants Carrot serum keeps your skin's microbiome strong.",
   },
   {
     title: 'A yummy scent.',
@@ -74,11 +74,11 @@ export const wildCarrotSerum: ProductDetails = {
   introHeading:
     'Our most sensual serum of youthful glow and silky touch – for true romantics.',
   description: {
-    body: 'Ultra-protective serum to keep skin bouncy, glowy, and ready for almost anything.',
+    body: "Serum designed to restore skin's elasticity, making it bouncy and glowy.",
   },
   featuredTestimonial: {
-    customerName: 'Joana',
-    text: 'I can’t go without the Trio. Makeup without feeling like you are wearing makeup, who doesn’t love that? I get so many compliments.',
+    customerName: 'Amanda',
+    text: 'I’ve been using this serum and my skin has never felt better. It’s like it’s gotten a whole new life—so smooth and fresh. Totally obsessed with how good it feels!',
   },
   ingredients: productIngredients,
   features: features,

@@ -17,6 +17,7 @@ import {
 } from '@shopify/hydrogen';
 import invariant from 'tiny-invariant';
 import clsx from 'clsx';
+import {getProductReviews} from '~/data/getReviews.server';
 
 import type {
   ProductQuery,
@@ -195,7 +196,7 @@ export default function Product() {
             media={media.nodes}
             className="w-full lg:col-span-2"
           />
-          <div className="sticky md:-mb-nav md:top-nav md:-translate-y-nav md:h-screen md:pt-nav hiddenScroll md:overflow-y-scroll">
+          <div className="sticky md:-mb-nav md:top-nav md:-translate-y-nav md:h-screen md:pt-nav">
             <Section padding="none" className="px-6 md:px-0 py-0 lg:px-0">
               <div className="grid gap-xs mb-xs">
                 <FeaturedTestimonial
@@ -204,33 +205,25 @@ export default function Product() {
                   productTitle={product.title}
                   productGid={product.id as ProductGid}
                 />
-                <div>
+                <div className="grid gap-1">
                   <Heading
                     as="h1"
                     className="whitespace-normal"
                     heading={title}
                   />
-                  <div className="mt-1">
-                    <Text
-                      size="text-base"
-                      className="font-medium whitespace-normal"
+                  <Suspense fallback={<Skeleton className="h-32" />}>
+                    <Await
+                      errorElement="There was a problem loading reviews"
+                      resolve={productReviews}
                     >
-                      {subtitle}
-                    </Text>
-                  </div>
+                      {(resp) => <ReviewsBadge data={resp || []} />}
+                    </Await>
+                  </Suspense>
                 </div>
-                <Suspense fallback={<Skeleton className="h-32" />}>
-                  <Await
-                    errorElement="There was a problem loading reviews"
-                    resolve={productReviews}
-                  >
-                    {(resp) => <ReviewsBadge data={resp || []} />}
-                  </Await>
-                </Suspense>
               </div>
               {description?.body ? (
                 <div className="grid gap-2 mb-xs">
-                  <Text as="p" size="text-lg">
+                  <Text as="p" size="text-lg" className="font-medium">
                     {description.body}
                   </Text>
                 </div>
@@ -576,60 +569,6 @@ function ProductDetail({
   );
 }
 
-export const REVIEWS_QUERY = `#graphql
-  query getReviewsContent($language: LanguageCode, $first: Int = 50) @inContext(language: $language) {
-    reviews: metaobjects(first: $first, type: "reviews") {
-      edges {
-        node {
-          id
-          type
-          handle
-          text: field(key: "text") {
-            value
-          }
-          rating: field(key: "rating") {
-            value
-          }
-          isVerified: field(key: "is_verified") {
-            value
-          }
-          isFeatured: field(key: "is_featured") {
-            value
-          }
-          product: field(key: "product") {
-            value
-          }
-          name: field(key: "name") {
-            value
-          }
-          date: field(key: "date") {
-            value
-          }
-          image: field(key: "image") {
-            type
-            value
-            reference {
-                ... on MediaImage {
-                image {
-                  url
-                  altText
-                  height
-                  width
-                  id
-                }
-              }
-            }
-          }
-        }
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-    }
-  }
-`;
-
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariantFragment on ProductVariant {
     id
@@ -781,22 +720,4 @@ async function getRecommendedProducts(
   mergedProducts.splice(originalProduct, 1);
 
   return {nodes: mergedProducts};
-}
-
-async function getProductReviews(storefront: Storefront, productId: string) {
-  const {reviews} = await storefront.query<ReviewsData>(REVIEWS_QUERY, {
-    variables: {productId, first: 50},
-  });
-
-  const st = reviews.edges || [];
-
-  if (!reviews) {
-    throw new Response('Not found', {status: 404});
-  }
-
-  const productReviews = st.filter(
-    (review) => review.node.product.value === productId,
-  );
-
-  return productReviews;
 }
