@@ -4,6 +4,7 @@ import type {ReviewItem} from '~/lib/product-types';
 import {useDrawer} from '~/components';
 import {useRating} from '~/hooks/useRating';
 import {ReviewsDialog} from './product/Reviews';
+
 export const ReviewsBadge = ({data}: {data: {node: ReviewItem}[]}) => {
   const rating = useRating({data});
 
@@ -26,7 +27,12 @@ export const ReviewsBadge = ({data}: {data: {node: ReviewItem}[]}) => {
           </Text>
         </div>
       </div>
-      <ReviewsDialog isOpen={isDialogOpen} onClose={closeDialog} data={data} />
+      <ReviewsDialog
+        isOpen={isDialogOpen}
+        onClose={closeDialog}
+        data={data}
+        isLanding={false}
+      />
     </>
   );
 };

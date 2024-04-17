@@ -12,6 +12,7 @@ import {Section} from '~/components/ui';
 import {Story} from '~/components/homepage';
 import {Reviews} from '~/components/product';
 import {getAllReviews} from '~/data/getReviews.server';
+import {shuffleArray} from '~/lib/utils';
 
 export const headers = routeHeaders;
 
@@ -106,11 +107,16 @@ export default function Homepage() {
       {allReviews && (
         <Suspense fallback={<Hero {...skeletons[1]} />}>
           <Await resolve={allReviews}>
-            {(resp) => (
-              <Section width="narrow" heading="Shop reviews">
-                <Reviews data={resp || []} isLanding={true} />
-              </Section>
-            )}
+            {(resp) => {
+              // Check if resp is not null and has data, then shuffle
+              const shuffledReviews = resp ? shuffleArray([...resp]) : [];
+
+              return (
+                <Section heading="Shop reviews">
+                  <Reviews data={shuffledReviews} isLanding={true} />
+                </Section>
+              );
+            }}
           </Await>
         </Suspense>
       )}
