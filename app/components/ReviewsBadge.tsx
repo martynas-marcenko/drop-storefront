@@ -12,6 +12,7 @@ export const ReviewsBadge = ({data}: {data: {node: ReviewItem}[]}) => {
     openDrawer: openDialog,
     closeDrawer: closeDialog,
   } = useDrawer();
+
   return (
     <>
       <div className="flex items-center">

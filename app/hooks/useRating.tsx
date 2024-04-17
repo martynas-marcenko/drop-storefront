@@ -20,6 +20,9 @@ export function useRating({data}: {data: {node: ReviewItem}[]}) {
   // Calculate the average rating. Avoid division by zero by checking data.length.
   const averageRating = sumOfRatings / data.length;
 
-  // Return the average rating, rounded to two decimal places (or as per your requirement)
-  return averageRating;
+  // Round the average rating to one decimal place
+  const roundedAverage = parseFloat(averageRating.toFixed(1));
+
+  // Return the rounded average rating
+  return roundedAverage;
 }

@@ -108,7 +108,7 @@ export default function Homepage() {
           <Await resolve={allReviews}>
             {(resp) => (
               <Section width="narrow" heading="Shop reviews">
-                <Reviews data={resp || []} />
+                <Reviews data={resp || []} isLanding={true} />
               </Section>
             )}
           </Await>
