@@ -9,6 +9,10 @@ export type ProductGid =
 export type ProductDetails = {
   id: string;
   description: Description;
+  featuredTestimonial: {
+    text: string;
+    customerName: string;
+  };
   subtitle: string;
   introHeading: string;
   ingredients: ProductIngredients;
@@ -37,6 +41,12 @@ export type ProductIngredients = {
   allergens: Ingredient[];
 };
 
+export type ProductReviews = {
+  mainIngredients: Ingredient[];
+  ingredients: Ingredient[];
+  allergens: Ingredient[];
+};
+
 export type ProductFeature = {
   title: string;
   body: string;
@@ -55,3 +65,35 @@ export type Faq = {
   question: string;
   answer: string;
 };
+
+export interface ReviewItem {
+  id: string;
+  handle: string;
+  text: {value: string};
+  product: {value: string};
+  rating: {value: number};
+  isVerified: {value: boolean};
+  name: {value: string};
+  date: {value: string};
+  isFeatured: {value: boolean};
+  image: {
+    value: string;
+    reference: {
+      image: {
+        url: string;
+        altText: string;
+        height: number;
+        width: number;
+        id: string;
+      };
+    };
+  };
+}
+
+export interface ReviewsData {
+  reviews: {
+    edges: Array<{
+      node: ReviewItem;
+    }>;
+  };
+}

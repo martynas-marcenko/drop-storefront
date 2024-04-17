@@ -81,6 +81,10 @@ export const mursalskiCleanser: ProductDetails = {
   description: {
     body: 'Unclogs pores, visibly brightens skin, and boosts it with antioxidants. This 2 in 1 cleanser and moisturizer leaves your skin smooth, fresh and glowy.',
   },
+  featuredTestimonial: {
+    customerName: 'Lisa',
+    text: 'My go to daily cleanser for my very dry skin. Love it!',
+  },
   ingredients: productIngredients,
   features: features,
   howTo: {

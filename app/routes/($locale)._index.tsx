@@ -8,8 +8,11 @@ import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {getHeroPlaceholder} from '~/lib/placeholders';
 import {seoPayload} from '~/lib/seo.server';
 import {routeHeaders} from '~/data/cache';
-
+import {Section} from '~/components/ui';
 import {Story} from '~/components/homepage';
+import {Reviews} from '~/components/product';
+import {getAllReviews} from '~/data/getReviews.server';
+import {shuffleArray} from '~/lib/utils';
 
 export const headers = routeHeaders;
 
@@ -26,16 +29,18 @@ export async function loader({params, context}: LoaderFunctionArgs) {
   }
 
   const {shop, hero} = await context.storefront.query(HOMEPAGE_SEO_QUERY, {
-    variables: {handle: 'freestyle'},
+    variables: {handle: 'shop-all'},
   });
 
   const about = await context.storefront.query(ABOUT_QUERY);
 
   const seo = seoPayload.home();
+  const allReviews = getAllReviews(context.storefront);
 
   return defer({
     about,
     shop,
+    allReviews,
     primaryHero: hero,
     // These different queries are separated to illustrate how 3rd party content
     // fetching can be optimized for both above and below the fold.
@@ -67,8 +72,13 @@ export async function loader({params, context}: LoaderFunctionArgs) {
 }
 
 export default function Homepage() {
-  const {primaryHero, featuredCollections, featuredProducts, about} =
-    useLoaderData<typeof loader>();
+  const {
+    primaryHero,
+    featuredCollections,
+    allReviews,
+    featuredProducts,
+    about,
+  } = useLoaderData<typeof loader>();
 
   // TODO: skeletons vs placeholders
   const skeletons = getHeroPlaceholder([{}, {}, {}]);
@@ -94,7 +104,22 @@ export default function Homepage() {
           </Await>
         </Suspense>
       )}
+      {allReviews && (
+        <Suspense fallback={<Hero {...skeletons[1]} />}>
+          <Await resolve={allReviews}>
+            {(resp) => {
+              // Check if resp is not null and has data, then shuffle
+              const shuffledReviews = resp ? shuffleArray([...resp]) : [];
 
+              return (
+                <Section heading="Shop reviews">
+                  <Reviews data={shuffledReviews} isLanding={true} />
+                </Section>
+              );
+            }}
+          </Await>
+        </Suspense>
+      )}
       {featuredCollections && (
         <Suspense>
           <Await resolve={featuredCollections}>

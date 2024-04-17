@@ -10,7 +10,6 @@ import {
   Text,
   Input,
   IconSearch,
-  Heading,
   IconMenu,
   Section,
   Cart,
@@ -87,7 +86,7 @@ const footerMenu = [
   {
     id: 'shop_f8edddb3-f59c-4a09-8b4d-6a761ef386a5',
     isExternal: false,
-    title: 'Shop',
+    title: 'Shop All',
     target: '_self',
     to: '/products',
     type: 'CATALOG',
@@ -357,7 +356,9 @@ function DesktopHeader({
   return (
     <header role="banner" className={headerClassName}>
       <div className="flex gap-12">
-        <Logo className="h-8 md:h-10" />
+        <Link to="/">
+          <Logo className="h-8 md:h-10" />
+        </Link>
         <nav className="flex gap-8 items-center">
           {/* Top level menu items */}
           {(menu?.items || []).map((item) => (

@@ -79,9 +79,13 @@ export const rockRoseSerum: ProductDetails = {
   id: 'gid://shopify/Product/6635015962762',
   subtitle: 'For youthful glow',
   introHeading:
-    'Do not be mistaken by soft pedals of this rose, it has some rocky spikes, but they&apos;re here to make you glow!',
+    "Do not be mistaken by soft pedals of this rose, it has some rocky spikes, but they're here to make you glow!",
   description: {
     body: 'Serum dedicated to visibly reduce redness and make your skin vibrant all day long.',
+  },
+  featuredTestimonial: {
+    customerName: 'Joana',
+    text: "This serum really does the trick. I've got some red spots on my face, and I've noticed they're starting to fade or aren't as noticeable after just a week.",
   },
   ingredients: productIngredients,
   features: features,

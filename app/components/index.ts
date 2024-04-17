@@ -23,5 +23,6 @@ export {FeaturedProducts} from './FeaturedProducts';
 export {AddToCartButton} from './AddToCartButton';
 export {TableOfContent} from './TableOfContent';
 export {GoogleTagManager} from './GoogleTagManager';
+export {ReviewsBadge} from './ReviewsBadge';
 
 export * from './Icon';

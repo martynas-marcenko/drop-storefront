@@ -14,12 +14,18 @@ function IngredientsDialog({
   onClose: () => void;
   data: Ingredient;
 }) {
-  const {imgSrc, title, scientificName} = data;
+  const {imgSrc, title, scientificName, description} = data;
 
   return (
-    <Drawer open={isOpen} onClose={onClose} heading="Cart" openFrom="right">
+    <Drawer open={isOpen} onClose={onClose} heading={title} openFrom="right">
       <div className="grid">
         <div className="flex flex-col">
+          <div className="px-6 sm:px-8 md:px-12 mb-sm">
+            <div className="mb-xs">
+              <Text>INCI: {scientificName}</Text>
+            </div>
+            {description && <Text>{description}</Text>}
+          </div>
           <div className="flex-shrink-0">
             {data.imgSrc ? (
               <Image
@@ -29,20 +35,13 @@ function IngredientsDialog({
                   id: imgSrc,
                 }}
                 className="object-cover object-center w-full h-full"
-                height={32}
-                width={32}
-                sizes="(max-width: 32px)"
+                height={400}
+                width={400}
+                sizes="(max-width: 400px)"
               />
             ) : (
               <div className="w-8 h-8" />
             )}
-          </div>
-
-          <div className="flex-1 min-w-0 ms-4">
-            <p className="text-sm font-medium text-gray-900 truncate">
-              {title}
-            </p>
-            <p className="text-sm text-gray-500 truncate">{scientificName}</p>
           </div>
         </div>
       </div>
