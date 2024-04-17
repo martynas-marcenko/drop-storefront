@@ -28,7 +28,7 @@ export async function loader({params, context}: LoaderFunctionArgs) {
   }
 
   const {shop, hero} = await context.storefront.query(HOMEPAGE_SEO_QUERY, {
-    variables: {handle: 'all'},
+    variables: {handle: 'shop-all'},
   });
 
   const about = await context.storefront.query(ABOUT_QUERY);

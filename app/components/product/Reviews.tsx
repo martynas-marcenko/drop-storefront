@@ -98,7 +98,7 @@ export const Reviews = ({data}: {data: {node: ReviewItem}[]}) => {
           return (
             <div
               key={review.id}
-              className="flex flex-col space-y-sm rounded-2xl border bg-white p-sm drop-shadow-xl"
+              className="flex flex-col space-y-sm rounded-2xl border bg-white p-xs md:p-sm drop-shadow-xl"
             >
               <div className="flex flex-col min-h-48 justify-between">
                 <div>
