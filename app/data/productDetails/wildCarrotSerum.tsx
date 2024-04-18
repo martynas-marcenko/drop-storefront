@@ -72,7 +72,7 @@ export const wildCarrotSerum: ProductDetails = {
   id: 'gid://shopify/Product/6544243622026',
   subtitle: 'For youthful glow',
   introHeading:
-    'Our most sensual serum of youthful glow and silky touch – for true romantics.',
+    'Our most earthy serum with a yummy scent and a pleasant texture improves elasticity and provides all-day protection. For the down-to-earth ones!',
   description: {
     body: "Serum designed to restore skin's elasticity, making it bouncy and glowy.",
   },

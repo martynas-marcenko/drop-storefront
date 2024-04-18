@@ -77,7 +77,7 @@ export const mursalskiCleanser: ProductDetails = {
   id: 'gid://shopify/Product/5116743876746',
   subtitle: 'For youthful glow',
   introHeading:
-    'Our most sensual serum of youthful glow and silky touch – for true romantics.',
+    'Our “must have” 2 in 1 for the lazy ones – cleans and deeply moisturizes.',
   description: {
     body: 'Unclogs pores, visibly brightens skin, and boosts it with antioxidants. This 2 in 1 cleanser and moisturizer leaves your skin smooth, fresh and glowy.',
   },

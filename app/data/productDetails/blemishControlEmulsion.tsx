@@ -64,7 +64,7 @@ export const blemishControlEmulsion: ProductDetails = {
   id: 'gid://shopify/Product/6875942289546',
   subtitle: 'For youthful glow',
   introHeading:
-    'Our most sensual serum of youthful glow and silky touch – for true romantics.',
+    'Meet the Amla and Schisandra duo created for the ones who like to be in control of their beauty.',
   description: {
     body: 'This emulsion soothes inflammation and minimizes the appearance of breakouts to deliver smooth, luminous, clearer-looking skin.',
   },
