@@ -6,6 +6,7 @@ import {Star, Verified} from '~/components/icons';
 import {formatDate} from '~/lib/utils';
 import cn from 'clsx';
 import getProductName from '~/lib/get-product-name';
+import {Section} from '~/components/ui';
 
 export function ReviewsDialog({
   isOpen,
@@ -80,6 +81,49 @@ export const Reviews = ({data, isLanding}: ReviewsProps) => {
   );
 };
 
+export const ReviewsSwimlane = ({data, isLanding}: ReviewsProps) => {
+  const {
+    isOpen: isDialogOpen,
+    openDrawer: openDialog,
+    closeDrawer: closeDialog,
+  } = useDrawer();
+  const filteredReviews = data?.filter((item) => {
+    return (item.node.isFeatured.value = true);
+  });
+  return (
+    <>
+      <Section heading="Shop Reviews" padding="y">
+        <div className="swimlane hiddenScroll md:pb-8 md:scroll-px-8 lg:scroll-px-12 md:px-8 lg:px-12">
+          {filteredReviews?.map((item) => {
+            const review = item.node;
+            const isImage = review?.image?.reference?.image?.url ? true : false;
+            return (
+              <div className="w-96 h-full">
+                <Review
+                  review={review}
+                  isImage={isImage}
+                  isDialog={false}
+                  isLanding={isLanding}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </Section>
+
+      <div className="w-full flex justify-center">
+        <Button onClick={openDialog}>More Reviews</Button>
+      </div>
+      <ReviewsDialog
+        isOpen={isDialogOpen}
+        onClose={closeDialog}
+        data={data}
+        isLanding={isLanding}
+      />
+    </>
+  );
+};
+
 interface ReviewProps {
   review: ReviewItem;
   isDialog: boolean;
@@ -92,6 +136,7 @@ const Review = ({review, isImage, isDialog, isLanding}: ReviewProps) => {
     'flex flex-col space-y-sm p-sm',
     !isDialog && 'drop-shadow-xl border rounded-2xl bg-white',
     isDialog && 'border-b',
+    isLanding && !isDialog && 'h-full',
   );
   return (
     <div key={review.id} className={wrapperClassName}>

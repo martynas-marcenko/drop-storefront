@@ -8,9 +8,8 @@ import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {getHeroPlaceholder} from '~/lib/placeholders';
 import {seoPayload} from '~/lib/seo.server';
 import {routeHeaders} from '~/data/cache';
-import {Section} from '~/components/ui';
 import {Story} from '~/components/homepage';
-import {Reviews} from '~/components/product';
+import {ReviewsSwimlane} from '~/components/product';
 import {getAllReviews} from '~/data/getReviews.server';
 import {shuffleArray} from '~/lib/utils';
 
@@ -112,9 +111,7 @@ export default function Homepage() {
               const shuffledReviews = resp ? shuffleArray([...resp]) : [];
 
               return (
-                <Section heading="Shop reviews">
-                  <Reviews data={shuffledReviews} isLanding={true} />
-                </Section>
+                <ReviewsSwimlane data={shuffledReviews} isLanding={true} />
               );
             }}
           </Await>

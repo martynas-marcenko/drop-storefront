@@ -285,7 +285,7 @@ export default function Product() {
         >
           {(resp) => (
             <Section width="narrow" heading="Reviews">
-              <Reviews data={resp || []} />
+              <Reviews data={resp || []} isLanding={false} />
             </Section>
           )}
         </Await>
