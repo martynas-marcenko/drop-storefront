@@ -411,82 +411,86 @@ export type OrderFragment = Pick<
 };
 
 export type CustomerOrderQueryVariables = StorefrontAPI.Exact<{
-  orderId: StorefrontAPI.Scalars['ID']['input'];
+  orderId: StorefrontAPI.Scalars['String']['input'];
   customerAccessToken: StorefrontAPI.Scalars['String']['input'];
 }>;
 
 export type CustomerOrderQuery = {
-  node?: StorefrontAPI.Maybe<
-    Pick<
-      StorefrontAPI.Order,
-      'id' | 'name' | 'statusUrl' | 'processedAt' | 'fulfillmentStatus'
-    > & {
-      totalTax?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-      >;
-      totalPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-      shippingAddress?: StorefrontAPI.Maybe<
+  customer?: StorefrontAPI.Maybe<{
+    orders: {
+      nodes: Array<
         Pick<
-          StorefrontAPI.MailingAddress,
-          'name' | 'formatted' | 'formattedArea'
-        >
-      >;
-      discountApplications: {
-        nodes: Array<{
-          value:
-            | ({__typename: 'MoneyV2'} & Pick<
-                StorefrontAPI.MoneyV2,
-                'amount' | 'currencyCode'
-              >)
-            | ({__typename: 'PricingPercentageValue'} & Pick<
-                StorefrontAPI.PricingPercentageValue,
-                'percentage'
-              >);
-        }>;
-      };
-      lineItems: {
-        nodes: Array<
-          Pick<StorefrontAPI.OrderLineItem, 'title' | 'quantity'> & {
-            originalTotalPrice: Pick<
-              StorefrontAPI.MoneyV2,
-              'amount' | 'currencyCode'
-            >;
-            discountAllocations: Array<{
-              allocatedAmount: Pick<
-                StorefrontAPI.MoneyV2,
-                'amount' | 'currencyCode'
-              >;
-              discountApplication: {
-                value:
-                  | ({__typename: 'MoneyV2'} & Pick<
-                      StorefrontAPI.MoneyV2,
-                      'amount' | 'currencyCode'
-                    >)
-                  | ({__typename: 'PricingPercentageValue'} & Pick<
-                      StorefrontAPI.PricingPercentageValue,
-                      'percentage'
-                    >);
-              };
+          StorefrontAPI.Order,
+          'id' | 'name' | 'statusUrl' | 'processedAt' | 'fulfillmentStatus'
+        > & {
+          totalTax?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+          >;
+          totalPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+          shippingAddress?: StorefrontAPI.Maybe<
+            Pick<
+              StorefrontAPI.MailingAddress,
+              'name' | 'formatted' | 'formattedArea'
+            >
+          >;
+          discountApplications: {
+            nodes: Array<{
+              value:
+                | ({__typename: 'MoneyV2'} & Pick<
+                    StorefrontAPI.MoneyV2,
+                    'amount' | 'currencyCode'
+                  >)
+                | ({__typename: 'PricingPercentageValue'} & Pick<
+                    StorefrontAPI.PricingPercentageValue,
+                    'percentage'
+                  >);
             }>;
-            discountedTotalPrice: Pick<
-              StorefrontAPI.MoneyV2,
-              'amount' | 'currencyCode'
-            >;
-            variant?: StorefrontAPI.Maybe<
-              Pick<StorefrontAPI.ProductVariant, 'title'> & {
-                image?: StorefrontAPI.Maybe<
-                  Pick<
-                    StorefrontAPI.Image,
-                    'altText' | 'height' | 'url' | 'id' | 'width'
-                  >
+          };
+          lineItems: {
+            nodes: Array<
+              Pick<StorefrontAPI.OrderLineItem, 'title' | 'quantity'> & {
+                originalTotalPrice: Pick<
+                  StorefrontAPI.MoneyV2,
+                  'amount' | 'currencyCode'
+                >;
+                discountAllocations: Array<{
+                  allocatedAmount: Pick<
+                    StorefrontAPI.MoneyV2,
+                    'amount' | 'currencyCode'
+                  >;
+                  discountApplication: {
+                    value:
+                      | ({__typename: 'MoneyV2'} & Pick<
+                          StorefrontAPI.MoneyV2,
+                          'amount' | 'currencyCode'
+                        >)
+                      | ({__typename: 'PricingPercentageValue'} & Pick<
+                          StorefrontAPI.PricingPercentageValue,
+                          'percentage'
+                        >);
+                  };
+                }>;
+                discountedTotalPrice: Pick<
+                  StorefrontAPI.MoneyV2,
+                  'amount' | 'currencyCode'
+                >;
+                variant?: StorefrontAPI.Maybe<
+                  Pick<StorefrontAPI.ProductVariant, 'title'> & {
+                    image?: StorefrontAPI.Maybe<
+                      Pick<
+                        StorefrontAPI.Image,
+                        'altText' | 'height' | 'url' | 'id' | 'width'
+                      >
+                    >;
+                  }
                 >;
               }
             >;
-          }
-        >;
-      };
-    }
-  >;
+          };
+        }
+      >;
+    };
+  }>;
 };
 
 export type CustomerUpdateMutationVariables = StorefrontAPI.Exact<{
@@ -1895,7 +1899,7 @@ interface GeneratedQueryTypes {
     return: CustomerDetailsQuery;
     variables: CustomerDetailsQueryVariables;
   };
-  '#graphql\n  fragment OrderMoney on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment DiscountApplication on DiscountApplication {\n    value {\n      __typename\n      ... on MoneyV2 {\n        ...OrderMoney\n      }\n      ... on PricingPercentageValue {\n        percentage\n      }\n    }\n  }\n  fragment OrderLineItemFull on OrderLineItem {\n    title\n    quantity\n    originalTotalPrice {\n      ...OrderMoney\n    }\n    discountAllocations {\n      allocatedAmount {\n        ...OrderMoney\n      }\n      discountApplication {\n        ...DiscountApplication\n      }\n    }\n    discountedTotalPrice {\n      ...OrderMoney\n    }\n    variant {\n      image {\n        altText\n        height\n        url\n        id\n        width\n      }\n      title\n    }\n  }\n  fragment Order on Order {\n    id\n    name\n    statusUrl\n    processedAt\n    fulfillmentStatus\n    totalTax {\n      ...OrderMoney\n    }\n    totalPrice {\n      ...OrderMoney\n    }\n    shippingAddress {\n      name\n      formatted(withName: true)\n      formattedArea\n    }\n    discountApplications(first: 100) {\n      nodes {\n        ...DiscountApplication\n      }\n    }\n    lineItems(first: 100) {\n      nodes {\n        ...OrderLineItemFull\n      }\n    }\n  }\n  query CustomerOrder($orderId: ID!, $customerAccessToken: String!) {\n    node(id: $orderId) {\n      ... on Order {\n        ...Order\n      }\n    }\n  }\n': {
+  '#graphql\n  fragment OrderMoney on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment DiscountApplication on DiscountApplication {\n    value {\n      __typename\n      ... on MoneyV2 {\n        ...OrderMoney\n      }\n      ... on PricingPercentageValue {\n        percentage\n      }\n    }\n  }\n  fragment OrderLineItemFull on OrderLineItem {\n    title\n    quantity\n    originalTotalPrice {\n      ...OrderMoney\n    }\n    discountAllocations {\n      allocatedAmount {\n        ...OrderMoney\n      }\n      discountApplication {\n        ...DiscountApplication\n      }\n    }\n    discountedTotalPrice {\n      ...OrderMoney\n    }\n    variant {\n      image {\n        altText\n        height\n        url\n        id\n        width\n      }\n      title\n    }\n  }\n  fragment Order on Order {\n    id\n    name\n    statusUrl\n    processedAt\n    fulfillmentStatus\n    totalTax {\n      ...OrderMoney\n    }\n    totalPrice {\n      ...OrderMoney\n    }\n    shippingAddress {\n      name\n      formatted(withName: true)\n      formattedArea\n    }\n    discountApplications(first: 100) {\n      nodes {\n        ...DiscountApplication\n      }\n    }\n    lineItems(first: 100) {\n      nodes {\n        ...OrderLineItemFull\n      }\n    }\n  }\n  query CustomerOrder($orderId: String!, $customerAccessToken: String!) {\n    customer(customerAccessToken: $customerAccessToken) {\n      orders(first: 1, query: $orderId) {\n        nodes {\n          ...Order\n        }\n      }\n    }\n  }\n': {
     return: CustomerOrderQuery;
     variables: CustomerOrderQueryVariables;
   };

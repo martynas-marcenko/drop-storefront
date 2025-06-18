@@ -71,10 +71,12 @@ export const CUSTOMER_ORDER_QUERY = `#graphql
       }
     }
   }
-  query CustomerOrder($orderId: ID!, $customerAccessToken: String!) {
-    node(id: $orderId) {
-      ... on Order {
-        ...Order
+  query CustomerOrder($orderId: String!, $customerAccessToken: String!) {
+    customer(customerAccessToken: $customerAccessToken) {
+      orders(first: 1, query: $orderId) {
+        nodes {
+          ...Order
+        }
       }
     }
   }
