@@ -1,5 +1,9 @@
 import {useEffect} from 'react';
-import {json, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {
+  json,
+  type MetaArgs,
+  type LoaderFunctionArgs,
+} from '@shopify/remix-oxygen';
 import {useLoaderData, useNavigate} from '@remix-run/react';
 import {useInView} from 'react-intersection-observer';
 import type {
@@ -8,26 +12,22 @@ import type {
   ProductFilter,
 } from '@shopify/hydrogen/storefront-api-types';
 import {
-  AnalyticsPageType,
   Pagination,
   flattenConnection,
   getPaginationVariables,
+  Analytics,
+  getSeoMeta,
 } from '@shopify/hydrogen';
 import invariant from 'tiny-invariant';
 
-import {
-  PageHeader,
-  Section,
-  Text,
-  SortFilter,
-  Grid,
-  ProductCard,
-  Button,
-} from '~/components';
+import {PageHeader, Section, Text} from '~/components/Text';
+import {Grid} from '~/components/Grid';
+import {Button} from '~/components/Button';
+import {ProductCard} from '~/components/ProductCard';
+import {SortFilter, type SortParam} from '~/components/SortFilter';
 import {PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {routeHeaders} from '~/data/cache';
 import {seoPayload} from '~/lib/seo.server';
-import type {SortParam} from '~/components/SortFilter';
 import {FILTER_URL_PREFIX} from '~/components/SortFilter';
 import {getImageLoadingPriority} from '~/lib/const';
 import {parseAsCurrency} from '~/lib/utils';
@@ -133,14 +133,13 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     collection,
     appliedFilters,
     collections: flattenConnection(collections),
-    analytics: {
-      pageType: AnalyticsPageType.collection,
-      collectionHandle,
-      resourceId: collection.id,
-    },
     seo,
   });
 }
+
+export const meta = ({matches}: MetaArgs<typeof loader>) => {
+  return getSeoMeta(...matches.map((match) => (match.data as any).seo));
+};
 
 export default function Collection() {
   const {collection, collections, appliedFilters} =
@@ -205,6 +204,14 @@ export default function Collection() {
           </Pagination>
         </SortFilter>
       </Section>
+      <Analytics.CollectionView
+        data={{
+          collection: {
+            id: collection.id,
+            handle: collection.handle,
+          },
+        }}
+      />
     </>
   );
 }
@@ -235,7 +242,7 @@ function ProductsLoadedOnScroll({
   }, [inView, navigate, state, nextPageUrl, hasNextPage]);
 
   return (
-    <Grid layout="products">
+    <Grid layout="products" data-test="product-grid">
       {nodes.map((product: any, i: number) => (
         <ProductCard
           key={product.id}

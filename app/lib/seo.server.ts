@@ -28,12 +28,12 @@ function root({
 }: {
   shop: ShopFragment;
   url: Request['url'];
-}): SeoConfig<Organization> {
+}): SeoConfig {
   return {
     title: shop?.name,
-    titleTemplate: '%s | Store',
+    titleTemplate: '%s | Hydrogen Demo Store',
     description: truncate(shop?.description ?? ''),
-    handle: '@dropbydropskincare',
+    handle: '@shopify',
     url,
     robots: {
       noIndex: false,
@@ -61,11 +61,13 @@ function root({
   };
 }
 
-function home(): SeoConfig<WebPage> {
+function home({url}: {url: Request['url']}): SeoConfig {
   return {
-    title: 'Drop By Drop',
-    titleTemplate: '%s | Organic skincare',
-    description: 'Organic skincare',
+    title: 'Home',
+    titleTemplate: '%s | Natural deodorants',
+    description:
+      'Feel fresh all day with aluminum-free natural deodorants made from gentle, plant-based ingredients. Made in Denmark.',
+    url,
     robots: {
       noIndex: false,
       noFollow: false,
@@ -86,14 +88,12 @@ type ProductRequiredFields = Pick<
   Product,
   'title' | 'description' | 'vendor' | 'seo'
 > & {
-  variants: {
-    nodes: Array<
-      Pick<
-        ProductVariant,
-        'sku' | 'price' | 'selectedOptions' | 'availableForSale'
-      >
-    >;
-  };
+  variants: Array<
+    Pick<
+      ProductVariant,
+      'sku' | 'price' | 'selectedOptions' | 'availableForSale'
+    >
+  >;
 };
 
 function productJsonLd({
@@ -104,9 +104,9 @@ function productJsonLd({
   product: ProductRequiredFields;
   selectedVariant: SelectedVariantRequiredFields;
   url: Request['url'];
-}): SeoConfig<SeoProduct | BreadcrumbList>['jsonLd'] {
+}): SeoConfig['jsonLd'] {
   const origin = new URL(url).origin;
-  const variants = product.variants.nodes;
+  const variants = product.variants;
   const description = truncate(
     product?.seo?.description ?? product?.description,
   );
@@ -171,13 +171,14 @@ function product({
   product: ProductRequiredFields;
   selectedVariant: SelectedVariantRequiredFields;
   url: Request['url'];
-}): SeoConfig<SeoProduct | BreadcrumbList> {
+}): SeoConfig {
   const description = truncate(
     product?.seo?.description ?? product?.description ?? '',
   );
   return {
     title: product?.seo?.title ?? product?.title,
     description,
+    url,
     media: selectedVariant?.image,
     jsonLd: productJsonLd({product, selectedVariant, url}),
   };
@@ -200,7 +201,7 @@ function collectionJsonLd({
 }: {
   url: Request['url'];
   collection: CollectionRequiredFields;
-}): SeoConfig<CollectionPage | BreadcrumbList>['jsonLd'] {
+}): SeoConfig['jsonLd'] {
   const siteUrl = new URL(url);
   const itemListElement: CollectionPage['mainEntity'] =
     collection.products.nodes.map((product, index) => {
@@ -252,13 +253,14 @@ function collection({
 }: {
   collection: CollectionRequiredFields;
   url: Request['url'];
-}): SeoConfig<CollectionPage | BreadcrumbList> {
+}): SeoConfig {
   return {
     title: collection?.seo?.title,
     description: truncate(
       collection?.seo?.description ?? collection?.description ?? '',
     ),
     titleTemplate: '%s | Collection',
+    url,
     media: {
       type: 'image',
       url: collection?.image?.url,
@@ -280,7 +282,7 @@ function collectionsJsonLd({
 }: {
   url: Request['url'];
   collections: CollectionListRequiredFields;
-}): SeoConfig<CollectionPage>['jsonLd'] {
+}): SeoConfig['jsonLd'] {
   const itemListElement: CollectionPage['mainEntity'] = collections.nodes.map(
     (collection, index) => {
       return {
@@ -310,7 +312,7 @@ function listCollections({
 }: {
   collections: CollectionListRequiredFields;
   url: Request['url'];
-}): SeoConfig<CollectionPage> {
+}): SeoConfig {
   return {
     title: 'Collections',
     titleTemplate: '%s | Collections',
@@ -320,28 +322,25 @@ function listCollections({
   };
 }
 
-type ExtendedArticle = Pick<
-  Article,
-  'contentHtml' | 'seo' | 'publishedAt' | 'excerpt'
-> & {
-  title?: string; // Making title optional
-  image?: null | Pick<
-    NonNullable<Article['image']>,
-    'url' | 'height' | 'width' | 'altText'
-  >;
-};
-
 function article({
   article,
   url,
 }: {
-  article: ExtendedArticle;
+  article: Pick<
+    Article,
+    'title' | 'contentHtml' | 'seo' | 'publishedAt' | 'excerpt'
+  > & {
+    image?: null | Pick<
+      NonNullable<Article['image']>,
+      'url' | 'height' | 'width' | 'altText'
+    >;
+  };
   url: Request['url'];
-}): SeoConfig<SeoArticle> {
+}): SeoConfig {
   return {
     title: article?.seo?.title ?? article?.title,
     description: truncate(article?.seo?.description ?? ''),
-    titleTemplate: '%s | blog',
+    titleTemplate: '%s | Journal',
     url,
     media: {
       type: 'image',
@@ -372,7 +371,7 @@ function blog({
 }: {
   blog: Pick<Blog, 'seo' | 'title'>;
   url: Request['url'];
-}): SeoConfig<SeoBlog> {
+}): SeoConfig {
   return {
     title: blog?.seo?.title,
     description: truncate(blog?.seo?.description || ''),
@@ -394,7 +393,7 @@ function page({
 }: {
   page: Pick<Page, 'title' | 'seo'>;
   url: Request['url'];
-}): SeoConfig<WebPage> {
+}): SeoConfig {
   return {
     description: truncate(page?.seo?.description || ''),
     title: page?.seo?.title ?? page?.title,
@@ -408,35 +407,13 @@ function page({
   };
 }
 
-function glossary({
-  title,
-  url,
-  description,
-}: {
-  title: string;
-  description: string;
-  url: Request['url'];
-}): SeoConfig<WebPage> {
-  return {
-    title: title || '',
-    description: truncate(description || ''),
-    titleTemplate: '%s | Glossary',
-    url,
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      name: title,
-    },
-  };
-}
-
 function policy({
   policy,
   url,
 }: {
   policy: Pick<ShopPolicy, 'title' | 'body'>;
   url: Request['url'];
-}): SeoConfig<WebPage> {
+}): SeoConfig {
   return {
     description: truncate(policy?.body ?? ''),
     title: policy?.title,
@@ -451,7 +428,7 @@ function policies({
 }: {
   policies: Array<Pick<ShopPolicy, 'title' | 'handle'>>;
   url: Request['url'];
-}): SeoConfig<WebPage | BreadcrumbList> {
+}): SeoConfig {
   const origin = new URL(url).origin;
   const itemListElement: BreadcrumbList['itemListElement'] = policies
     .filter(Boolean)
@@ -491,7 +468,6 @@ export const seoPayload = {
   home,
   listCollections,
   page,
-  glossary,
   policies,
   policy,
   product,

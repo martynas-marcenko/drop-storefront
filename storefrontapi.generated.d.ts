@@ -1,7 +1,7 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable eslint-comments/no-unlimited-disable */
 /* eslint-disable */
-import * as StorefrontAPI from '@shopify/hydrogen/storefront-api-types';
+import type * as StorefrontAPI from '@shopify/hydrogen/storefront-api-types';
 
 export type OrderCardFragment = Pick<
   StorefrontAPI.Order,
@@ -199,72 +199,6 @@ export type GetShopPrimaryDomainQuery = {
   shop: {primaryDomain: Pick<StorefrontAPI.Domain, 'url'>};
 };
 
-export type GetAboutContentQueryVariables = StorefrontAPI.Exact<{
-  [key: string]: never;
-}>;
-
-export type GetAboutContentQuery = {
-  metaobject?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.Metaobject, 'id' | 'handle'> & {
-      imageMobile?: StorefrontAPI.Maybe<{
-        reference?: StorefrontAPI.Maybe<
-          | ({__typename: 'MediaImage'} & Pick<
-              StorefrontAPI.MediaImage,
-              'id' | 'mediaContentType' | 'alt'
-            > & {
-                image?: StorefrontAPI.Maybe<
-                  Pick<StorefrontAPI.Image, 'id' | 'url' | 'width' | 'height'>
-                >;
-                previewImage?: StorefrontAPI.Maybe<
-                  Pick<StorefrontAPI.Image, 'url'>
-                >;
-              })
-          | ({__typename: 'Video'} & Pick<
-              StorefrontAPI.Video,
-              'id' | 'mediaContentType' | 'alt'
-            > & {
-                sources: Array<
-                  Pick<StorefrontAPI.VideoSource, 'mimeType' | 'url'>
-                >;
-                previewImage?: StorefrontAPI.Maybe<
-                  Pick<StorefrontAPI.Image, 'url'>
-                >;
-              })
-        >;
-      }>;
-      imageDesktop?: StorefrontAPI.Maybe<{
-        reference?: StorefrontAPI.Maybe<
-          | ({__typename: 'MediaImage'} & Pick<
-              StorefrontAPI.MediaImage,
-              'id' | 'mediaContentType' | 'alt'
-            > & {
-                image?: StorefrontAPI.Maybe<
-                  Pick<StorefrontAPI.Image, 'id' | 'url' | 'width' | 'height'>
-                >;
-                previewImage?: StorefrontAPI.Maybe<
-                  Pick<StorefrontAPI.Image, 'url'>
-                >;
-              })
-          | ({__typename: 'Video'} & Pick<
-              StorefrontAPI.Video,
-              'id' | 'mediaContentType' | 'alt'
-            > & {
-                sources: Array<
-                  Pick<StorefrontAPI.VideoSource, 'mimeType' | 'url'>
-                >;
-                previewImage?: StorefrontAPI.Maybe<
-                  Pick<StorefrontAPI.Image, 'url'>
-                >;
-              })
-        >;
-      }>;
-      body?: StorefrontAPI.Maybe<Pick<StorefrontAPI.MetaobjectField, 'value'>>;
-      title?: StorefrontAPI.Maybe<Pick<StorefrontAPI.MetaobjectField, 'value'>>;
-      cta?: StorefrontAPI.Maybe<Pick<StorefrontAPI.MetaobjectField, 'value'>>;
-    }
-  >;
-};
-
 export type CollectionContentFragment = Pick<
   StorefrontAPI.Collection,
   'id' | 'handle' | 'title' | 'descriptionHtml'
@@ -280,6 +214,17 @@ export type CollectionContentFragment = Pick<
         > & {
             image?: StorefrontAPI.Maybe<
               Pick<StorefrontAPI.Image, 'id' | 'url' | 'width' | 'height'>
+            >;
+            previewImage?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Image, 'url'>
+            >;
+          })
+      | ({__typename: 'Model3d'} & Pick<
+          StorefrontAPI.Model3d,
+          'id' | 'mediaContentType' | 'alt'
+        > & {
+            sources: Array<
+              Pick<StorefrontAPI.Model3dSource, 'mimeType' | 'url'>
             >;
             previewImage?: StorefrontAPI.Maybe<
               Pick<StorefrontAPI.Image, 'url'>
@@ -304,6 +249,17 @@ export type CollectionContentFragment = Pick<
         > & {
             image?: StorefrontAPI.Maybe<
               Pick<StorefrontAPI.Image, 'id' | 'url' | 'width' | 'height'>
+            >;
+            previewImage?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Image, 'url'>
+            >;
+          })
+      | ({__typename: 'Model3d'} & Pick<
+          StorefrontAPI.Model3d,
+          'id' | 'mediaContentType' | 'alt'
+        > & {
+            sources: Array<
+              Pick<StorefrontAPI.Model3dSource, 'mimeType' | 'url'>
             >;
             previewImage?: StorefrontAPI.Maybe<
               Pick<StorefrontAPI.Image, 'url'>
@@ -350,6 +306,17 @@ export type SeoCollectionContentQuery = {
                   Pick<StorefrontAPI.Image, 'url'>
                 >;
               })
+          | ({__typename: 'Model3d'} & Pick<
+              StorefrontAPI.Model3d,
+              'id' | 'mediaContentType' | 'alt'
+            > & {
+                sources: Array<
+                  Pick<StorefrontAPI.Model3dSource, 'mimeType' | 'url'>
+                >;
+                previewImage?: StorefrontAPI.Maybe<
+                  Pick<StorefrontAPI.Image, 'url'>
+                >;
+              })
           | ({__typename: 'Video'} & Pick<
               StorefrontAPI.Video,
               'id' | 'mediaContentType' | 'alt'
@@ -376,6 +343,17 @@ export type SeoCollectionContentQuery = {
                   Pick<StorefrontAPI.Image, 'url'>
                 >;
               })
+          | ({__typename: 'Model3d'} & Pick<
+              StorefrontAPI.Model3d,
+              'id' | 'mediaContentType' | 'alt'
+            > & {
+                sources: Array<
+                  Pick<StorefrontAPI.Model3dSource, 'mimeType' | 'url'>
+                >;
+                previewImage?: StorefrontAPI.Maybe<
+                  Pick<StorefrontAPI.Image, 'url'>
+                >;
+              })
           | ({__typename: 'Video'} & Pick<
               StorefrontAPI.Video,
               'id' | 'mediaContentType' | 'alt'
@@ -392,6 +370,99 @@ export type SeoCollectionContentQuery = {
     }
   >;
   shop: Pick<StorefrontAPI.Shop, 'name' | 'description'>;
+};
+
+export type HeroCollectionContentQueryVariables = StorefrontAPI.Exact<{
+  handle?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['String']['input']>;
+  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+}>;
+
+export type HeroCollectionContentQuery = {
+  hero?: StorefrontAPI.Maybe<
+    Pick<
+      StorefrontAPI.Collection,
+      'id' | 'handle' | 'title' | 'descriptionHtml'
+    > & {
+      heading?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+      byline?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+      cta?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+      spread?: StorefrontAPI.Maybe<{
+        reference?: StorefrontAPI.Maybe<
+          | ({__typename: 'MediaImage'} & Pick<
+              StorefrontAPI.MediaImage,
+              'id' | 'mediaContentType' | 'alt'
+            > & {
+                image?: StorefrontAPI.Maybe<
+                  Pick<StorefrontAPI.Image, 'id' | 'url' | 'width' | 'height'>
+                >;
+                previewImage?: StorefrontAPI.Maybe<
+                  Pick<StorefrontAPI.Image, 'url'>
+                >;
+              })
+          | ({__typename: 'Model3d'} & Pick<
+              StorefrontAPI.Model3d,
+              'id' | 'mediaContentType' | 'alt'
+            > & {
+                sources: Array<
+                  Pick<StorefrontAPI.Model3dSource, 'mimeType' | 'url'>
+                >;
+                previewImage?: StorefrontAPI.Maybe<
+                  Pick<StorefrontAPI.Image, 'url'>
+                >;
+              })
+          | ({__typename: 'Video'} & Pick<
+              StorefrontAPI.Video,
+              'id' | 'mediaContentType' | 'alt'
+            > & {
+                sources: Array<
+                  Pick<StorefrontAPI.VideoSource, 'mimeType' | 'url'>
+                >;
+                previewImage?: StorefrontAPI.Maybe<
+                  Pick<StorefrontAPI.Image, 'url'>
+                >;
+              })
+        >;
+      }>;
+      spreadSecondary?: StorefrontAPI.Maybe<{
+        reference?: StorefrontAPI.Maybe<
+          | ({__typename: 'MediaImage'} & Pick<
+              StorefrontAPI.MediaImage,
+              'id' | 'mediaContentType' | 'alt'
+            > & {
+                image?: StorefrontAPI.Maybe<
+                  Pick<StorefrontAPI.Image, 'id' | 'url' | 'width' | 'height'>
+                >;
+                previewImage?: StorefrontAPI.Maybe<
+                  Pick<StorefrontAPI.Image, 'url'>
+                >;
+              })
+          | ({__typename: 'Model3d'} & Pick<
+              StorefrontAPI.Model3d,
+              'id' | 'mediaContentType' | 'alt'
+            > & {
+                sources: Array<
+                  Pick<StorefrontAPI.Model3dSource, 'mimeType' | 'url'>
+                >;
+                previewImage?: StorefrontAPI.Maybe<
+                  Pick<StorefrontAPI.Image, 'url'>
+                >;
+              })
+          | ({__typename: 'Video'} & Pick<
+              StorefrontAPI.Video,
+              'id' | 'mediaContentType' | 'alt'
+            > & {
+                sources: Array<
+                  Pick<StorefrontAPI.VideoSource, 'mimeType' | 'url'>
+                >;
+                previewImage?: StorefrontAPI.Maybe<
+                  Pick<StorefrontAPI.Image, 'url'>
+                >;
+              })
+        >;
+      }>;
+    }
+  >;
 };
 
 export type HomepageFeaturedProductsQueryVariables = StorefrontAPI.Exact<{
@@ -445,511 +516,6 @@ export type HomepageFeaturedCollectionsQuery = {
         >;
       }
     >;
-  };
-};
-
-export type CustomerActivateMutationVariables = StorefrontAPI.Exact<{
-  id: StorefrontAPI.Scalars['ID']['input'];
-  input: StorefrontAPI.CustomerActivateInput;
-}>;
-
-export type CustomerActivateMutation = {
-  customerActivate?: StorefrontAPI.Maybe<{
-    customerAccessToken?: StorefrontAPI.Maybe<
-      Pick<StorefrontAPI.CustomerAccessToken, 'accessToken' | 'expiresAt'>
-    >;
-    customerUserErrors: Array<
-      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
-    >;
-  }>;
-};
-
-export type CustomerAddressUpdateMutationVariables = StorefrontAPI.Exact<{
-  address: StorefrontAPI.MailingAddressInput;
-  customerAccessToken: StorefrontAPI.Scalars['String']['input'];
-  id: StorefrontAPI.Scalars['ID']['input'];
-}>;
-
-export type CustomerAddressUpdateMutation = {
-  customerAddressUpdate?: StorefrontAPI.Maybe<{
-    customerUserErrors: Array<
-      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
-    >;
-  }>;
-};
-
-export type CustomerAddressDeleteMutationVariables = StorefrontAPI.Exact<{
-  customerAccessToken: StorefrontAPI.Scalars['String']['input'];
-  id: StorefrontAPI.Scalars['ID']['input'];
-}>;
-
-export type CustomerAddressDeleteMutation = {
-  customerAddressDelete?: StorefrontAPI.Maybe<
-    Pick<
-      StorefrontAPI.CustomerAddressDeletePayload,
-      'deletedCustomerAddressId'
-    > & {
-      customerUserErrors: Array<
-        Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
-      >;
-    }
-  >;
-};
-
-export type CustomerDefaultAddressUpdateMutationVariables =
-  StorefrontAPI.Exact<{
-    addressId: StorefrontAPI.Scalars['ID']['input'];
-    customerAccessToken: StorefrontAPI.Scalars['String']['input'];
-  }>;
-
-export type CustomerDefaultAddressUpdateMutation = {
-  customerDefaultAddressUpdate?: StorefrontAPI.Maybe<{
-    customerUserErrors: Array<
-      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
-    >;
-  }>;
-};
-
-export type CustomerAddressCreateMutationVariables = StorefrontAPI.Exact<{
-  address: StorefrontAPI.MailingAddressInput;
-  customerAccessToken: StorefrontAPI.Scalars['String']['input'];
-}>;
-
-export type CustomerAddressCreateMutation = {
-  customerAddressCreate?: StorefrontAPI.Maybe<{
-    customerAddress?: StorefrontAPI.Maybe<
-      Pick<StorefrontAPI.MailingAddress, 'id'>
-    >;
-    customerUserErrors: Array<
-      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
-    >;
-  }>;
-};
-
-export type CustomerUpdateMutationVariables = StorefrontAPI.Exact<{
-  customerAccessToken: StorefrontAPI.Scalars['String']['input'];
-  customer: StorefrontAPI.CustomerUpdateInput;
-}>;
-
-export type CustomerUpdateMutation = {
-  customerUpdate?: StorefrontAPI.Maybe<{
-    customerUserErrors: Array<
-      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
-    >;
-  }>;
-};
-
-export type CustomerAccessTokenCreateMutationVariables = StorefrontAPI.Exact<{
-  input: StorefrontAPI.CustomerAccessTokenCreateInput;
-}>;
-
-export type CustomerAccessTokenCreateMutation = {
-  customerAccessTokenCreate?: StorefrontAPI.Maybe<{
-    customerUserErrors: Array<
-      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
-    >;
-    customerAccessToken?: StorefrontAPI.Maybe<
-      Pick<StorefrontAPI.CustomerAccessToken, 'accessToken' | 'expiresAt'>
-    >;
-  }>;
-};
-
-export type MoneyFragment = Pick<
-  StorefrontAPI.MoneyV2,
-  'amount' | 'currencyCode'
->;
-
-export type AddressFullFragment = Pick<
-  StorefrontAPI.MailingAddress,
-  | 'address1'
-  | 'address2'
-  | 'city'
-  | 'company'
-  | 'country'
-  | 'countryCodeV2'
-  | 'firstName'
-  | 'formatted'
-  | 'id'
-  | 'lastName'
-  | 'name'
-  | 'phone'
-  | 'province'
-  | 'provinceCode'
-  | 'zip'
->;
-
-export type DiscountApplicationFragment = {
-  value:
-    | ({__typename: 'MoneyV2'} & Pick<
-        StorefrontAPI.MoneyV2,
-        'amount' | 'currencyCode'
-      >)
-    | ({__typename: 'PricingPercentageValue'} & Pick<
-        StorefrontAPI.PricingPercentageValue,
-        'percentage'
-      >);
-};
-
-export type ImageFragment = Pick<
-  StorefrontAPI.Image,
-  'altText' | 'height' | 'id' | 'width'
-> & {src: StorefrontAPI.Image['url']};
-
-export type ProductVariantFragment = Pick<
-  StorefrontAPI.ProductVariant,
-  'id' | 'sku' | 'title'
-> & {
-  image?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.Image, 'altText' | 'height' | 'id' | 'width'> & {
-      src: StorefrontAPI.Image['url'];
-    }
-  >;
-  price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-  product: Pick<StorefrontAPI.Product, 'handle'>;
-};
-
-export type LineItemFullFragment = Pick<
-  StorefrontAPI.OrderLineItem,
-  'title' | 'quantity'
-> & {
-  discountAllocations: Array<{
-    allocatedAmount: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-    discountApplication: {
-      value:
-        | ({__typename: 'MoneyV2'} & Pick<
-            StorefrontAPI.MoneyV2,
-            'amount' | 'currencyCode'
-          >)
-        | ({__typename: 'PricingPercentageValue'} & Pick<
-            StorefrontAPI.PricingPercentageValue,
-            'percentage'
-          >);
-    };
-  }>;
-  originalTotalPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-  discountedTotalPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-  variant?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.ProductVariant, 'id' | 'sku' | 'title'> & {
-      image?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.Image, 'altText' | 'height' | 'id' | 'width'> & {
-          src: StorefrontAPI.Image['url'];
-        }
-      >;
-      price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-      product: Pick<StorefrontAPI.Product, 'handle'>;
-    }
-  >;
-};
-
-export type CustomerOrderQueryVariables = StorefrontAPI.Exact<{
-  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
-  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
-  orderId: StorefrontAPI.Scalars['ID']['input'];
-}>;
-
-export type CustomerOrderQuery = {
-  node?: StorefrontAPI.Maybe<
-    Pick<
-      StorefrontAPI.Order,
-      'id' | 'name' | 'orderNumber' | 'processedAt' | 'fulfillmentStatus'
-    > & {
-      totalTaxV2?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-      >;
-      totalPriceV2: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-      subtotalPriceV2?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-      >;
-      shippingAddress?: StorefrontAPI.Maybe<
-        Pick<
-          StorefrontAPI.MailingAddress,
-          | 'address1'
-          | 'address2'
-          | 'city'
-          | 'company'
-          | 'country'
-          | 'countryCodeV2'
-          | 'firstName'
-          | 'formatted'
-          | 'id'
-          | 'lastName'
-          | 'name'
-          | 'phone'
-          | 'province'
-          | 'provinceCode'
-          | 'zip'
-        >
-      >;
-      discountApplications: {
-        nodes: Array<{
-          value:
-            | ({__typename: 'MoneyV2'} & Pick<
-                StorefrontAPI.MoneyV2,
-                'amount' | 'currencyCode'
-              >)
-            | ({__typename: 'PricingPercentageValue'} & Pick<
-                StorefrontAPI.PricingPercentageValue,
-                'percentage'
-              >);
-        }>;
-      };
-      lineItems: {
-        nodes: Array<
-          Pick<StorefrontAPI.OrderLineItem, 'title' | 'quantity'> & {
-            discountAllocations: Array<{
-              allocatedAmount: Pick<
-                StorefrontAPI.MoneyV2,
-                'amount' | 'currencyCode'
-              >;
-              discountApplication: {
-                value:
-                  | ({__typename: 'MoneyV2'} & Pick<
-                      StorefrontAPI.MoneyV2,
-                      'amount' | 'currencyCode'
-                    >)
-                  | ({__typename: 'PricingPercentageValue'} & Pick<
-                      StorefrontAPI.PricingPercentageValue,
-                      'percentage'
-                    >);
-              };
-            }>;
-            originalTotalPrice: Pick<
-              StorefrontAPI.MoneyV2,
-              'amount' | 'currencyCode'
-            >;
-            discountedTotalPrice: Pick<
-              StorefrontAPI.MoneyV2,
-              'amount' | 'currencyCode'
-            >;
-            variant?: StorefrontAPI.Maybe<
-              Pick<StorefrontAPI.ProductVariant, 'id' | 'sku' | 'title'> & {
-                image?: StorefrontAPI.Maybe<
-                  Pick<
-                    StorefrontAPI.Image,
-                    'altText' | 'height' | 'id' | 'width'
-                  > & {src: StorefrontAPI.Image['url']}
-                >;
-                price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-                product: Pick<StorefrontAPI.Product, 'handle'>;
-              }
-            >;
-          }
-        >;
-      };
-    }
-  >;
-};
-
-export type CustomerRecoverMutationVariables = StorefrontAPI.Exact<{
-  email: StorefrontAPI.Scalars['String']['input'];
-}>;
-
-export type CustomerRecoverMutation = {
-  customerRecover?: StorefrontAPI.Maybe<{
-    customerUserErrors: Array<
-      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
-    >;
-  }>;
-};
-
-export type CustomerCreateMutationVariables = StorefrontAPI.Exact<{
-  input: StorefrontAPI.CustomerCreateInput;
-}>;
-
-export type CustomerCreateMutation = {
-  customerCreate?: StorefrontAPI.Maybe<{
-    customer?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Customer, 'id'>>;
-    customerUserErrors: Array<
-      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
-    >;
-  }>;
-};
-
-export type CustomerResetMutationVariables = StorefrontAPI.Exact<{
-  id: StorefrontAPI.Scalars['ID']['input'];
-  input: StorefrontAPI.CustomerResetInput;
-}>;
-
-export type CustomerResetMutation = {
-  customerReset?: StorefrontAPI.Maybe<{
-    customerAccessToken?: StorefrontAPI.Maybe<
-      Pick<StorefrontAPI.CustomerAccessToken, 'accessToken' | 'expiresAt'>
-    >;
-    customerUserErrors: Array<
-      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
-    >;
-  }>;
-};
-
-export type CustomerDetailsQueryVariables = StorefrontAPI.Exact<{
-  customerAccessToken: StorefrontAPI.Scalars['String']['input'];
-  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
-  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
-}>;
-
-export type CustomerDetailsQuery = {
-  customer?: StorefrontAPI.Maybe<
-    Pick<
-      StorefrontAPI.Customer,
-      'firstName' | 'lastName' | 'phone' | 'email'
-    > & {
-      defaultAddress?: StorefrontAPI.Maybe<
-        Pick<
-          StorefrontAPI.MailingAddress,
-          | 'id'
-          | 'formatted'
-          | 'firstName'
-          | 'lastName'
-          | 'company'
-          | 'address1'
-          | 'address2'
-          | 'country'
-          | 'province'
-          | 'city'
-          | 'zip'
-          | 'phone'
-        >
-      >;
-      addresses: {
-        edges: Array<{
-          node: Pick<
-            StorefrontAPI.MailingAddress,
-            | 'id'
-            | 'formatted'
-            | 'firstName'
-            | 'lastName'
-            | 'company'
-            | 'address1'
-            | 'address2'
-            | 'country'
-            | 'province'
-            | 'city'
-            | 'zip'
-            | 'phone'
-          >;
-        }>;
-      };
-      orders: {
-        edges: Array<{
-          node: Pick<
-            StorefrontAPI.Order,
-            | 'id'
-            | 'orderNumber'
-            | 'processedAt'
-            | 'financialStatus'
-            | 'fulfillmentStatus'
-          > & {
-            currentTotalPrice: Pick<
-              StorefrontAPI.MoneyV2,
-              'amount' | 'currencyCode'
-            >;
-            lineItems: {
-              edges: Array<{
-                node: Pick<StorefrontAPI.OrderLineItem, 'title'> & {
-                  variant?: StorefrontAPI.Maybe<{
-                    image?: StorefrontAPI.Maybe<
-                      Pick<
-                        StorefrontAPI.Image,
-                        'url' | 'altText' | 'height' | 'width'
-                      >
-                    >;
-                  }>;
-                };
-              }>;
-            };
-          };
-        }>;
-      };
-    }
-  >;
-};
-
-export type AddressPartialFragment = Pick<
-  StorefrontAPI.MailingAddress,
-  | 'id'
-  | 'formatted'
-  | 'firstName'
-  | 'lastName'
-  | 'company'
-  | 'address1'
-  | 'address2'
-  | 'country'
-  | 'province'
-  | 'city'
-  | 'zip'
-  | 'phone'
->;
-
-export type CustomerDetailsFragment = Pick<
-  StorefrontAPI.Customer,
-  'firstName' | 'lastName' | 'phone' | 'email'
-> & {
-  defaultAddress?: StorefrontAPI.Maybe<
-    Pick<
-      StorefrontAPI.MailingAddress,
-      | 'id'
-      | 'formatted'
-      | 'firstName'
-      | 'lastName'
-      | 'company'
-      | 'address1'
-      | 'address2'
-      | 'country'
-      | 'province'
-      | 'city'
-      | 'zip'
-      | 'phone'
-    >
-  >;
-  addresses: {
-    edges: Array<{
-      node: Pick<
-        StorefrontAPI.MailingAddress,
-        | 'id'
-        | 'formatted'
-        | 'firstName'
-        | 'lastName'
-        | 'company'
-        | 'address1'
-        | 'address2'
-        | 'country'
-        | 'province'
-        | 'city'
-        | 'zip'
-        | 'phone'
-      >;
-    }>;
-  };
-  orders: {
-    edges: Array<{
-      node: Pick<
-        StorefrontAPI.Order,
-        | 'id'
-        | 'orderNumber'
-        | 'processedAt'
-        | 'financialStatus'
-        | 'fulfillmentStatus'
-      > & {
-        currentTotalPrice: Pick<
-          StorefrontAPI.MoneyV2,
-          'amount' | 'currencyCode'
-        >;
-        lineItems: {
-          edges: Array<{
-            node: Pick<StorefrontAPI.OrderLineItem, 'title'> & {
-              variant?: StorefrontAPI.Maybe<{
-                image?: StorefrontAPI.Maybe<
-                  Pick<
-                    StorefrontAPI.Image,
-                    'url' | 'altText' | 'height' | 'width'
-                  >
-                >;
-              }>;
-            };
-          }>;
-        };
-      };
-    }>;
   };
 };
 
@@ -1159,21 +725,73 @@ export type FeaturedItemsQuery = {
   };
 };
 
-export type GetGlossaryContentQueryVariables = StorefrontAPI.Exact<{
+export type ArticleDetailsQueryVariables = StorefrontAPI.Exact<{
   language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
-  handle: StorefrontAPI.Scalars['String']['input'];
+  blogHandle: StorefrontAPI.Scalars['String']['input'];
+  articleHandle: StorefrontAPI.Scalars['String']['input'];
 }>;
 
-export type GetGlossaryContentQuery = {
-  glossary?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.Metaobject, 'type' | 'id'> & {
-      title?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.MetaobjectField, 'key' | 'value'>
+export type ArticleDetailsQuery = {
+  blog?: StorefrontAPI.Maybe<{
+    articleByHandle?: StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.Article, 'title' | 'contentHtml' | 'publishedAt'> & {
+        author?: StorefrontAPI.Maybe<Pick<StorefrontAPI.ArticleAuthor, 'name'>>;
+        image?: StorefrontAPI.Maybe<
+          Pick<
+            StorefrontAPI.Image,
+            'id' | 'altText' | 'url' | 'width' | 'height'
+          >
+        >;
+        seo?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Seo, 'description' | 'title'>
+        >;
+      }
+    >;
+  }>;
+};
+
+export type BlogQueryVariables = StorefrontAPI.Exact<{
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+  blogHandle: StorefrontAPI.Scalars['String']['input'];
+  pageBy: StorefrontAPI.Scalars['Int']['input'];
+  cursor?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['String']['input']>;
+}>;
+
+export type BlogQuery = {
+  blog?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Blog, 'title'> & {
+      seo?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.Seo, 'title' | 'description'>
       >;
-      text?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.MetaobjectField, 'key' | 'value'>
-      >;
+      articles: {
+        edges: Array<{
+          node: Pick<
+            StorefrontAPI.Article,
+            'contentHtml' | 'handle' | 'id' | 'publishedAt' | 'title'
+          > & {
+            author?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.ArticleAuthor, 'name'>
+            >;
+            image?: StorefrontAPI.Maybe<
+              Pick<
+                StorefrontAPI.Image,
+                'id' | 'altText' | 'url' | 'width' | 'height'
+              >
+            >;
+          };
+        }>;
+      };
     }
+  >;
+};
+
+export type ArticleFragment = Pick<
+  StorefrontAPI.Article,
+  'contentHtml' | 'handle' | 'id' | 'publishedAt' | 'title'
+> & {
+  author?: StorefrontAPI.Maybe<Pick<StorefrontAPI.ArticleAuthor, 'name'>>;
+  image?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Image, 'id' | 'altText' | 'url' | 'width' | 'height'>
   >;
 };
 
@@ -1251,7 +869,7 @@ export type PoliciesIndexQuery = {
   };
 };
 
-export type ProductVariantFragmentFragment = Pick<
+export type ProductVariantFragment = Pick<
   StorefrontAPI.ProductVariant,
   'id' | 'availableForSale' | 'sku' | 'title'
 > & {
@@ -1269,6 +887,146 @@ export type ProductVariantFragmentFragment = Pick<
   product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
 };
 
+export type ProductFragment = Pick<
+  StorefrontAPI.Product,
+  | 'id'
+  | 'title'
+  | 'vendor'
+  | 'handle'
+  | 'descriptionHtml'
+  | 'description'
+  | 'encodedVariantExistence'
+  | 'encodedVariantAvailability'
+> & {
+  options: Array<
+    Pick<StorefrontAPI.ProductOption, 'name'> & {
+      optionValues: Array<
+        Pick<StorefrontAPI.ProductOptionValue, 'name'> & {
+          firstSelectableVariant?: StorefrontAPI.Maybe<
+            Pick<
+              StorefrontAPI.ProductVariant,
+              'id' | 'availableForSale' | 'sku' | 'title'
+            > & {
+              selectedOptions: Array<
+                Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+              >;
+              image?: StorefrontAPI.Maybe<
+                Pick<
+                  StorefrontAPI.Image,
+                  'id' | 'url' | 'altText' | 'width' | 'height'
+                >
+              >;
+              price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+              compareAtPrice?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+              >;
+              unitPrice?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+              >;
+              product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+            }
+          >;
+          swatch?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.ProductOptionValueSwatch, 'color'> & {
+              image?: StorefrontAPI.Maybe<{
+                previewImage?: StorefrontAPI.Maybe<
+                  Pick<StorefrontAPI.Image, 'url'>
+                >;
+              }>;
+            }
+          >;
+        }
+      >;
+    }
+  >;
+  selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
+    Pick<
+      StorefrontAPI.ProductVariant,
+      'id' | 'availableForSale' | 'sku' | 'title'
+    > & {
+      selectedOptions: Array<
+        Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+      >;
+      image?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
+      >;
+      price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+      compareAtPrice?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+      >;
+      unitPrice?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+      >;
+      product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+    }
+  >;
+  adjacentVariants: Array<
+    Pick<
+      StorefrontAPI.ProductVariant,
+      'id' | 'availableForSale' | 'sku' | 'title'
+    > & {
+      selectedOptions: Array<
+        Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+      >;
+      image?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
+      >;
+      price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+      compareAtPrice?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+      >;
+      unitPrice?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+      >;
+      product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+    }
+  >;
+  seo: Pick<StorefrontAPI.Seo, 'description' | 'title'>;
+  media: {
+    nodes: Array<
+      | ({__typename: 'ExternalVideo'} & Pick<
+          StorefrontAPI.ExternalVideo,
+          'id' | 'embedUrl' | 'host' | 'mediaContentType' | 'alt'
+        > & {
+            previewImage?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Image, 'url'>
+            >;
+          })
+      | ({__typename: 'MediaImage'} & Pick<
+          StorefrontAPI.MediaImage,
+          'id' | 'mediaContentType' | 'alt'
+        > & {
+            image?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Image, 'id' | 'url' | 'width' | 'height'>
+            >;
+            previewImage?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Image, 'url'>
+            >;
+          })
+      | ({__typename: 'Model3d'} & Pick<
+          StorefrontAPI.Model3d,
+          'id' | 'mediaContentType' | 'alt'
+        > & {
+            sources: Array<
+              Pick<StorefrontAPI.Model3dSource, 'mimeType' | 'url'>
+            >;
+            previewImage?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Image, 'url'>
+            >;
+          })
+      | ({__typename: 'Video'} & Pick<
+          StorefrontAPI.Video,
+          'id' | 'mediaContentType' | 'alt'
+        > & {
+            sources: Array<Pick<StorefrontAPI.VideoSource, 'mimeType' | 'url'>>;
+            previewImage?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Image, 'url'>
+            >;
+          })
+    >;
+  };
+};
+
 export type ProductQueryVariables = StorefrontAPI.Exact<{
   country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
   language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
@@ -1282,10 +1040,57 @@ export type ProductQuery = {
   product?: StorefrontAPI.Maybe<
     Pick<
       StorefrontAPI.Product,
-      'id' | 'title' | 'vendor' | 'handle' | 'descriptionHtml' | 'description'
+      | 'id'
+      | 'title'
+      | 'vendor'
+      | 'handle'
+      | 'descriptionHtml'
+      | 'description'
+      | 'encodedVariantExistence'
+      | 'encodedVariantAvailability'
     > & {
-      options: Array<Pick<StorefrontAPI.ProductOption, 'name' | 'values'>>;
-      selectedVariant?: StorefrontAPI.Maybe<
+      options: Array<
+        Pick<StorefrontAPI.ProductOption, 'name'> & {
+          optionValues: Array<
+            Pick<StorefrontAPI.ProductOptionValue, 'name'> & {
+              firstSelectableVariant?: StorefrontAPI.Maybe<
+                Pick<
+                  StorefrontAPI.ProductVariant,
+                  'id' | 'availableForSale' | 'sku' | 'title'
+                > & {
+                  selectedOptions: Array<
+                    Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+                  >;
+                  image?: StorefrontAPI.Maybe<
+                    Pick<
+                      StorefrontAPI.Image,
+                      'id' | 'url' | 'altText' | 'width' | 'height'
+                    >
+                  >;
+                  price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+                  compareAtPrice?: StorefrontAPI.Maybe<
+                    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+                  >;
+                  unitPrice?: StorefrontAPI.Maybe<
+                    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+                  >;
+                  product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+                }
+              >;
+              swatch?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.ProductOptionValueSwatch, 'color'> & {
+                  image?: StorefrontAPI.Maybe<{
+                    previewImage?: StorefrontAPI.Maybe<
+                      Pick<StorefrontAPI.Image, 'url'>
+                    >;
+                  }>;
+                }
+              >;
+            }
+          >;
+        }
+      >;
+      selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
         Pick<
           StorefrontAPI.ProductVariant,
           'id' | 'availableForSale' | 'sku' | 'title'
@@ -1309,6 +1114,31 @@ export type ProductQuery = {
           product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
         }
       >;
+      adjacentVariants: Array<
+        Pick<
+          StorefrontAPI.ProductVariant,
+          'id' | 'availableForSale' | 'sku' | 'title'
+        > & {
+          selectedOptions: Array<
+            Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+          >;
+          image?: StorefrontAPI.Maybe<
+            Pick<
+              StorefrontAPI.Image,
+              'id' | 'url' | 'altText' | 'width' | 'height'
+            >
+          >;
+          price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+          compareAtPrice?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+          >;
+          unitPrice?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+          >;
+          product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+        }
+      >;
+      seo: Pick<StorefrontAPI.Seo, 'description' | 'title'>;
       media: {
         nodes: Array<
           | ({__typename: 'ExternalVideo'} & Pick<
@@ -1354,33 +1184,6 @@ export type ProductQuery = {
               })
         >;
       };
-      variants: {
-        nodes: Array<
-          Pick<
-            StorefrontAPI.ProductVariant,
-            'id' | 'availableForSale' | 'sku' | 'title'
-          > & {
-            selectedOptions: Array<
-              Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
-            >;
-            image?: StorefrontAPI.Maybe<
-              Pick<
-                StorefrontAPI.Image,
-                'id' | 'url' | 'altText' | 'width' | 'height'
-              >
-            >;
-            price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-            compareAtPrice?: StorefrontAPI.Maybe<
-              Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-            >;
-            unitPrice?: StorefrontAPI.Maybe<
-              Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-            >;
-            product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
-          }
-        >;
-      };
-      seo: Pick<StorefrontAPI.Seo, 'description' | 'title'>;
     }
   >;
   shop: Pick<StorefrontAPI.Shop, 'name'> & {
@@ -1392,43 +1195,6 @@ export type ProductQuery = {
       Pick<StorefrontAPI.ShopPolicy, 'body' | 'handle'>
     >;
   };
-};
-
-export type VariantsQueryVariables = StorefrontAPI.Exact<{
-  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
-  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
-  handle: StorefrontAPI.Scalars['String']['input'];
-}>;
-
-export type VariantsQuery = {
-  product?: StorefrontAPI.Maybe<{
-    variants: {
-      nodes: Array<
-        Pick<
-          StorefrontAPI.ProductVariant,
-          'id' | 'availableForSale' | 'sku' | 'title'
-        > & {
-          selectedOptions: Array<
-            Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
-          >;
-          image?: StorefrontAPI.Maybe<
-            Pick<
-              StorefrontAPI.Image,
-              'id' | 'url' | 'altText' | 'width' | 'height'
-            >
-          >;
-          price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-          compareAtPrice?: StorefrontAPI.Maybe<
-            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-          >;
-          unitPrice?: StorefrontAPI.Maybe<
-            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-          >;
-          product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
-        }
-      >;
-    };
-  }>;
 };
 
 export type ProductRecommendationsQueryVariables = StorefrontAPI.Exact<{
@@ -1600,36 +1366,6 @@ export type PaginatedProductsSearchQuery = {
   };
 };
 
-export type SitemapsQueryVariables = StorefrontAPI.Exact<{
-  urlLimits?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['Int']['input']>;
-  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
-}>;
-
-export type SitemapsQuery = {
-  products: {
-    nodes: Array<
-      Pick<
-        StorefrontAPI.Product,
-        'updatedAt' | 'handle' | 'onlineStoreUrl' | 'title'
-      > & {
-        featuredImage?: StorefrontAPI.Maybe<
-          Pick<StorefrontAPI.Image, 'url' | 'altText'>
-        >;
-      }
-    >;
-  };
-  collections: {
-    nodes: Array<
-      Pick<StorefrontAPI.Collection, 'updatedAt' | 'handle' | 'onlineStoreUrl'>
-    >;
-  };
-  pages: {
-    nodes: Array<
-      Pick<StorefrontAPI.Page, 'updatedAt' | 'handle' | 'onlineStoreUrl'>
-    >;
-  };
-};
-
 interface GeneratedQueryTypes {
   '#graphql\n  query layout(\n    $language: LanguageCode\n    $headerMenuHandle: String!\n    $footerMenuHandle: String!\n  ) @inContext(language: $language) {\n    shop {\n      ...Shop\n    }\n    headerMenu: menu(handle: $headerMenuHandle) {\n      ...Menu\n    }\n    footerMenu: menu(handle: $footerMenuHandle) {\n      ...Menu\n    }\n  }\n  fragment Shop on Shop {\n    id\n    name\n    description\n    primaryDomain {\n      url\n    }\n    brand {\n      logo {\n        image {\n          url\n        }\n      }\n    }\n  }\n  fragment MenuItem on MenuItem {\n    id\n    resourceId\n    tags\n    title\n    type\n    url\n  }\n  fragment ChildMenuItem on MenuItem {\n    ...MenuItem\n  }\n  fragment ParentMenuItem on MenuItem {\n    ...MenuItem\n    items {\n      ...ChildMenuItem\n    }\n  }\n  fragment Menu on Menu {\n    id\n    items {\n      ...ParentMenuItem\n    }\n  }\n': {
     return: LayoutQuery;
@@ -1639,13 +1375,13 @@ interface GeneratedQueryTypes {
     return: GetShopPrimaryDomainQuery;
     variables: GetShopPrimaryDomainQueryVariables;
   };
-  '#graphql\n  query getAboutContent {\n    metaobject(handle: {handle: "about", type: "about"}) {\n      id\n      handle\n      imageMobile: field(key: "image_mobile") {\n        reference {\n          ...Media\n        }\n      }\n      imageDesktop:  field(key: "image_desktop") {\n        reference {\n          ...Media\n        }\n      }\n      body: field(key: "body") {\n        value\n      }\n      title:  field(key: "title") {\n        value\n      },\n      cta:  field(key: "cta") {\n        value\n      }\n    }\n  }\n  #graphql\n  fragment Media on Media {\n    __typename\n    mediaContentType\n    alt\n    previewImage {\n      url\n    }\n    ... on MediaImage {\n      id\n      image {\n        id\n        url\n        width\n        height\n      }\n    }\n    ... on Video {\n      id\n      sources {\n        mimeType\n        url\n      }\n    }\n    ... on Model3d {\n      id\n      sources {\n        mimeType\n        url\n      }\n    }\n    ... on ExternalVideo {\n      id\n      embedUrl\n      host\n    }\n  }\n\n': {
-    return: GetAboutContentQuery;
-    variables: GetAboutContentQueryVariables;
-  };
   '#graphql\n  query seoCollectionContent($handle: String, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    hero: collection(handle: $handle) {\n      ...CollectionContent\n    }\n    shop {\n      name\n      description\n    }\n  }\n  #graphql\n  fragment CollectionContent on Collection {\n    id\n    handle\n    title\n    descriptionHtml\n    heading: metafield(namespace: "hero", key: "title") {\n      value\n    }\n    byline: metafield(namespace: "hero", key: "byline") {\n      value\n    }\n    cta: metafield(namespace: "hero", key: "cta") {\n      value\n    }\n    spread: metafield(namespace: "hero", key: "spread") {\n      reference {\n        ...Media\n      }\n    }\n    spreadSecondary: metafield(namespace: "hero", key: "spread_secondary") {\n      reference {\n        ...Media\n      }\n    }\n  }\n  #graphql\n  fragment Media on Media {\n    __typename\n    mediaContentType\n    alt\n    previewImage {\n      url\n    }\n    ... on MediaImage {\n      id\n      image {\n        id\n        url\n        width\n        height\n      }\n    }\n    ... on Video {\n      id\n      sources {\n        mimeType\n        url\n      }\n    }\n    ... on Model3d {\n      id\n      sources {\n        mimeType\n        url\n      }\n    }\n    ... on ExternalVideo {\n      id\n      embedUrl\n      host\n    }\n  }\n\n\n': {
     return: SeoCollectionContentQuery;
     variables: SeoCollectionContentQueryVariables;
+  };
+  '#graphql\n  query heroCollectionContent($handle: String, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    hero: collection(handle: $handle) {\n      ...CollectionContent\n    }\n  }\n  #graphql\n  fragment CollectionContent on Collection {\n    id\n    handle\n    title\n    descriptionHtml\n    heading: metafield(namespace: "hero", key: "title") {\n      value\n    }\n    byline: metafield(namespace: "hero", key: "byline") {\n      value\n    }\n    cta: metafield(namespace: "hero", key: "cta") {\n      value\n    }\n    spread: metafield(namespace: "hero", key: "spread") {\n      reference {\n        ...Media\n      }\n    }\n    spreadSecondary: metafield(namespace: "hero", key: "spread_secondary") {\n      reference {\n        ...Media\n      }\n    }\n  }\n  #graphql\n  fragment Media on Media {\n    __typename\n    mediaContentType\n    alt\n    previewImage {\n      url\n    }\n    ... on MediaImage {\n      id\n      image {\n        id\n        url\n        width\n        height\n      }\n    }\n    ... on Video {\n      id\n      sources {\n        mimeType\n        url\n      }\n    }\n    ... on Model3d {\n      id\n      sources {\n        mimeType\n        url\n      }\n    }\n    ... on ExternalVideo {\n      id\n      embedUrl\n      host\n    }\n  }\n\n\n': {
+    return: HeroCollectionContentQuery;
+    variables: HeroCollectionContentQueryVariables;
   };
   '#graphql\n  query homepageFeaturedProducts($country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    products(first: 8) {\n      nodes {\n        ...ProductCard\n      }\n    }\n  }\n  #graphql\n  fragment ProductCard on Product {\n    id\n    title\n    publishedAt\n    handle\n    vendor\n    variants(first: 1) {\n      nodes {\n        id\n        availableForSale\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n        product {\n          handle\n          title\n        }\n      }\n    }\n  }\n\n': {
     return: HomepageFeaturedProductsQuery;
@@ -1654,14 +1390,6 @@ interface GeneratedQueryTypes {
   '#graphql\n  query homepageFeaturedCollections($country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    collections(\n      first: 4,\n      sortKey: UPDATED_AT\n    ) {\n      nodes {\n        id\n        title\n        handle\n        image {\n          altText\n          width\n          height\n          url\n        }\n      }\n    }\n  }\n': {
     return: HomepageFeaturedCollectionsQuery;
     variables: HomepageFeaturedCollectionsQueryVariables;
-  };
-  '#graphql\n  fragment Money on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment AddressFull on MailingAddress {\n    address1\n    address2\n    city\n    company\n    country\n    countryCodeV2\n    firstName\n    formatted\n    id\n    lastName\n    name\n    phone\n    province\n    provinceCode\n    zip\n  }\n  fragment DiscountApplication on DiscountApplication {\n    value {\n      __typename\n      ... on MoneyV2 {\n        amount\n        currencyCode\n      }\n      ... on PricingPercentageValue {\n        percentage\n      }\n    }\n  }\n  fragment Image on Image {\n    altText\n    height\n    src: url(transform: {crop: CENTER, maxHeight: 96, maxWidth: 96, scale: 2})\n    id\n    width\n  }\n  fragment ProductVariant on ProductVariant {\n    id\n    image {\n      ...Image\n    }\n    price {\n      ...Money\n    }\n    product {\n      handle\n    }\n    sku\n    title\n  }\n  fragment LineItemFull on OrderLineItem {\n    title\n    quantity\n    discountAllocations {\n      allocatedAmount {\n        ...Money\n      }\n      discountApplication {\n        ...DiscountApplication\n      }\n    }\n    originalTotalPrice {\n      ...Money\n    }\n    discountedTotalPrice {\n      ...Money\n    }\n    variant {\n      ...ProductVariant\n    }\n  }\n\n  query CustomerOrder(\n    $country: CountryCode\n    $language: LanguageCode\n    $orderId: ID!\n  ) @inContext(country: $country, language: $language) {\n    node(id: $orderId) {\n      ... on Order {\n        id\n        name\n        orderNumber\n        processedAt\n        fulfillmentStatus\n        totalTaxV2 {\n          ...Money\n        }\n        totalPriceV2 {\n          ...Money\n        }\n        subtotalPriceV2 {\n          ...Money\n        }\n        shippingAddress {\n          ...AddressFull\n        }\n        discountApplications(first: 100) {\n          nodes {\n            ...DiscountApplication\n          }\n        }\n        lineItems(first: 100) {\n          nodes {\n            ...LineItemFull\n          }\n        }\n      }\n    }\n  }\n': {
-    return: CustomerOrderQuery;
-    variables: CustomerOrderQueryVariables;
-  };
-  '#graphql\n  query CustomerDetails(\n    $customerAccessToken: String!\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    customer(customerAccessToken: $customerAccessToken) {\n      ...CustomerDetails\n    }\n  }\n\n  fragment AddressPartial on MailingAddress {\n    id\n    formatted\n    firstName\n    lastName\n    company\n    address1\n    address2\n    country\n    province\n    city\n    zip\n    phone\n  }\n\n  fragment CustomerDetails on Customer {\n    firstName\n    lastName\n    phone\n    email\n    defaultAddress {\n      ...AddressPartial\n    }\n    addresses(first: 6) {\n      edges {\n        node {\n          ...AddressPartial\n        }\n      }\n    }\n    orders(first: 250, sortKey: PROCESSED_AT, reverse: true) {\n      edges {\n        node {\n          ...OrderCard\n        }\n      }\n    }\n  }\n\n  #graphql\n  fragment OrderCard on Order {\n    id\n    orderNumber\n    processedAt\n    financialStatus\n    fulfillmentStatus\n    currentTotalPrice {\n      amount\n      currencyCode\n    }\n    lineItems(first: 2) {\n      edges {\n        node {\n          variant {\n            image {\n              url\n              altText\n              height\n              width\n            }\n          }\n          title\n        }\n      }\n    }\n  }\n\n': {
-    return: CustomerDetailsQuery;
-    variables: CustomerDetailsQueryVariables;
   };
   '#graphql\n  query ApiAllProducts(\n    $query: String\n    $count: Int\n    $reverse: Boolean\n    $country: CountryCode\n    $language: LanguageCode\n    $sortKey: ProductSortKeys\n  ) @inContext(country: $country, language: $language) {\n    products(first: $count, sortKey: $sortKey, reverse: $reverse, query: $query) {\n      nodes {\n        ...ProductCard\n      }\n    }\n  }\n  #graphql\n  fragment ProductCard on Product {\n    id\n    title\n    publishedAt\n    handle\n    vendor\n    variants(first: 1) {\n      nodes {\n        id\n        availableForSale\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n        product {\n          handle\n          title\n        }\n      }\n    }\n  }\n\n': {
     return: ApiAllProductsQuery;
@@ -1679,9 +1407,13 @@ interface GeneratedQueryTypes {
     return: FeaturedItemsQuery;
     variables: FeaturedItemsQueryVariables;
   };
-  '#graphql\n  query getGlossaryContent(\n    $language: LanguageCode\n    $handle: String!\n    ) @inContext(language: $language) {\n    glossary: metaobject(handle: {type: "glossary", handle: $handle}) {\n      type\n      id\n      title: field(key: "title") {\n        key\n        value\n      }\n      text: field(key: "text") {\n        key\n        value\n      }\n    }\n  }\n': {
-    return: GetGlossaryContentQuery;
-    variables: GetGlossaryContentQueryVariables;
+  '#graphql\n  query ArticleDetails(\n    $language: LanguageCode\n    $blogHandle: String!\n    $articleHandle: String!\n  ) @inContext(language: $language) {\n    blog(handle: $blogHandle) {\n      articleByHandle(handle: $articleHandle) {\n        title\n        contentHtml\n        publishedAt\n        author: authorV2 {\n          name\n        }\n        image {\n          id\n          altText\n          url\n          width\n          height\n        }\n        seo {\n          description\n          title\n        }\n      }\n    }\n  }\n': {
+    return: ArticleDetailsQuery;
+    variables: ArticleDetailsQueryVariables;
+  };
+  '#graphql\nquery Blog(\n  $language: LanguageCode\n  $blogHandle: String!\n  $pageBy: Int!\n  $cursor: String\n) @inContext(language: $language) {\n  blog(handle: $blogHandle) {\n    title\n    seo {\n      title\n      description\n    }\n    articles(first: $pageBy, after: $cursor) {\n      edges {\n        node {\n          ...Article\n        }\n      }\n    }\n  }\n}\n\nfragment Article on Article {\n  author: authorV2 {\n    name\n  }\n  contentHtml\n  handle\n  id\n  image {\n    id\n    altText\n    url\n    width\n    height\n  }\n  publishedAt\n  title\n}\n': {
+    return: BlogQuery;
+    variables: BlogQueryVariables;
   };
   '#graphql\n  query PageDetails($language: LanguageCode, $handle: String!)\n  @inContext(language: $language) {\n    page(handle: $handle) {\n      id\n      title\n      body\n      seo {\n        description\n        title\n      }\n    }\n  }\n': {
     return: PageDetailsQuery;
@@ -1695,13 +1427,9 @@ interface GeneratedQueryTypes {
     return: PoliciesIndexQuery;
     variables: PoliciesIndexQueryVariables;
   };
-  '#graphql\n  query Product(\n    $country: CountryCode\n    $language: LanguageCode\n    $handle: String!\n    $selectedOptions: [SelectedOptionInput!]!\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      id\n      title\n      vendor\n      handle\n      descriptionHtml\n      description\n      options {\n        name\n        values\n      }\n      selectedVariant: variantBySelectedOptions(selectedOptions: $selectedOptions) {\n        ...ProductVariantFragment\n      }\n      media(first: 7) {\n        nodes {\n          ...Media\n        }\n      }\n      variants(first: 1) {\n        nodes {\n          ...ProductVariantFragment\n        }\n      }\n      seo {\n        description\n        title\n      }\n    }\n    shop {\n      name\n      primaryDomain {\n        url\n      }\n      shippingPolicy {\n        body\n        handle\n      }\n      refundPolicy {\n        body\n        handle\n      }\n    }\n  }\n  #graphql\n  fragment Media on Media {\n    __typename\n    mediaContentType\n    alt\n    previewImage {\n      url\n    }\n    ... on MediaImage {\n      id\n      image {\n        id\n        url\n        width\n        height\n      }\n    }\n    ... on Video {\n      id\n      sources {\n        mimeType\n        url\n      }\n    }\n    ... on Model3d {\n      id\n      sources {\n        mimeType\n        url\n      }\n    }\n    ... on ExternalVideo {\n      id\n      embedUrl\n      host\n    }\n  }\n\n  #graphql\n  fragment ProductVariantFragment on ProductVariant {\n    id\n    availableForSale\n    selectedOptions {\n      name\n      value\n    }\n    image {\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    sku\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n  }\n\n': {
+  '#graphql\n  query Product(\n    $country: CountryCode\n    $language: LanguageCode\n    $handle: String!\n    $selectedOptions: [SelectedOptionInput!]!\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      ...Product\n    }\n    shop {\n      name\n      primaryDomain {\n        url\n      }\n      shippingPolicy {\n        body\n        handle\n      }\n      refundPolicy {\n        body\n        handle\n      }\n    }\n  }\n  #graphql\n  fragment Media on Media {\n    __typename\n    mediaContentType\n    alt\n    previewImage {\n      url\n    }\n    ... on MediaImage {\n      id\n      image {\n        id\n        url\n        width\n        height\n      }\n    }\n    ... on Video {\n      id\n      sources {\n        mimeType\n        url\n      }\n    }\n    ... on Model3d {\n      id\n      sources {\n        mimeType\n        url\n      }\n    }\n    ... on ExternalVideo {\n      id\n      embedUrl\n      host\n    }\n  }\n\n  #graphql\n  fragment Product on Product {\n    id\n    title\n    vendor\n    handle\n    descriptionHtml\n    description\n    encodedVariantExistence\n    encodedVariantAvailability\n    options {\n      name\n      optionValues {\n        name\n        firstSelectableVariant {\n          ...ProductVariant\n        }\n        swatch {\n          color\n          image {\n            previewImage {\n              url\n            }\n          }\n        }\n      }\n    }\n    selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {\n      ...ProductVariant\n    }\n    adjacentVariants (selectedOptions: $selectedOptions) {\n      ...ProductVariant\n    }\n    seo {\n      description\n      title\n    }\n    media(first: 7) {\n      nodes {\n        ...Media\n      }\n    }\n  }\n  #graphql\n  fragment ProductVariant on ProductVariant {\n    id\n    availableForSale\n    selectedOptions {\n      name\n      value\n    }\n    image {\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    sku\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n  }\n\n\n': {
     return: ProductQuery;
     variables: ProductQueryVariables;
-  };
-  '#graphql\n  query variants(\n    $country: CountryCode\n    $language: LanguageCode\n    $handle: String!\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      variants(first: 250) {\n        nodes {\n          ...ProductVariantFragment\n        }\n      }\n    }\n  }\n  #graphql\n  fragment ProductVariantFragment on ProductVariant {\n    id\n    availableForSale\n    selectedOptions {\n      name\n      value\n    }\n    image {\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    sku\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n  }\n\n': {
-    return: VariantsQuery;
-    variables: VariantsQueryVariables;
   };
   '#graphql\n  query productRecommendations(\n    $productId: ID!\n    $count: Int\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    recommended: productRecommendations(productId: $productId) {\n      ...ProductCard\n    }\n    additional: products(first: $count, sortKey: BEST_SELLING) {\n      nodes {\n        ...ProductCard\n      }\n    }\n  }\n  #graphql\n  fragment ProductCard on Product {\n    id\n    title\n    publishedAt\n    handle\n    vendor\n    variants(first: 1) {\n      nodes {\n        id\n        availableForSale\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n        product {\n          handle\n          title\n        }\n      }\n    }\n  }\n\n': {
     return: ProductRecommendationsQuery;
@@ -1715,54 +1443,9 @@ interface GeneratedQueryTypes {
     return: PaginatedProductsSearchQuery;
     variables: PaginatedProductsSearchQueryVariables;
   };
-  '#graphql\n  query sitemaps($urlLimits: Int, $language: LanguageCode)\n  @inContext(language: $language) {\n    products(\n      first: $urlLimits\n      query: "published_status:\'online_store:visible\'"\n    ) {\n      nodes {\n        updatedAt\n        handle\n        onlineStoreUrl\n        title\n        featuredImage {\n          url\n          altText\n        }\n      }\n    }\n    collections(\n      first: $urlLimits\n      query: "published_status:\'online_store:visible\'"\n    ) {\n      nodes {\n        updatedAt\n        handle\n        onlineStoreUrl\n      }\n    }\n    pages(first: $urlLimits, query: "published_status:\'published\'") {\n      nodes {\n        updatedAt\n        handle\n        onlineStoreUrl\n      }\n    }\n  }\n': {
-    return: SitemapsQuery;
-    variables: SitemapsQueryVariables;
-  };
 }
 
-interface GeneratedMutationTypes {
-  '#graphql\n  mutation customerActivate($id: ID!, $input: CustomerActivateInput!) {\n    customerActivate(id: $id, input: $input) {\n      customerAccessToken {\n        accessToken\n        expiresAt\n      }\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
-    return: CustomerActivateMutation;
-    variables: CustomerActivateMutationVariables;
-  };
-  '#graphql\n  mutation customerAddressUpdate(\n    $address: MailingAddressInput!\n    $customerAccessToken: String!\n    $id: ID!\n  ) {\n    customerAddressUpdate(\n      address: $address\n      customerAccessToken: $customerAccessToken\n      id: $id\n    ) {\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
-    return: CustomerAddressUpdateMutation;
-    variables: CustomerAddressUpdateMutationVariables;
-  };
-  '#graphql\n  mutation customerAddressDelete($customerAccessToken: String!, $id: ID!) {\n    customerAddressDelete(customerAccessToken: $customerAccessToken, id: $id) {\n      customerUserErrors {\n        code\n        field\n        message\n      }\n      deletedCustomerAddressId\n    }\n  }\n': {
-    return: CustomerAddressDeleteMutation;
-    variables: CustomerAddressDeleteMutationVariables;
-  };
-  '#graphql\n  mutation customerDefaultAddressUpdate(\n    $addressId: ID!\n    $customerAccessToken: String!\n  ) {\n    customerDefaultAddressUpdate(\n      addressId: $addressId\n      customerAccessToken: $customerAccessToken\n    ) {\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
-    return: CustomerDefaultAddressUpdateMutation;
-    variables: CustomerDefaultAddressUpdateMutationVariables;
-  };
-  '#graphql\n  mutation customerAddressCreate(\n    $address: MailingAddressInput!\n    $customerAccessToken: String!\n  ) {\n    customerAddressCreate(\n      address: $address\n      customerAccessToken: $customerAccessToken\n    ) {\n      customerAddress {\n        id\n      }\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
-    return: CustomerAddressCreateMutation;
-    variables: CustomerAddressCreateMutationVariables;
-  };
-  '#graphql\n  mutation customerUpdate($customerAccessToken: String!, $customer: CustomerUpdateInput!) {\n    customerUpdate(customerAccessToken: $customerAccessToken, customer: $customer) {\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n  ': {
-    return: CustomerUpdateMutation;
-    variables: CustomerUpdateMutationVariables;
-  };
-  '#graphql\n  mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {\n    customerAccessTokenCreate(input: $input) {\n      customerUserErrors {\n        code\n        field\n        message\n      }\n      customerAccessToken {\n        accessToken\n        expiresAt\n      }\n    }\n  }\n': {
-    return: CustomerAccessTokenCreateMutation;
-    variables: CustomerAccessTokenCreateMutationVariables;
-  };
-  '#graphql\n  mutation customerRecover($email: String!) {\n    customerRecover(email: $email) {\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
-    return: CustomerRecoverMutation;
-    variables: CustomerRecoverMutationVariables;
-  };
-  '#graphql\n  mutation customerCreate($input: CustomerCreateInput!) {\n    customerCreate(input: $input) {\n      customer {\n        id\n      }\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
-    return: CustomerCreateMutation;
-    variables: CustomerCreateMutationVariables;
-  };
-  '#graphql\n  mutation customerReset($id: ID!, $input: CustomerResetInput!) {\n    customerReset(id: $id, input: $input) {\n      customerAccessToken {\n        accessToken\n        expiresAt\n      }\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
-    return: CustomerResetMutation;
-    variables: CustomerResetMutationVariables;
-  };
-}
+interface GeneratedMutationTypes {}
 
 declare module '@shopify/hydrogen' {
   interface StorefrontQueries extends GeneratedQueryTypes {}

@@ -1,5 +1,6 @@
+// @ts-ignore
 // Virtual entry point for the app
-import * as remixBuild from '@remix-run/dev/server-build';
+import * as remixBuild from 'virtual:remix/server-build';
 import {
   createRequestHandler,
   getStorefrontHeaders,
@@ -10,9 +11,10 @@ import {
   createCartHandler,
   createStorefrontClient,
   storefrontRedirect,
+  createCustomerAccountClient,
 } from '@shopify/hydrogen';
 
-import {HydrogenSession} from '~/lib/session.server';
+import {AppSession} from '~/lib/session.server';
 import {getLocaleFromRequest} from '~/lib/utils';
 
 /**
@@ -35,7 +37,7 @@ export default {
       const waitUntil = executionContext.waitUntil.bind(executionContext);
       const [cache, session] = await Promise.all([
         caches.open('hydrogen'),
-        HydrogenSession.init(request, [env.SESSION_SECRET]),
+        AppSession.init(request, [env.SESSION_SECRET]),
       ]);
 
       /**
@@ -52,8 +54,20 @@ export default {
         storefrontHeaders: getStorefrontHeaders(request),
       });
 
+      /**
+       * Create a client for Customer Account API.
+       */
+      const customerAccount = createCustomerAccountClient({
+        waitUntil,
+        request,
+        session,
+        customerAccountId: env.PUBLIC_CUSTOMER_ACCOUNT_API_CLIENT_ID,
+        shopId: env.SHOP_ID,
+      });
+
       const cart = createCartHandler({
         storefront,
+        customerAccount,
         getCartId: cartGetIdDefault(request.headers),
         setCartId: cartSetIdDefault(),
       });
@@ -69,12 +83,17 @@ export default {
           session,
           waitUntil,
           storefront,
+          customerAccount,
           cart,
           env,
         }),
       });
 
       const response = await handleRequest(request);
+
+      if (session.isPending) {
+        response.headers.set('Set-Cookie', await session.commit());
+      }
 
       if (response.status === 404) {
         /**

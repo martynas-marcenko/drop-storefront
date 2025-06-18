@@ -3,14 +3,13 @@ import {
   NavLink as RemixNavLink,
   type NavLinkProps as RemixNavLinkProps,
   type LinkProps as RemixLinkProps,
+  useRouteLoaderData,
 } from '@remix-run/react';
 
-import {useRootLoaderData} from '~/root';
-import clsx from 'clsx';
+import type {RootLoader} from '~/root';
 
 type LinkProps = Omit<RemixLinkProps, 'className'> & {
   className?: RemixNavLinkProps['className'] | RemixLinkProps['className'];
-  variant?: 'underline' | 'default';
 };
 
 /**
@@ -29,21 +28,16 @@ type LinkProps = Omit<RemixLinkProps, 'className'> & {
  * Ultimately, it is up to you to decide how to implement this behavior.
  */
 export function Link(props: LinkProps) {
-  const {to, className, variant = 'default', ...resOfProps} = props;
-  const rootData = useRootLoaderData();
+  const {to, className, ...resOfProps} = props;
+  const rootData = useRouteLoaderData<RootLoader>('root');
   const selectedLocale = rootData?.selectedLocale;
-
-  const variants = {
-    underline: 'underline decoration-2 underline-offset-4 font-medium',
-    default: '',
-  };
-
-  const styles = clsx(variants[variant], className);
 
   let toWithLocale = to;
 
-  if (typeof to === 'string') {
-    toWithLocale = selectedLocale ? `${selectedLocale.pathPrefix}${to}` : to;
+  if (typeof toWithLocale === 'string' && selectedLocale?.pathPrefix) {
+    if (!toWithLocale.toLowerCase().startsWith(selectedLocale.pathPrefix)) {
+      toWithLocale = `${selectedLocale.pathPrefix}${to}`;
+    }
   }
 
   if (typeof className === 'function') {
@@ -52,5 +46,5 @@ export function Link(props: LinkProps) {
     );
   }
 
-  return <RemixLink to={toWithLocale} className={styles} {...resOfProps} />;
+  return <RemixLink to={toWithLocale} className={className} {...resOfProps} />;
 }

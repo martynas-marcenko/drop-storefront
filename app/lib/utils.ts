@@ -1,29 +1,17 @@
-import {useLocation} from '@remix-run/react';
+import {useLocation, useRouteLoaderData} from '@remix-run/react';
 import type {MoneyV2} from '@shopify/hydrogen/storefront-api-types';
+import type {FulfillmentStatus} from '@shopify/hydrogen/customer-account-api-types';
 import typographicBase from 'typographic-base';
 
-import {useRootLoaderData} from '~/root';
-import {countries} from '~/data/countries';
 import type {
   ChildMenuItemFragment,
   MenuFragment,
   ParentMenuItemFragment,
 } from 'storefrontapi.generated';
+import type {RootLoader} from '~/root';
+import {countries} from '~/data/countries';
 
 import type {I18nLocale} from './type';
-
-export type CustomMenuItemProps = {
-  id: string;
-  isExternal?: boolean;
-  title: string;
-  target: string;
-  to: string;
-  type: string;
-};
-
-export type CustomMenu = {
-  menu: CustomMenuItemProps[];
-};
 
 type EnhancedMenuItemProps = {
   to: string;
@@ -244,47 +232,19 @@ export const getInputStyleClasses = (isError?: string | null) => {
   }`;
 };
 
-export function statusMessage(status: string) {
-  const translations: Record<string, string> = {
-    ATTEMPTED_DELIVERY: 'Attempted delivery',
-    CANCELED: 'Canceled',
-    CONFIRMED: 'Confirmed',
-    DELIVERED: 'Delivered',
-    FAILURE: 'Failure',
-    FULFILLED: 'Fulfilled',
-    IN_PROGRESS: 'In Progress',
-    IN_TRANSIT: 'In transit',
-    LABEL_PRINTED: 'Label printed',
-    LABEL_PURCHASED: 'Label purchased',
-    LABEL_VOIDED: 'Label voided',
-    MARKED_AS_FULFILLED: 'Marked as fulfilled',
-    NOT_DELIVERED: 'Not delivered',
-    ON_HOLD: 'On Hold',
+export function statusMessage(status: FulfillmentStatus) {
+  const translations: Record<FulfillmentStatus, string> = {
+    SUCCESS: 'Success',
+    PENDING: 'Pending',
     OPEN: 'Open',
-    OUT_FOR_DELIVERY: 'Out for delivery',
-    PARTIALLY_FULFILLED: 'Partially Fulfilled',
-    PENDING_FULFILLMENT: 'Pending',
-    PICKED_UP: 'Displayed as Picked up',
-    READY_FOR_PICKUP: 'Ready for pickup',
-    RESTOCKED: 'Restocked',
-    SCHEDULED: 'Scheduled',
-    SUBMITTED: 'Submitted',
-    UNFULFILLED: 'Unfulfilled',
+    FAILURE: 'Failure',
+    ERROR: 'Error',
+    CANCELLED: 'Cancelled',
   };
   try {
     return translations?.[status];
   } catch (error) {
     return status;
-  }
-}
-
-/**
- * Errors can exist in an errors object, or nested in a data field.
- */
-export function assertApiErrors(data: Record<string, any> | null | undefined) {
-  const errorMessage = data?.customerUserErrors?.[0]?.message;
-  if (errorMessage) {
-    throw new Error(errorMessage);
   }
 }
 
@@ -310,7 +270,7 @@ export function getLocaleFromRequest(request: Request): I18nLocale {
 }
 
 export function usePrefixPathWithLocale(path: string) {
-  const rootData = useRootLoaderData();
+  const rootData = useRouteLoaderData<RootLoader>('root');
   const selectedLocale = rootData?.selectedLocale ?? DEFAULT_LOCALE;
 
   return `${selectedLocale.pathPrefix}${
@@ -320,7 +280,7 @@ export function usePrefixPathWithLocale(path: string) {
 
 export function useIsHomePath() {
   const {pathname} = useLocation();
-  const rootData = useRootLoaderData();
+  const rootData = useRouteLoaderData<RootLoader>('root');
   const selectedLocale = rootData?.selectedLocale ?? DEFAULT_LOCALE;
   const strippedPathname = pathname.replace(selectedLocale.pathPrefix, '');
   return strippedPathname === '/';
@@ -351,54 +311,4 @@ export function isLocalPath(url: string) {
   }
 
   return false;
-}
-
-export const obfuscateEmail = () => {
-  const name = 'hello';
-  const atSymbol = '&#64;';
-  const domain = 'dropbydrop';
-  const dot = '&#46;';
-  const tld = 'co';
-
-  const obfuscatedEmail = name + atSymbol + domain + dot + tld;
-  return obfuscatedEmail;
-};
-
-export function formatDate(dateString: string): string {
-  // Create a new Date object using the dateString
-  const date = new Date(dateString);
-
-  // Check if the date is invalid
-  if (isNaN(date.getTime())) {
-    return 'Invalid date';
-  }
-
-  // Convert the date to the desired format: "2024 April"
-  // Adjust the 'en-US' locale and options as needed
-  const formattedDate = date.toLocaleString('en-US', {
-    year: 'numeric',
-    month: 'long',
-  });
-
-  return formattedDate;
-}
-
-export function shuffleArray(array: any) {
-  let currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
 }

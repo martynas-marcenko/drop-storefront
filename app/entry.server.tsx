@@ -1,4 +1,4 @@
-import type {EntryContext} from '@shopify/remix-oxygen';
+import type {AppLoadContext, EntryContext} from '@shopify/remix-oxygen';
 import {RemixServer} from '@remix-run/react';
 import isbot from 'isbot';
 import {renderToReadableStream} from 'react-dom/server';
@@ -9,27 +9,23 @@ export default async function handleRequest(
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
+  context: AppLoadContext,
 ) {
-  // const {nonce, header, NonceProvider} = createContentSecurityPolicy();
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
-    // pass a custom directive to load content from a third party domain
+    shop: {
+      checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
+      storeDomain: context.env.PUBLIC_STORE_DOMAIN,
+    },
     scriptSrc: [
-      "'self'",
+      'self',
       'https://cdn.shopify.com',
+      'https://shopify.com',
+      'https://www.google-analytics.com',
       'https://www.googletagmanager.com',
-      'https://google-analytics.com',
-      'https://region1.google-analytics.com',
-      'http://localhost:3100/',
-      'https://dropbydrop.co',
-    ],
-    connectSrc: [
-      "'self'",
-      'https://monorail-edge.shopifysvc.com',
-      'localhost:* ws://localhost:*',
-      'ws://127.0.0.1:*',
-      'https://region1.google-analytics.com',
+      ...(process.env.NODE_ENV !== 'production' ? ['http://localhost:*'] : []),
     ],
   });
+
   const body = await renderToReadableStream(
     <NonceProvider>
       <RemixServer context={remixContext} url={request.url} />

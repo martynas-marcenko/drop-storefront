@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import {useRef} from 'react';
-import {useScroll} from 'react-use';
+import useScroll from 'react-use/esm/useScroll';
 import {
   flattenConnection,
   CartForm,
@@ -8,6 +8,7 @@ import {
   Money,
   useOptimisticData,
   OptimisticInput,
+  type CartReturn,
 } from '@shopify/hydrogen';
 import type {
   Cart as CartType,
@@ -16,14 +17,11 @@ import type {
   CartLineUpdateInput,
 } from '@shopify/hydrogen/storefront-api-types';
 
-import {
-  Button,
-  Heading,
-  IconRemove,
-  Text,
-  Link,
-  FeaturedProducts,
-} from '~/components';
+import {Button} from '~/components/Button';
+import {Text, Heading} from '~/components/Text';
+import {Link} from '~/components/Link';
+import {IconRemove} from '~/components/Icon';
+import {FeaturedProducts} from '~/components/FeaturedProducts';
 import {getInputStyleClasses} from '~/lib/utils';
 
 type Layouts = 'page' | 'drawer';
@@ -35,7 +33,7 @@ export function Cart({
 }: {
   layout: Layouts;
   onClose?: () => void;
-  cart: CartType | null;
+  cart: CartReturn | null;
 }) {
   const linesCount = Boolean(cart?.lines?.edges?.length || 0);
 
