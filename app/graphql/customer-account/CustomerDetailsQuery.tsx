@@ -1,14 +1,10 @@
 const CUSTOMER_FRAGMENT = `#graphql
-  fragment OrderCard on Order {
+  fragment CustomerOrderCard on Order {
     id
-    number
+    name
     processedAt
     financialStatus
-    fulfillments(first: 1) {
-      nodes {
-        status
-      }
-    }
+    fulfillmentStatus
     totalPrice {
       amount
       currencyCode
@@ -17,18 +13,20 @@ const CUSTOMER_FRAGMENT = `#graphql
       edges {
         node {
           title
-          image {
-            altText
-            height
-            url
-            width
+          variant {
+            image {
+              altText
+              height
+              url
+              width
+            }
           }
         }
       }
     }
   }
 
-  fragment AddressPartial on CustomerAddress {
+  fragment AddressPartial on MailingAddress {
     id
     formatted
     firstName
@@ -36,22 +34,17 @@ const CUSTOMER_FRAGMENT = `#graphql
     company
     address1
     address2
-    territoryCode
-    zoneCode
+    countryCode
+    provinceCode
     city
     zip
-    phoneNumber
   }
 
   fragment CustomerDetails on Customer {
     firstName
     lastName
-    phoneNumber {
-      phoneNumber
-    }
-    emailAddress {
-      emailAddress
-    }
+    phone
+    email
     defaultAddress {
       ...AddressPartial
     }
@@ -65,7 +58,7 @@ const CUSTOMER_FRAGMENT = `#graphql
     orders(first: 250, sortKey: PROCESSED_AT, reverse: true) {
       edges {
         node {
-          ...OrderCard
+          ...CustomerOrderCard
         }
       }
     }
@@ -74,8 +67,8 @@ const CUSTOMER_FRAGMENT = `#graphql
 
 // NOTE: https://shopify.dev/docs/api/customer/latest/queries/customer
 export const CUSTOMER_DETAILS_QUERY = `#graphql
-  query CustomerDetails {
-    customer {
+  query CustomerDetails($customerAccessToken: String!) {
+    customer(customerAccessToken: $customerAccessToken) {
       ...CustomerDetails
     }
   }
