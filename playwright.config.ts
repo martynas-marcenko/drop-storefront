@@ -59,10 +59,23 @@ let config: PlaywrightTestConfig = defineConfig({
   // outputDir: 'test-results/',
 
   /* Run your local dev server before starting the tests */
+  // ... existing code ...
+  /* Run your local dev server before starting the tests */
   webServer: {
     command: 'npm run preview',
     port: 3000,
+    env: {
+      SESSION_SECRET: 'test-session-secret-12345',
+      PUBLIC_STORE_DOMAIN: 'test-store.myshopify.com',
+      PUBLIC_STOREFRONT_API_TOKEN: 'fake-storefront-token-for-testing',
+      PRIVATE_STOREFRONT_API_TOKEN: 'fake-private-token-for-testing',
+      PUBLIC_STOREFRONT_ID: 'fake-storefront-id-12345',
+      PUBLIC_CUSTOMER_ACCOUNT_API_CLIENT_ID: 'fake-client-id-67890',
+      PUBLIC_CUSTOMER_ACCOUNT_API_URL: 'https://fake-test-customer-api.com',
+      SHOP_ID: 'fake-shop-id-99999',
+    },
   },
+  // ... existing code ...
 });
 
 if (process.env.URL) {
@@ -92,6 +105,16 @@ if (process.env.URL) {
     webServer: {
       command: 'npm run preview',
       port: 3000,
+      env: {
+        SESSION_SECRET: 'test-session-secret-12345',
+        PUBLIC_STORE_DOMAIN: 'test-store.myshopify.com',
+        PUBLIC_STOREFRONT_API_TOKEN: 'fake-storefront-token-for-testing',
+        PRIVATE_STOREFRONT_API_TOKEN: 'fake-private-token-for-testing',
+        PUBLIC_STOREFRONT_ID: 'fake-storefront-id-12345',
+        PUBLIC_CUSTOMER_ACCOUNT_API_CLIENT_ID: 'fake-client-id-67890',
+        PUBLIC_CUSTOMER_ACCOUNT_API_URL: 'https://fake-test-customer-api.com',
+        SHOP_ID: 'fake-shop-id-99999',
+      },
     },
   };
 }
