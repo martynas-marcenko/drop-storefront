@@ -64,9 +64,8 @@ function root({
 function home({url}: {url: Request['url']}): SeoConfig {
   return {
     title: 'Home',
-    titleTemplate: '%s | Natural deodorants',
-    description:
-      'Feel fresh all day with aluminum-free natural deodorants made from gentle, plant-based ingredients. Made in Denmark.',
+    titleTemplate: '%s | Hydrogen Demo Store',
+    description: 'The best place to buy snowboarding products',
     url,
     robots: {
       noIndex: false,

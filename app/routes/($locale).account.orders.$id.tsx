@@ -4,13 +4,11 @@ import {useLoaderData, type MetaFunction} from '@remix-run/react';
 import {Money, Image, flattenConnection} from '@shopify/hydrogen';
 import type {FulfillmentStatus} from '@shopify/hydrogen/customer-account-api-types';
 
+import type {OrderFragment} from 'customer-accountapi.generated';
 import {statusMessage} from '~/lib/utils';
 import {Link} from '~/components/Link';
 import {Heading, PageHeader, Text} from '~/components/Text';
 import {CUSTOMER_ORDER_QUERY} from '~/graphql/customer-account/CustomerOrderQuery';
-
-// Temporary type definition until customer account API types are generated
-type OrderFragment = any;
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Order ${data?.order?.name}`}];
@@ -34,11 +32,11 @@ export async function loader({request, context, params}: LoaderFunctionArgs) {
       {variables: {orderId}},
     );
 
-    if (errors?.length || !data?.node || !data?.node?.lineItems) {
+    if (errors?.length || !data?.order || !data?.order?.lineItems) {
       throw new Error('order information');
     }
 
-    const order: OrderFragment = data.node;
+    const order: OrderFragment = data.order;
 
     const lineItems = flattenConnection(order.lineItems);
 
