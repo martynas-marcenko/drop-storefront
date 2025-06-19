@@ -7,63 +7,46 @@ import {
   useOutlet,
 } from '@remix-run/react';
 import {Suspense} from 'react';
-import {
-  json,
-  defer,
-  redirect,
-  type LoaderFunctionArgs,
-  type AppLoadContext,
-} from '@shopify/remix-oxygen';
+import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {flattenConnection} from '@shopify/hydrogen';
 
 import type {
   CustomerDetailsFragment,
   OrderCardFragment,
-} from 'storefrontapi.generated';
-import {
-  Button,
-  OrderCard,
-  PageHeader,
-  Text,
-  AccountDetails,
-  AccountAddressBook,
-  Modal,
-  ProductSwimlane,
-} from '~/components';
+} from 'customer-accountapi.generated';
+import {PageHeader, Text} from '~/components/Text';
+import {Button} from '~/components/Button';
+import {OrderCard} from '~/components/OrderCard';
+import {AccountDetails} from '~/components/AccountDetails';
+import {AccountAddressBook} from '~/components/AccountAddressBook';
+import {Modal} from '~/components/Modal';
+import {ProductSwimlane} from '~/components/ProductSwimlane';
 import {FeaturedCollections} from '~/components/FeaturedCollections';
 import {usePrefixPathWithLocale} from '~/lib/utils';
 import {CACHE_NONE, routeHeaders} from '~/data/cache';
-import {ORDER_CARD_FRAGMENT} from '~/components/OrderCard';
+import {CUSTOMER_DETAILS_QUERY} from '~/graphql/customer-account/CustomerDetailsQuery';
 
+import {doLogout} from './($locale).account_.logout';
 import {
   getFeaturedData,
   type FeaturedData,
 } from './($locale).featured-products';
-import {doLogout} from './($locale).account.logout';
-
-// Combining json + defer in a loader breaks the
-// types returned by useLoaderData. This is a temporary fix.
-type TmpRemixFix = ReturnType<typeof defer<{isAuthenticated: false}>>;
 
 export const headers = routeHeaders;
 
 export async function loader({request, context, params}: LoaderFunctionArgs) {
-  const {pathname} = new URL(request.url);
-  const locale = params.locale;
-  const customerAccessToken = await context.session.get('customerAccessToken');
-  const isAuthenticated = !!customerAccessToken;
-  const loginPath = locale ? `/${locale}/account/login` : '/account/login';
-  const isAccountPage = /^\/account\/?$/.test(pathname);
+  const {data, errors} = await context.customerAccount.query(
+    CUSTOMER_DETAILS_QUERY,
+  );
 
-  if (!isAuthenticated) {
-    if (isAccountPage) {
-      throw redirect(loginPath);
-    }
-    // pass through to public routes
-    return json({isAuthenticated: false}) as unknown as TmpRemixFix;
+  /**
+   * If the customer failed to load, we assume their access token is invalid.
+   */
+  if (errors?.length || !data?.customer) {
+    throw await doLogout(context);
   }
 
-  const customer = await getCustomer(context, customerAccessToken);
+  const customer = data?.customer;
 
   const heading = customer
     ? customer.firstName
@@ -73,10 +56,9 @@ export async function loader({request, context, params}: LoaderFunctionArgs) {
 
   return defer(
     {
-      isAuthenticated,
       customer,
       heading,
-      featuredData: getFeaturedData(context.storefront),
+      featuredDataPromise: getFeaturedData(context.storefront),
     },
     {
       headers: {
@@ -97,12 +79,6 @@ export default function Authenticated() {
     return handle?.renderInModal;
   });
 
-  // Public routes
-  if (!data.isAuthenticated) {
-    return <Outlet />;
-  }
-
-  // Authenticated routes
   if (outlet) {
     if (renderOutletInModal) {
       return (
@@ -123,11 +99,11 @@ export default function Authenticated() {
 
 interface AccountType {
   customer: CustomerDetailsFragment;
-  featuredData: Promise<FeaturedData>;
+  featuredDataPromise: Promise<FeaturedData>;
   heading: string;
 }
 
-function Account({customer, heading, featuredData}: AccountType) {
+function Account({customer, heading, featuredDataPromise}: AccountType) {
   const orders = flattenConnection(customer.orders);
   const addresses = flattenConnection(customer.addresses);
 
@@ -146,7 +122,7 @@ function Account({customer, heading, featuredData}: AccountType) {
       {!orders.length && (
         <Suspense>
           <Await
-            resolve={featuredData}
+            resolve={featuredDataPromise}
             errorElement="There was a problem loading featured products."
           >
             {(data) => (
@@ -207,82 +183,4 @@ function Orders({orders}: OrderCardsProps) {
       ))}
     </ul>
   );
-}
-
-const CUSTOMER_QUERY = `#graphql
-  query CustomerDetails(
-    $customerAccessToken: String!
-    $country: CountryCode
-    $language: LanguageCode
-  ) @inContext(country: $country, language: $language) {
-    customer(customerAccessToken: $customerAccessToken) {
-      ...CustomerDetails
-    }
-  }
-
-  fragment AddressPartial on MailingAddress {
-    id
-    formatted
-    firstName
-    lastName
-    company
-    address1
-    address2
-    country
-    province
-    city
-    zip
-    phone
-  }
-
-  fragment CustomerDetails on Customer {
-    firstName
-    lastName
-    phone
-    email
-    defaultAddress {
-      ...AddressPartial
-    }
-    addresses(first: 6) {
-      edges {
-        node {
-          ...AddressPartial
-        }
-      }
-    }
-    orders(first: 250, sortKey: PROCESSED_AT, reverse: true) {
-      edges {
-        node {
-          ...OrderCard
-        }
-      }
-    }
-  }
-
-  ${ORDER_CARD_FRAGMENT}
-` as const;
-
-export async function getCustomer(
-  context: AppLoadContext,
-  customerAccessToken: string,
-) {
-  const {storefront} = context;
-
-  const data = await storefront.query(CUSTOMER_QUERY, {
-    variables: {
-      customerAccessToken,
-      country: context.storefront.i18n.country,
-      language: context.storefront.i18n.language,
-    },
-    cache: storefront.CacheNone(),
-  });
-
-  /**
-   * If the customer failed to load, we assume their access token is invalid.
-   */
-  if (!data || !data.customer) {
-    throw await doLogout(context);
-  }
-
-  return data.customer;
 }

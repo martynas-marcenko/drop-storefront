@@ -1,10 +1,12 @@
 import clsx from 'clsx';
-import type {ShopifyAnalyticsProduct} from '@shopify/hydrogen';
 import {flattenConnection, Image, Money, useMoney} from '@shopify/hydrogen';
 import type {MoneyV2, Product} from '@shopify/hydrogen/storefront-api-types';
 
 import type {ProductCardFragment} from 'storefrontapi.generated';
-import {Text, Link, AddToCartButton, Button} from '~/components';
+import {Text} from '~/components/Text';
+import {Link} from '~/components/Link';
+import {Button} from '~/components/Button';
+import {AddToCartButton} from '~/components/AddToCartButton';
 import {isDiscounted, isNewArrival} from '~/lib/utils';
 import {getProductPlaceholder} from '~/lib/placeholders';
 
@@ -43,22 +45,12 @@ export function ProductCard({
     cardLabel = 'New';
   }
 
-  const productAnalytics: ShopifyAnalyticsProduct = {
-    productGid: product.id,
-    variantGid: firstVariant.id,
-    name: product.title,
-    variantName: firstVariant.title,
-    brand: product.vendor,
-    price: firstVariant.price.amount,
-    quantity: 1,
-  };
-
   return (
     <div className="flex flex-col gap-2">
       <Link
         onClick={onClick}
         to={`/products/${product.handle}`}
-        prefetch="intent"
+        prefetch="viewport"
       >
         <div className={clsx('grid gap-4', className)}>
           <div className="card-image aspect-[4/5] bg-primary/5">
@@ -111,10 +103,6 @@ export function ProductCard({
           ]}
           variant="secondary"
           className="mt-2"
-          analytics={{
-            products: [productAnalytics],
-            totalValue: parseFloat(productAnalytics.price),
-          }}
         >
           <Text as="span" className="flex items-center justify-center gap-2">
             Add to Cart

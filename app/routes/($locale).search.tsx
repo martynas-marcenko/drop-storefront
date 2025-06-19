@@ -1,19 +1,23 @@
-import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {
+  defer,
+  type MetaArgs,
+  type LoaderFunctionArgs,
+} from '@shopify/remix-oxygen';
 import {Await, Form, useLoaderData} from '@remix-run/react';
 import {Suspense} from 'react';
-import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
-
 import {
-  FeaturedCollections,
-  Grid,
-  Heading,
-  Input,
-  PageHeader,
-  ProductCard,
-  ProductSwimlane,
-  Section,
-  Text,
-} from '~/components';
+  Pagination,
+  getPaginationVariables,
+  Analytics,
+  getSeoMeta,
+} from '@shopify/hydrogen';
+
+import {Heading, PageHeader, Section, Text} from '~/components/Text';
+import {Input} from '~/components/Input';
+import {Grid} from '~/components/Grid';
+import {ProductCard} from '~/components/ProductCard';
+import {ProductSwimlane} from '~/components/ProductSwimlane';
+import {FeaturedCollections} from '~/components/FeaturedCollections';
 import {PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {getImageLoadingPriority, PAGINATION_SIZE} from '~/lib/const';
 import {seoPayload} from '~/lib/seo.server';
@@ -69,6 +73,10 @@ export async function loader({
       : Promise.resolve(null),
   });
 }
+
+export const meta = ({matches}: MetaArgs<typeof loader>) => {
+  return getSeoMeta(...matches.map((match) => (match.data as any).seo));
+};
 
 export default function Search() {
   const {searchTerm, products, noResultRecommendations} =
@@ -130,6 +138,7 @@ export default function Search() {
           </Pagination>
         </Section>
       )}
+      <Analytics.SearchView data={{searchTerm, searchResults: products}} />
     </>
   );
 }

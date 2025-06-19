@@ -1,8 +1,14 @@
-import {json, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {
+  json,
+  type MetaArgs,
+  type LoaderFunctionArgs,
+} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import invariant from 'tiny-invariant';
+import {getSeoMeta} from '@shopify/hydrogen';
 
-import {PageHeader, Section, Button} from '~/components';
+import {PageHeader, Section} from '~/components/Text';
+import {Button} from '~/components/Button';
 import {routeHeaders} from '~/data/cache';
 import {seoPayload} from '~/lib/seo.server';
 
@@ -39,6 +45,10 @@ export async function loader({request, params, context}: LoaderFunctionArgs) {
   return json({policy, seo});
 }
 
+export const meta = ({matches}: MetaArgs<typeof loader>) => {
+  return getSeoMeta(...matches.map((match) => (match.data as any).seo));
+};
+
 export default function Policies() {
   const {policy} = useLoaderData<typeof loader>();
 
@@ -64,7 +74,7 @@ export default function Policies() {
         <div className="flex-grow w-full md:w-7/12">
           <div
             dangerouslySetInnerHTML={{__html: policy.body}}
-            className="prose"
+            className="prose dark:prose-invert"
           />
         </div>
       </Section>

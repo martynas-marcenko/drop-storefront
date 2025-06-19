@@ -1,9 +1,21 @@
-import {json, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {
+  json,
+  type MetaArgs,
+  type LoaderFunctionArgs,
+} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import type {Collection} from '@shopify/hydrogen/storefront-api-types';
-import {Image, Pagination, getPaginationVariables} from '@shopify/hydrogen';
+import {
+  Image,
+  Pagination,
+  getPaginationVariables,
+  getSeoMeta,
+} from '@shopify/hydrogen';
 
-import {Grid, Heading, PageHeader, Section, Link, Button} from '~/components';
+import {Grid} from '~/components/Grid';
+import {Heading, PageHeader, Section} from '~/components/Text';
+import {Link} from '~/components/Link';
+import {Button} from '~/components/Button';
 import {getImageLoadingPriority} from '~/lib/const';
 import {seoPayload} from '~/lib/seo.server';
 import {routeHeaders} from '~/data/cache';
@@ -31,6 +43,10 @@ export const loader = async ({
   });
 
   return json({collections, seo});
+};
+
+export const meta = ({matches}: MetaArgs<typeof loader>) => {
+  return getSeoMeta(...matches.map((match) => (match.data as any).seo));
 };
 
 export default function Collections() {
@@ -81,7 +97,11 @@ function CollectionCard({
   loading?: HTMLImageElement['loading'];
 }) {
   return (
-    <Link to={`/collections/${collection.handle}`} className="grid gap-4">
+    <Link
+      prefetch="viewport"
+      to={`/collections/${collection.handle}`}
+      className="grid gap-4"
+    >
       <div className="card-image bg-primary/5 aspect-[3/2]">
         {collection?.image && (
           <Image

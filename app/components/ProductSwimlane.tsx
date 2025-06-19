@@ -1,6 +1,6 @@
 import type {HomepageFeaturedProductsQuery} from 'storefrontapi.generated';
-import {ProductCard} from '~/components';
-import {Section} from '~/components/ui';
+import {Section} from '~/components/Text';
+import {ProductCard} from '~/components/ProductCard';
 
 const mockProducts = {
   nodes: new Array(12).fill(''),

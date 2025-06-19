@@ -1,21 +1,24 @@
-import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {
+  defer,
+  type MetaArgs,
+  type LoaderFunctionArgs,
+} from '@shopify/remix-oxygen';
 import {Suspense} from 'react';
 import {Await, useLoaderData} from '@remix-run/react';
-import {AnalyticsPageType} from '@shopify/hydrogen';
+import {getSeoMeta} from '@shopify/hydrogen';
 
-import {ProductSwimlane, FeaturedCollections, Hero} from '~/components';
+import {Hero} from '~/components/Hero';
+import {FeaturedCollections} from '~/components/FeaturedCollections';
+import {ProductSwimlane} from '~/components/ProductSwimlane';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {getHeroPlaceholder} from '~/lib/placeholders';
 import {seoPayload} from '~/lib/seo.server';
 import {routeHeaders} from '~/data/cache';
-import {Story} from '~/components/homepage';
-import {ReviewsSwimlane} from '~/components/product';
-import {getAllReviews} from '~/data/getReviews.server';
-import {shuffleArray} from '~/lib/utils';
 
 export const headers = routeHeaders;
 
-export async function loader({params, context}: LoaderFunctionArgs) {
+export async function loader(args: LoaderFunctionArgs) {
+  const {params, context} = args;
   const {language, country} = context.storefront.i18n;
 
   if (
@@ -27,60 +30,129 @@ export async function loader({params, context}: LoaderFunctionArgs) {
     throw new Response(null, {status: 404});
   }
 
-  const {shop, hero} = await context.storefront.query(HOMEPAGE_SEO_QUERY, {
-    variables: {handle: 'shop-all'},
-  });
+  // Start fetching non-critical data without blocking time to first byte
+  const deferredData = loadDeferredData(args);
 
-  const about = await context.storefront.query(ABOUT_QUERY);
+  // Await the critical data required to render initial state of the page
+  const criticalData = await loadCriticalData(args);
 
-  const seo = seoPayload.home();
-  const allReviews = getAllReviews(context.storefront);
+  return defer({...deferredData, ...criticalData});
+}
 
-  return defer({
-    about,
+/**
+ * Load data necessary for rendering content above the fold. This is the critical data
+ * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
+ */
+async function loadCriticalData({context, request}: LoaderFunctionArgs) {
+  const [{shop, hero}] = await Promise.all([
+    context.storefront.query(HOMEPAGE_SEO_QUERY, {
+      variables: {handle: 'freestyle'},
+    }),
+    // Add other queries here, so that they are loaded in parallel
+  ]);
+
+  return {
     shop,
-    allReviews,
     primaryHero: hero,
-    // These different queries are separated to illustrate how 3rd party content
-    // fetching can be optimized for both above and below the fold.
-    featuredProducts: context.storefront.query(
-      HOMEPAGE_FEATURED_PRODUCTS_QUERY,
-      {
-        variables: {
-          /**
-           * Country and language properties are automatically injected
-           * into all queries. Passing them is unnecessary unless you
-           * want to override them from the following default:
-           */
-          country,
-          language,
-        },
+    seo: seoPayload.home({url: request.url}),
+  };
+}
+
+/**
+ * Load data for rendering content below the fold. This data is deferred and will be
+ * fetched after the initial page load. If it's unavailable, the page should still 200.
+ * Make sure to not throw any errors here, as it will cause the page to 500.
+ */
+function loadDeferredData({context}: LoaderFunctionArgs) {
+  const {language, country} = context.storefront.i18n;
+
+  const featuredProducts = context.storefront
+    .query(HOMEPAGE_FEATURED_PRODUCTS_QUERY, {
+      variables: {
+        /**
+         * Country and language properties are automatically injected
+         * into all queries. Passing them is unnecessary unless you
+         * want to override them from the following default:
+         */
+        country,
+        language,
       },
-    ),
-    featuredCollections: context.storefront.query(FEATURED_COLLECTIONS_QUERY, {
+    })
+    .catch((error) => {
+      // Log query errors, but don't throw them so the page can still render
+      // eslint-disable-next-line no-console
+      console.error(error);
+      return null;
+    });
+
+  const secondaryHero = context.storefront
+    .query(COLLECTION_HERO_QUERY, {
+      variables: {
+        handle: 'backcountry',
+        country,
+        language,
+      },
+    })
+    .catch((error) => {
+      // Log query errors, but don't throw them so the page can still render
+      // eslint-disable-next-line no-console
+      console.error(error);
+      return null;
+    });
+
+  const featuredCollections = context.storefront
+    .query(FEATURED_COLLECTIONS_QUERY, {
       variables: {
         country,
         language,
       },
-    }),
-    analytics: {
-      pageType: AnalyticsPageType.home,
-    },
-    seo,
-  });
+    })
+    .catch((error) => {
+      // Log query errors, but don't throw them so the page can still render
+      // eslint-disable-next-line no-console
+      console.error(error);
+      return null;
+    });
+
+  const tertiaryHero = context.storefront
+    .query(COLLECTION_HERO_QUERY, {
+      variables: {
+        handle: 'winter-2022',
+        country,
+        language,
+      },
+    })
+    .catch((error) => {
+      // Log query errors, but don't throw them so the page can still render
+      // eslint-disable-next-line no-console
+      console.error(error);
+      return null;
+    });
+
+  return {
+    featuredProducts,
+    secondaryHero,
+    featuredCollections,
+    tertiaryHero,
+  };
 }
+
+export const meta = ({matches}: MetaArgs<typeof loader>) => {
+  return getSeoMeta(...matches.map((match) => (match.data as any).seo));
+};
 
 export default function Homepage() {
   const {
     primaryHero,
+    secondaryHero,
+    tertiaryHero,
     featuredCollections,
-    allReviews,
     featuredProducts,
-    about,
   } = useLoaderData<typeof loader>();
 
   // TODO: skeletons vs placeholders
   const skeletons = getHeroPlaceholder([{}, {}, {}]);
+
   return (
     <>
       {primaryHero && (
@@ -90,12 +162,18 @@ export default function Homepage() {
       {featuredProducts && (
         <Suspense>
           <Await resolve={featuredProducts}>
-            {({products}) => {
-              if (!products?.nodes) return <></>;
+            {(response) => {
+              if (
+                !response ||
+                !response?.products ||
+                !response?.products?.nodes
+              ) {
+                return <></>;
+              }
               return (
                 <ProductSwimlane
-                  products={products}
-                  title="Shop Best Sellers"
+                  products={response.products}
+                  title="Featured Products"
                   count={4}
                 />
               );
@@ -103,41 +181,50 @@ export default function Homepage() {
           </Await>
         </Suspense>
       )}
-      {allReviews && (
-        <Suspense fallback={<Hero {...skeletons[1]} />}>
-          <Await resolve={allReviews}>
-            {(resp) => {
-              // Check if resp is not null and has data, then shuffle
-              const shuffledReviews = resp ? shuffleArray([...resp]) : [];
 
-              return (
-                <ReviewsSwimlane data={shuffledReviews} isLanding={true} />
-              );
+      {secondaryHero && (
+        <Suspense fallback={<Hero {...skeletons[1]} />}>
+          <Await resolve={secondaryHero}>
+            {(response) => {
+              if (!response || !response?.hero) {
+                return <></>;
+              }
+              return <Hero {...response.hero} />;
             }}
           </Await>
         </Suspense>
       )}
+
       {featuredCollections && (
         <Suspense>
           <Await resolve={featuredCollections}>
-            {({collections}) => {
-              if (!collections?.nodes) return <></>;
+            {(response) => {
+              if (
+                !response ||
+                !response?.collections ||
+                !response?.collections?.nodes
+              ) {
+                return <></>;
+              }
               return (
                 <FeaturedCollections
-                  collections={collections}
-                  title="Shop By Category"
+                  collections={response.collections}
+                  title="Collections"
                 />
               );
             }}
           </Await>
         </Suspense>
       )}
-      {about && (
-        <Suspense fallback={<Hero {...skeletons[1]} />}>
-          <Await resolve={about}>
-            {({metaobject}) => {
-              if (!metaobject) return <></>;
-              return <Story data={about} loading="eager" />;
+
+      {tertiaryHero && (
+        <Suspense fallback={<Hero {...skeletons[2]} />}>
+          <Await resolve={tertiaryHero}>
+            {(response) => {
+              if (!response || !response?.hero) {
+                return <></>;
+              }
+              return <Hero {...response.hero} />;
             }}
           </Await>
         </Suspense>
@@ -145,35 +232,6 @@ export default function Homepage() {
     </>
   );
 }
-
-const ABOUT_QUERY = `#graphql
-  query getAboutContent {
-    metaobject(handle: {handle: "about", type: "about"}) {
-      id
-      handle
-      imageMobile: field(key: "image_mobile") {
-        reference {
-          ...Media
-        }
-      }
-      imageDesktop:  field(key: "image_desktop") {
-        reference {
-          ...Media
-        }
-      }
-      body: field(key: "body") {
-        value
-      }
-      title:  field(key: "title") {
-        value
-      },
-      cta:  field(key: "cta") {
-        value
-      }
-    }
-  }
-  ${MEDIA_FRAGMENT}
-`;
 
 const COLLECTION_CONTENT_FRAGMENT = `#graphql
   fragment CollectionContent on Collection {
@@ -213,6 +271,16 @@ const HOMEPAGE_SEO_QUERY = `#graphql
     shop {
       name
       description
+    }
+  }
+  ${COLLECTION_CONTENT_FRAGMENT}
+` as const;
+
+const COLLECTION_HERO_QUERY = `#graphql
+  query heroCollectionContent($handle: String, $country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
+    hero: collection(handle: $handle) {
+      ...CollectionContent
     }
   }
   ${COLLECTION_CONTENT_FRAGMENT}

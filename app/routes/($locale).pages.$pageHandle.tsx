@@ -1,9 +1,13 @@
-import {json, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import type {Page as PageType} from '@shopify/hydrogen/storefront-api-types';
+import {
+  json,
+  type MetaArgs,
+  type LoaderFunctionArgs,
+} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import invariant from 'tiny-invariant';
+import {getSeoMeta} from '@shopify/hydrogen';
 
-import {PageHeader} from '~/components';
+import {PageHeader} from '~/components/Text';
 import {routeHeaders} from '~/data/cache';
 import {seoPayload} from '~/lib/seo.server';
 
@@ -27,6 +31,10 @@ export async function loader({request, params, context}: LoaderFunctionArgs) {
 
   return json({page, seo});
 }
+
+export const meta = ({matches}: MetaArgs<typeof loader>) => {
+  return getSeoMeta(...matches.map((match) => (match.data as any).seo));
+};
 
 export default function Page() {
   const {page} = useLoaderData<typeof loader>();
